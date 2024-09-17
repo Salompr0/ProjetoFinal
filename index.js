@@ -1,4 +1,4 @@
-import express from "express"
+import express from "express";
 import bodyParser from "body-parser";
 
 const app = express();
@@ -28,11 +28,6 @@ app.get("/compra.ejs", (req, res) => {
     res.render("compra.ejs");
 })
 
-/*app.post("index.ejs", (req, res) => {
-
-
-    res.render(index.ejs)
-});*/
 
 app.listen(port, () => {
     console.log(`Successfully started server on port ${port}.`);
