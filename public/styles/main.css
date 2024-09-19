@@ -3,6 +3,130 @@
     margin: 0;
 }
 
-nav {
-    background-color: black;
+#filter {
+    filter: invert(1);
+    background-color: transparent;
+}
+
+header {
+    background-color: black; 
+    padding: 10px; 
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* imagem + menu lado esquerdo */
+.left-section {
+    display: flex;
+    align-items: center;
+}
+
+.left-section img {
+    margin-right: 20px; /* Espaçamento entre o ícone e o menu */
+}
+
+/* Menu e submenu */
+.menu {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.menu > li {
+    margin-right: 20px;
+    position: relative; /* Necessário para submenu */
+    bottom: 5px;
+}
+
+.menu a {
+    background-color: white;
+    text-decoration: none;
+}
+
+.menu li:hover > .submenu {
+    display: block;
+}
+
+/* Submenu (categorias) */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Mostra logo abaixo do item de menu */
+    left: 0;
+    background-color: white;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.submenu li {
+    padding: 5px 10px;
+}
+
+.submenu a {
+    background-color: white;
+    text-decoration: none;
+}
+
+/* Seção central: logo */
+.logo {
+    text-align: center;
+    flex-grow: 1;  /*Faz a logo centralizar automaticamente */
+    
+}
+
+.logo img {
+    max-width: 150%;
+}
+
+.logo a {
+    margin-right: 10%;
+}
+
+/* login e carrinho */
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons a {
+    margin-right: 20px;
+    
+}
+
+.icons img {
+    width: 25px; /* Tamanho das imagens */
+}
+
+hr {
+    background-color: gray;
+    padding-top: 2px;
+    margin-top: 5px;
+}
+
+footer {
+    background-color: black; 
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;           /*as três mais usadas para centralizar o footer (*/
+    position: fixed; 
+    bottom: 0;
+    
+}
+
+@media (max-width: 660px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+    .logo {
+        min-width: 300px;
+    }
 }
