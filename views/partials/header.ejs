@@ -4,12 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LogArte</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../public/styles/main.css">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <header>
     <!--Navbar:    Categorias         Login/Registo-->
-    
-</header>
+    <nav >
+        <div class="container" id="filter">
+          <div class="left-section">
+            <!--<a href="#"><img src="img/icon.png" width="40" alt="Icon"></a>-->
+            <ul class="menu">
+              <li>
+                <a href="/">Início</a>
+              </li>
+              <li>
+                <a href="/artistas.ejs">Artistas</a>
+              </li>
+              <li>
+                <a href="#">
+                  Categorias
+                </a>
+                <ul class="submenu">
+                  <li><a href="#">Acrílicos</a></li>
+                  <li><a href="#">Aguarelas</a></li>
+                  <li><a href="#">Carvão</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="logo" >
+            <a href="/"><img src="img/logo.png" width="300"  alt="Logo"></a>
+          </div>
+          <div class="icons">
+            <a href="login.ejs"><img src="img/login1.jpg" width="25" alt="Login"></a>
+            
+            <a href="compra.ejs"><img src="img/carrinho.png" width="25" alt="Carrinho"></a> 
+          </div>
+        </div>
+      </nav>
+</header> 
+<hr>
 <main>
