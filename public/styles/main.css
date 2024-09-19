@@ -1,158 +1,205 @@
-
-/* Reset básico */
-
 /*<<<<<<< HEAD*/
 /* Reset básico para remoção de margens e paddings */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+#filter {
+    filter: invert(1);
+    background-color: transparent;
+}
+
+header {
+    background-color: black; 
+    padding: 10px; 
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* imagem + menu lado esquerdo */
+.left-section {
+    display: flex;
+    align-items: center;
+}
+
+.left-section img {
+    margin-right: 20px; /* Espaçamento entre o ícone e o menu */
+}
+
+/* Menu e submenu */
+.menu {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.menu > li {
+    margin-right: 20px;
+    position: relative; /* Necessário para submenu */
+    bottom: 5px;
+}
+
+.menu a {
+    background-color: white;
+    text-decoration: none;
+}
+
+.menu li:hover > .submenu {
+    display: block;
+}
+
+/* Submenu (categorias) */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Mostra logo abaixo do item de menu */
+    left: 0;
+    background-color: white;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.submenu li {
+    padding: 5px 10px;
+}
+
+.submenu a {
+    background-color: white;
+    text-decoration: none;
+}
+
+/* Seção central: logo */
+.logo {
+    text-align: center;
+    flex-grow: 1;  /*Faz a logo centralizar automaticamente */
+    
+}
+
+.logo img {
+    max-width: 150%;
+}
+
+.logo a {
+    margin-right: 10%;
+}
+
+/* login e carrinho */
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons a {
+    margin-right: 20px;
+    
+}
+
+.icons img {
+    width: 25px; /* Tamanho das imagens */
+}
+
+hr {
+    background-color: gray;
+    padding-top: 2px;
+    margin-top: 5px;
+}
+
+footer {
+    background-color: black; 
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;           /*as três mais usadas para centralizar o footer (*/
+    position: fixed; 
+    bottom: 0;
+    
 }
 
 /* Estilo do container principal da galeria */
-.gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 40px; /* Espaço entre seções de categorias */
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Seção de categorias */
-.category-section {
-  background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-/* Título das categorias */
-.category-section h2 {
-  text-align: left;
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Container das imagens da categoria */
-.category-gallery {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Cada item da galeria */
-.gallery-item {
-  flex: 1; /* Faz com que os itens ocupem o mesmo espaço */
-  max-width: 32%; /* Limita o tamanho das imagens para se ajustarem em uma linha */
-}
-
-.gallery-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.gallery-item img:hover {
-  transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsividade: Para telas menores */
-@media (max-width: 768px) {
-  .category-gallery {
+  .gallery {
+    display: flex;
     flex-direction: column;
+    gap: 40px; /* Espaço entre seções de categorias */
+    max-width: 1200px;
+    margin: 0 auto;
   }
-
+  
+  /* Seção de categorias */
+  .category-section {
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Título das categorias */
+  .category-section h2 {
+    text-align: left;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Container das imagens da categoria */
+  .category-gallery {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  /* Cada item da galeria */
   .gallery-item {
-    max-width: 100%;
-    margin-bottom: 20px; /* Espaçamento entre imagens quando em coluna */
+    flex: 1; /* Faz com que os itens ocupem o mesmo espaço */
+    max-width: 32%; /* Limita o tamanho das imagens para se ajustarem em uma linha */
   }
-}
-/*=======*/
+  
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .gallery-item img:hover {
+    transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  padding: 20px;
-}
-
-/* Customizando os Cards */
-.card {
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  overflow: hidden; /* Garante que o conteúdo extra seja ocultado */
-}
-
-.card:hover {
-  transform: scale(1.05);
-  z-index: 10; /* Garante que o zoom apareça por cima de outros elementos */
-  position: relative;
-}
-
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
+@media (max-width: 660px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+    .logo {
+        min-width: 300px;
+    }
 }
 
-.card-body {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%; /* Garante que o conteúdo ocupe a altura disponível */
-}
-
-/* Garantindo que as descrições longas sejam truncadas */
-.preco {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.descricao {
-  font-size: 14px;
-  margin-top: 5px;
-  max-height: 40px; /* Limita a altura da descrição */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1; /* Limita a descrição a 2 linhas */
-  -webkit-box-orient: vertical;
-}
-
-/* Botão customizado */
-.btn-primary {
-  background-color: #000000;
-  border: none;
-  padding: 10px 20px;
-  margin-top: auto; /* Garante que o botão fique na parte inferior */
-}
-
-/* Corrigindo o corte do zoom no carrossel */
-.carousel-inner {
-  overflow: visible; /* Permite que o zoom se expanda além do carrossel */
-}
-
-.carousel-control-prev-icon, .carousel-control-next-icon {
-  background-color: black;
-  border-radius: 50%;
-}
-
-nav {
-    background-color: black;
-}
-/*>>>>>>> master*/
-
+  /* Responsividade: Para telas menores */
+  @media (max-width: 768px) {
+    .category-gallery {
+      flex-direction: column;
+    }
+  
+    .gallery-item {
+      max-width: 100%;
+      margin-bottom: 20px; /* Espaçamento entre imagens quando em coluna */
+    }
+  }
