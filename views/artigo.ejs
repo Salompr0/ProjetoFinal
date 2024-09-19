@@ -1,6 +1,18 @@
 <%- include("partials/header.ejs") %>
 
-
-
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="<%= //artigo.imagem %>" alt="<%= //artigo.nome %>" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h1><%= artigo.nome %></h1>
+      <p class="preco">Preço: <%= artigo.preco %> €</p>
+      <p class="descricao"><%= artigo.descricao %></p>
+      <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
+      <a href="/" class="btn btn-secondary">Voltar</a>
+    </div>
+  </div>
+</div>
 
 <%- include("partials/footer.ejs") %>
