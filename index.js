@@ -33,6 +33,10 @@ app.get("/login.ejs", (req,res) =>{
     res.render("login.ejs");
 });
 
+app.get("/registar", (req, res) => {
+    res.render("registar.ejs");
+});
+
 app.get("/perfil.ejs", (req, res) => {
     res.render("perfil.ejs");
 });
