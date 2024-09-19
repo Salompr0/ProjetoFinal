@@ -1,8 +1,4 @@
-
 /* Reset básico */
-
-/*<<<<<<< HEAD*/
-/* Reset básico para remoção de margens e paddings */
 * {
   margin: 0;
   padding: 0;
@@ -13,86 +9,15 @@ body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   background-color: #f4f4f4;
-  padding: 20px;
 }
 
 /* Estilo do container principal da galeria */
 .gallery {
   display: flex;
   flex-direction: column;
-  gap: 40px; /* Espaço entre seções de categorias */
+  gap: 40px;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-/* Seção de categorias */
-.category-section {
-  background-color: #ffffff;
-  padding: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-/* Título das categorias */
-.category-section h2 {
-  text-align: left;
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-/* Container das imagens da categoria */
-.category-gallery {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-/* Cada item da galeria */
-.gallery-item {
-  flex: 1; /* Faz com que os itens ocupem o mesmo espaço */
-  max-width: 32%; /* Limita o tamanho das imagens para se ajustarem em uma linha */
-}
-
-.gallery-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.gallery-item img:hover {
-  transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsividade: Para telas menores */
-@media (max-width: 768px) {
-  .category-gallery {
-    flex-direction: column;
-  }
-
-  .gallery-item {
-    max-width: 100%;
-    margin-bottom: 20px; /* Espaçamento entre imagens quando em coluna */
-  }
-}
-/*=======*/
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  padding: 20px;
 }
 
 /* Customizando os Cards */
@@ -100,12 +25,12 @@ body {
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
-  overflow: hidden; /* Garante que o conteúdo extra seja ocultado */
+  overflow: hidden;
 }
 
 .card:hover {
   transform: scale(1.05);
-  z-index: 10; /* Garante que o zoom apareça por cima de outros elementos */
+  z-index: 10;
   position: relative;
 }
 
@@ -119,7 +44,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%; /* Garante que o conteúdo ocupe a altura disponível */
+  height: 100%;
 }
 
 /* Garantindo que as descrições longas sejam truncadas */
@@ -132,11 +57,11 @@ body {
 .descricao {
   font-size: 14px;
   margin-top: 5px;
-  max-height: 40px; /* Limita a altura da descrição */
+  max-height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* Limita a descrição a 2 linhas */
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 
@@ -145,12 +70,12 @@ body {
   background-color: #000000;
   border: none;
   padding: 10px 20px;
-  margin-top: auto; /* Garante que o botão fique na parte inferior */
+  margin-top: auto;
 }
 
 /* Corrigindo o corte do zoom no carrossel */
 .carousel-inner {
-  overflow: visible; /* Permite que o zoom se expanda além do carrossel */
+  overflow: visible;
 }
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
@@ -159,7 +84,163 @@ body {
 }
 
 nav {
-    background-color: black;
+  background-color: black;
 }
-/*>>>>>>> master*/
 
+/* Segundo CSS para o header.ejs */
+
+/* Inversão de cor para ícones com fundo transparente */
+#filter {
+  filter: invert(1);
+  background-color: transparent;
+}
+
+header {
+  background-color: black;
+  padding: 10px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Imagem + menu lado esquerdo */
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.left-section img {
+  margin-right: 20px;
+}
+
+/* Menu e submenu */
+.menu {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+.menu > li {
+  margin-right: 20px;
+  position: relative;
+  bottom: 5px;
+}
+
+.menu a {
+  background-color: white;
+  text-decoration: none;
+}
+
+.menu li:hover > .submenu {
+  display: block;
+}
+
+/* Submenu (categorias) */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.submenu li {
+  padding: 5px 10px;
+}
+
+.submenu a {
+  background-color: white;
+  text-decoration: none;
+}
+
+/* Seção central: logo */
+.logo {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.logo img {
+  max-width: 150%;
+}
+
+.logo a {
+  margin-right: 10%;
+}
+
+/* Login e carrinho */
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.icons a {
+  margin-right: 20px;
+}
+
+.icons img {
+  width: 25px;
+}
+
+/* Linha horizontal */
+hr {
+  background-color: gray;
+  padding-top: 2px;
+  margin-top: 5px;
+}
+
+/* Footer */
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+/* Responsividade */
+@media (max-width: 990px) {
+  .container {
+    display: flex;
+  }
+
+  .col-md-4{
+    padding: 5px;
+  }
+
+  .logo img{
+    max-width: 200px;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    font-size: small;
+  }
+
+  .left-section{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+  }
+
+  .icons{
+    flex-direction: column;
+    margin-left: 40px;
+  }
+
+  .space{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  } 
+  
+}
