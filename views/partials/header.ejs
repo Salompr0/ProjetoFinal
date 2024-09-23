@@ -4,47 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LogArte</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../public/styles/main.css">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <header>
     <!--Navbar:    Categorias         Login/Registo-->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Início</a>
+    <nav >
+        <div class="container" id="filter">
+          <div class="left-section">
+            <!--<a href="#"><img src="img/icon.png" width="40" alt="Icon"></a>-->
+            <ul class="menu">
+              <li>
+                <a href="/">Início</a>
               </li>
-              <li class="nav-item"></li>
-                <a class="nav-link active" aria-current="page" href="/artistas.ejs">Artistas</a>
+              <li  class="space">
+                <a href="/artistas">Artistas</a>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <li>
+                <a href="/categorias">
                   Categorias
                 </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Acrílicos</a></li>
-                  <li><a class="dropdown-item" href="#">Aguarelas</a></li>
-                  <li><a class="dropdown-item" href="#">Carvão</a></li>
+                <ul class="submenu">
+                  <li><a href="/categorias/:id">Acrílicos</a></li>
+                  <li><a href="/categorias/:id">Aguarelas</a></li>
+                  <li><a href="categorias/:id">Carvão</a></li>
                 </ul>
               </li>
             </ul>
           </div>
-          <a class="navbar-brand" href="/">LogArte</a><!--Colocar o logotipo(img)-->
-          <div>
-            <button type="button" type="button" class="btn btn-dark">
-              <a href="login.ejs"><span class="">Login</span><!--login icon--></a>
-            </button>
-            <button type="button" type="button" class="btn btn-dark">
-              <a href="compra.ejs"><span class="">Carrinho</span><!--icon--></a>
-            </button>
+          <div class="logo" >
+            <a href="/"><img class="logo-size" src="img/logo.png"  alt="Logo"></a>
+          </div>
+          <div class="icons">
+            <a href="/login"><img src="img/login1.jpg" width="25" alt="Login"></a>
+              
+            <a href="/compra"><img src="img/carrinho.png" width="25" alt="Carrinho"></a> 
           </div>
         </div>
       </nav>
-</header>
-<main>
+</header> 
+<hr>
+
