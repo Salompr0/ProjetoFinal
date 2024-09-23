@@ -18,22 +18,10 @@ const compra = join(__dirname, "views/compra.ejs");
 const app = express();
 const port = 3000;
 
-//Connexão à base de dados
-db = new pg.Client({
-    user: "postregs",
-    host: "localhost",
-    database: "LogArte",
-    password: "",
-    port: 5432,
-});
-
-db.connect();
-
 //CSS Path
 app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 app.get("/", (req, res) => {
     res.render(home);
