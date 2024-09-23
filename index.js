@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import pg from "pg";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -16,6 +17,17 @@ const compra = join(__dirname, "views/compra.ejs");
 
 const app = express();
 const port = 3000;
+
+//Connexão à base de dados
+db = new pg.Client({
+    user: "postregs",
+    host: "localhost",
+    database: "LogArte",
+    password: "",
+    port: 5432,
+});
+
+db.connect();
 
 //CSS Path
 app.use(express.static("public"));
@@ -52,6 +64,7 @@ app.get("/compra", (req, res) => {
 
 
 app.post("/artigo/:id", (req, res) => {
+
     res.render(artigo);
 });
 
