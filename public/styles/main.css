@@ -1,132 +1,311 @@
+/* Reset básico */
 * {
-    padding: 0;
     margin: 0;
-}
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-#filter {
+  main {
+    flex-grow: 1; /* Faz o conteúdo crescer para ocupar o espaço disponível */
+    padding: 20px;
+  }
+  
+  
+  /* Estilo do container principal da galeria */
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Customizando os Cards */
+  .card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    overflow: hidden;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    position: relative;
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  
+  /* Garantindo que as descrições longas sejam truncadas */
+  .preco {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .descricao {
+    font-size: 14px;
+    margin-top: 5px;
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  
+  /* Botão customizado */
+  .btn-primary {
+    background-color: #000000;
+    border: none;
+    padding: 10px 20px;
+    margin-top: auto;
+  }
+  
+  /* Corrigindo o corte do zoom no carrossel */
+  .carousel-inner {
+    overflow: visible;
+  }
+  
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: black;
+    border-radius: 50%;
+  }
+  
+  nav {
+    background-color: black;
+  }
+  
+  /* Segundo CSS para o header.ejs */
+  
+  /* Inversão de cor para ícones com fundo transparente */
+  #filter {
     filter: invert(1);
     background-color: transparent;
-}
-
-header {
-    background-color: black; 
-    padding: 10px; 
-}
-
-.container {
+  }
+  
+  header {
+    background-color: black;
+    padding: 10px;
+  }
+  
+  .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-/* imagem + menu lado esquerdo */
-.left-section {
+  }
+  
+  /* Imagem + menu lado esquerdo */
+  .left-section {
     display: flex;
     align-items: center;
-}
-
-.left-section img {
-    margin-right: 20px; /* Espaçamento entre o ícone e o menu */
-}
-
-/* Menu e submenu */
-.menu {
+  }
+  
+  .left-section img {
+    margin-right: 20px;
+  }
+  
+  /* Menu e submenu */
+  .menu {
     display: flex;
     list-style-type: none;
     margin: 0;
     padding: 0;
     background-color: white;
-}
-
-.menu > li {
+  }
+  
+  .menu > li {
     margin-right: 20px;
-    position: relative; /* Necessário para submenu */
+    position: relative;
     bottom: 5px;
-}
-
-.menu a {
+  }
+  
+  .menu a {
     background-color: white;
     text-decoration: none;
-}
-
-.menu li:hover > .submenu {
+  }
+  
+  .menu li:hover > .submenu {
     display: block;
-}
-
-/* Submenu (categorias) */
-.submenu {
+  }
+  
+  /* Submenu (categorias) */
+  .submenu {
     display: none;
     position: absolute;
-    top: 100%; /* Mostra logo abaixo do item de menu */
+    top: 100%;
     left: 0;
     background-color: white;
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
-
-.submenu li {
+  }
+  
+  .submenu li {
     padding: 5px 10px;
-}
-
-.submenu a {
+  }
+  
+  .submenu a {
     background-color: white;
     text-decoration: none;
-}
-
-/* Seção central: logo */
-.logo {
+  }
+  
+  /* Seção central: logo */
+  .logo {
     text-align: center;
-    flex-grow: 1;  /*Faz a logo centralizar automaticamente */
-    
-}
-
-.logo img {
+    flex-grow: 1;
+  }
+  
+  .logo img {
     max-width: 150%;
-}
-
-.logo a {
+  }
+  
+  .logo a {
     margin-right: 10%;
-}
-
-/* login e carrinho */
-.icons {
+  }
+  
+  /* Login e carrinho */
+  .icons {
     display: flex;
     align-items: center;
-}
-
-.icons a {
+  }
+  
+  .icons a {
     margin-right: 20px;
-    
-}
-
-.icons img {
-    width: 25px; /* Tamanho das imagens */
-}
-
-hr {
+  }
+  
+  .icons img {
+    width: 25px;
+  }
+  
+  /* Linha horizontal */
+  .hr1 {
     background-color: gray;
     padding-top: 2px;
     margin-top: 5px;
-}
-
-footer {
-    background-color: black; 
+  }
+  
+  /* Footer */
+  footer {
+    background-color: black;
     color: white;
     text-align: center;
     padding: 10px;
-    width: 100%;           /*as três mais usadas para centralizar o footer (*/
-    position: fixed; 
+    width: 100%;
+    position: relative;
     bottom: 0;
     
-}
-
-@media (max-width: 660px) {
+  }
+  
+  /* Responsividade */
+  @media (max-width: 660px) {
     .container {
-        display: flex;
-        flex-direction: column;
+      flex-direction: column;
     }
+  
     .logo {
-        min-width: 300px;
+      min-width: 300px;
     }
-}
+  }
+
+  /*LOGIN*/
+
+  .container-login {
+    display: flex;
+    height: 89vh;  /* Ocupa a altura total da tela */
+    padding: 0;
+  }
+
+  .lado-esquerdo {
+    flex: 1;        /* A imagem ocupa metade da tela */
+  }
+  
+  .lado-direito {
+    flex: 1;        /* O formulário ocupa a outra metade da tela */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #f5f5f5;   /* Cor de fundo para o formulário*/
+    margin-right: 50px;
+  }   
+
+  .imagem {
+    width: 90%;
+    height: 100%;
+    object-fit: cover; 
+  }
+
+  /*Linha horizontal*/
+  .linha {
+    background-color: black;
+    padding-top: 3px;
+    margin-bottom: 40px;
+  }
+
+  .login {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 50px;
+    padding-top: 100px;
+  }
+
+  .title {  
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .login input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .button-login button{
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 30px;
+  }
+
+  .button-login button:hover {
+    background-color: rgb(48, 47, 47);
+  }
+
+  .registar {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .registar a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  
+

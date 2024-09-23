@@ -1,7 +1,66 @@
 <%- include("partials/header.ejs") %>
 
-
-<h1>Hi</h1>
-
+<div class="container gallery my-5">
+    <h5>CATEGORIA</h5>
+  
+    <!-- Carrossel Customizado -->
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <a href="/artigo/1">
+                  <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title">Materiais de Arte</h5>
+                  <p class="preco">150 €</p>
+                  <p class="card-text descricao">Materiais de arte de alta qualidade.</p>
+                  <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <a href="/artigo/2">
+                  <img src="/img/1.jpg" class="card-img-top" alt="Pintura da Ponte">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title">Pintura da Ponte</h5>
+                  <p class="preco">200 €</p>
+                  <p class="card-text descricao">Uma bela pintura da ponte ao entardecer.</p>
+                  <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <a href="/artigo/3">
+                  <img src="/img/8.jpg" class="card-img-top" alt="Pintura de Papagaios">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title">Pintura de Papagaios</h5>
+                  <p class="preco">180 €</p>
+                  <p class="card-text descricao">Pintura colorida de papagaios em seu habitat natural.</p>
+                  <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Controles de Navegação -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
 
 <%- include("partials/footer.ejs") %>
