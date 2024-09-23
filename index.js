@@ -18,6 +18,19 @@ const compra = join(__dirname, "views/compra.ejs");
 const app = express();
 const port = 3000;
 
+//Connexão à base de dados
+const db = new pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: "LogArte",
+    password: "Prog.sal23",
+    port: 5432,
+  });
+  
+  db.connect();
+  
+  let categoria = [];
+
 //CSS Path
 app.use(express.static("public"));
 
@@ -41,7 +54,18 @@ app.get("/perfil", (req, res) => {
 
 
 app.get("/categorias", (req, res) => {
-    res.render(categorias);
+    db.query("SELECT * FROM categoria", (err, res) => {
+        if(err){
+            console.error("Error executing query", err.stack);
+        } else {
+            categoria = res.rows;
+        }
+        db.end();
+    });
+
+
+
+    res.render(categorias, { categoria: categoria });
 })
 
 app.get("/compra", (req, res) => {
