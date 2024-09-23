@@ -37,4 +37,35 @@
             </div>
         </div> 
     </div>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+
+<main class="container my-5">
+    <h1 class="text-center mb-4">Login/Registo</h1>
+
+    <form action="/home" method="POST" class="w-50 mx-auto">
+        <!-- Campo de Nome -->
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Insira seu nome" required>
+        </div>
+        
+        <!-- Campo de Senha -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Insira sua senha" required>
+        </div>
+        
+        <!-- Botão de Entrar -->
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Entrar</button>
+        </div>
+        
+        <!-- Link para Registo -->
+        <div class="text-center mt-3">
+            <p>Ainda não tem uma conta? <a href="/registar">Registe-se aqui</a></p>
+        </div>
+    </form>
     
+</main>
