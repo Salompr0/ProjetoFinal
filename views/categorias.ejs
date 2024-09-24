@@ -1,5 +1,9 @@
 <%- include("partials/header.ejs") %>
 
-
+  
+    <% for (i = 0; i < total; i++){ %>
+    <p>Categoria <%= i %></p>
+    <p><%= categoria[i] %></p>
+<% } %>
 
 <%- include("partials/footer.ejs") %>
