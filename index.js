@@ -28,8 +28,6 @@ const db = new pg.Client({
   });
   
   db.connect();
-  
-  let categoria = [];
 
 //CSS Path
 app.use(express.static("public"));
@@ -53,20 +51,21 @@ app.get("/perfil", (req, res) => {
 });
 
 
-app.get("/categorias", (req, res) => {
-    db.query("SELECT * FROM categoria", (err, res) => {
-        if(err){
-            console.error("Error executing query", err.stack);
-        } else {
-            categoria = res.rows;
-        }
-        db.end();
+app.get("/categorias", async (req, res) => {
+
+    let categoria = [];
+    
+    const result = await db.query("SELECT cat_nome FROM categoria");
+
+    result.rows.forEach((cat) => {
+        categoria.push(cat.cat_nome);
     });
+    
+    console.log(result.rows);        
 
-
-
-    res.render(categorias, { categoria: categoria });
-})
+    res.render(categorias, { categoria: categoria, total: categoria.length});
+    db.end();
+});
 
 app.get("/compra", (req, res) => {
     res.render(compra);
