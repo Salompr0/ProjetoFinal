@@ -255,7 +255,7 @@
   .linha {
     background-color: black;
     padding-top: 3px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .login {
@@ -266,7 +266,8 @@
 
   .title {  
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    margin-top: 10%;
   }
 
   .login input {
@@ -600,9 +601,8 @@ footer {
 
 .form-group {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .form-group label {
@@ -622,7 +622,7 @@ footer {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 10%;
+  margin-top: 8%;
   margin-left: 25%;
 }
 
@@ -651,7 +651,6 @@ footer {
 
   .button-registo button {
     width: 100%; /* Botão ocupa 100% da largura em ecrãs menores */
-    margin-left: 0;
   }
 }
 
