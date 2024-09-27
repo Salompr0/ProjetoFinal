@@ -1,1 +1,1 @@
-pedido_id,art_id,quantidade
+art_id,nome,img,preco,vendido,quantidade,descricao,user_id,cat_id

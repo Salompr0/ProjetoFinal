@@ -1,15 +1,14 @@
 <%- include("partials/header.ejs") %>
 
 <div class="container gallery my-5">
-  <h5>CATEGORIA1</h5>
+  <h5>Acrílico</h5>
 
   <!-- Carrossel Customizado -->
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <!-- Primeiro slide -->
-      <% //for (i = 0; i = artigoID; i ++){ 
+      <% //for (i = 0; i = artigoID.length; i ++){ 
         /*if (vendido == true){
-          break;
           break;
         }*/
       %>
@@ -18,7 +17,7 @@
           <div class="col-md-4">
             <div class="card">
               <a href="/artigo/1"><!--/artigo/:id-->
-                <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte">
+                <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
               </a>
               <div class="card-body">
                 <h5 class="card-title">Materiais de Arte</h5>
@@ -106,7 +105,7 @@
 <!--2nd Carroussel-->
 
 <div class="container gallery my-5">
-  <h5>CATEGORIA2</h5>
+  <h5>Aguarelas</h5>
 
   <!-- Carrossel Customizado; mudar id-->
   <div id="carouselExampleControls1" class="carousel slide" data-bs-ride="carousel">

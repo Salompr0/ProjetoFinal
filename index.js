@@ -34,25 +34,8 @@ app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-    res.render(home);
-});
-
-app.get("/login", (req,res) =>{
-    res.render(login);
-});
-
-app.get("/registar", (req, res) => {
-    res.render(registo);
-});
-
-app.get("/perfil", (req, res) => {
-    res.render(perfil);
-});
-
-
-app.get("/categorias", async (req, res) => {
-
+//Função para obter categorias
+async function getCategorias(){
     let categoria = [];
     
     const result = await db.query("SELECT cat_nome FROM categoria");
@@ -61,19 +44,86 @@ app.get("/categorias", async (req, res) => {
         categoria.push(cat.cat_nome);
     });
     
-    console.log(result.rows);        
+    console.log(result.rows);
 
+    return categoria;
+}
+
+//Função para obter artigos de uma categoria
+/*async function getArtigos(){
+
+    const result = await db.query("SELECT * FROM artigo");
+
+    result.rows.forEach(async (artigo) => {
+
+        const artigoID = artigo.art_id;
+        const artNome = artigo.nome;
+        const preco = artigo.preco;
+        const quantidade = artigo.quantidade;
+        const descricao = artigo.descricao;
+        const autor = await db.query("SELECT nome FROM user JOIN artigo ON user_id =artigo.user_id");
+        const categoria = artigo.cat_id;    
+    });
+
+    const result = await db.select({
+
+    artigoID: artigo.art_id,
+    artNome: artigo.nome,
+    preco: artigo.preco,
+    quantidade: artigo.quantidade,
+    descricao: artigo.descricao,
+    categoria: artigo.cat_id,
+    }).from(artigo);
+
+    const artigos = result[];
+    
+    return 
+}*/
+
+//Página principal
+app.get("/", async (req, res) => {
+    //Categorias em Destaque (Acrílico, Aguarelas)
+    const categoriaDestaque = await getCategorias();
+
+
+    res.render(home, { categoria: categoriaDestaque});
+});
+
+//Página de login
+app.get("/login", (req,res) =>{
+    res.render(login);
+});
+
+
+//Página de Registo
+app.get("/registar", (req, res) => {
+    res.render(registo);
+});
+
+
+//Página de Perfil do Utilizador
+app.get("/perfil", (req, res) => {
+    res.render(perfil);
+});
+
+
+//Página com todas as categorias
+app.get("/categorias", async (req, res) => {
+
+    const categoria = await getCategorias();
+    
     res.render(categorias, { categoria: categoria, total: categoria.length});
     db.end();
 });
 
+
+//Página do carrinho de compras
 app.get("/compra", (req, res) => {
     res.render(compra);
 });
 
 
-
-
+//Página de um artigo
 app.post("/artigo/:id", (req, res) => {
 
     res.render(artigo);
