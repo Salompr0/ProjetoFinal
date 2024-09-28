@@ -50,43 +50,38 @@ async function getCategorias(){
 }
 
 //Função para obter artigos de uma categoria
-/*async function getArtigos(){
+async function getArtigos(){
+
+    let artigos = [];
 
     const result = await db.query("SELECT * FROM artigo");
 
     result.rows.forEach(async (artigo) => {
-
-        const artigoID = artigo.art_id;
-        const artNome = artigo.nome;
-        const preco = artigo.preco;
-        const quantidade = artigo.quantidade;
-        const descricao = artigo.descricao;
-        const autor = await db.query("SELECT nome FROM user JOIN artigo ON user_id =artigo.user_id");
-        const categoria = artigo.cat_id;    
+        
+        artigos.push({
+            artigoID: artigo.art_id,
+            artNome: artigo.nome,
+            preco: artigo.preco,
+            quantidade: artigo.quantidade,
+            descricao: artigo.descricao,
+            autor: await db.query("SELECT nome FROM user JOIN artigo ON user_id =artigo.user_id"),
+            categoria: artigo.cat_id,
+            imagem: artigo.img, 
+        });   
     });
-
-    const result = await db.select({
-
-    artigoID: artigo.art_id,
-    artNome: artigo.nome,
-    preco: artigo.preco,
-    quantidade: artigo.quantidade,
-    descricao: artigo.descricao,
-    categoria: artigo.cat_id,
-    }).from(artigo);
-
-    const artigos = result[];
+    console.log(artigos);
     
-    return 
-}*/
+    return artigos;
+}
 
 //Página principal
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
     const categoriaDestaque = await getCategorias();
 
+    const artigos = await getArtigos();
 
-    res.render(home, { categoria: categoriaDestaque});
+    res.render(home, { categoria: categoriaDestaque, artigo: artigos});
 });
 
 //Página de login
@@ -111,9 +106,10 @@ app.get("/perfil", (req, res) => {
 app.get("/categorias", async (req, res) => {
 
     const categoria = await getCategorias();
+    const artigo = await getArtigos();
     
-    res.render(categorias, { categoria: categoria, total: categoria.length});
-    db.end();
+    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length});
+
 });
 
 
@@ -124,9 +120,10 @@ app.get("/compra", (req, res) => {
 
 
 //Página de um artigo
-app.post("/artigo/:id", (req, res) => {
-
-    res.render(artigo);
+app.post("/artigo/:id", async (req, res) => {
+    const artigo = await getArtigos();
+    
+    res.render(categorias, { artigo: artigo, totalArtigo: artigo.length});
 });
 
 
