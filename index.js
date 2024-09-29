@@ -38,13 +38,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 async function getCategorias(){
     let categoria = [];
     
-    const result = await db.query("SELECT cat_nome FROM categoria");
+    const result = await db.query("SELECT * FROM categoria");
 
-    result.rows.forEach((cat) => {
-        categoria.push(cat.cat_nome);
-    });
+    categoria = result.rows;
     
-    console.log(result.rows);
+    console.log(categoria);
 
     return categoria;
 }
@@ -56,19 +54,8 @@ async function getArtigos(){
 
     const result = await db.query("SELECT * FROM artigo");
 
-    result.rows.forEach(async (artigo) => {
-        
-        artigos.push({
-            artigoID: artigo.art_id,
-            artNome: artigo.nome,
-            preco: artigo.preco,
-            quantidade: artigo.quantidade,
-            descricao: artigo.descricao,
-            autor: await db.query("SELECT nome FROM user JOIN artigo ON user_id =artigo.user_id"),
-            categoria: artigo.cat_id,
-            imagem: artigo.img, 
-        });   
-    });
+    artigos = result.rows;
+
     console.log(artigos);
     
     return artigos;
@@ -81,7 +68,7 @@ app.get("/", async (req, res) => {
 
     const artigos = await getArtigos();
 
-    res.render(home, { categoria: categoriaDestaque, artigo: artigos});
+    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigo.length});
 });
 
 //Página de login
