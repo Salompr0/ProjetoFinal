@@ -42,7 +42,7 @@ async function getCategorias(){
 
     categoria = result.rows;
     
-    //console.log(categoria);
+    console.log(categoria);
 
     return categoria;
 }
@@ -52,11 +52,11 @@ async function getArtigos(){
 
     let artigos = [];
 
-    const result = await db.query("SELECT * FROM artigo");
+    const result = await db.query("SELECT * FROM artigo ORDER BY art_id ASC");
 
     artigos = result.rows;
 
-    //console.log(artigos);
+    console.log(artigos);
     
     return artigos;
 }
@@ -68,7 +68,7 @@ app.get("/", async (req, res) => {
 
     const artigos = await getArtigos();
 
-    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigo.length});
+    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length});
 });
 
 //Página de login
