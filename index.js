@@ -42,7 +42,7 @@ async function getCategorias(){
 
     categoria = result.rows;
     
-    console.log(categoria);
+    //console.log(categoria);
 
     return categoria;
 }
@@ -56,7 +56,7 @@ async function getArtigos(){
 
     artigos = result.rows;
 
-    console.log(artigos);
+    //console.log(artigos);
     
     return artigos;
 }
