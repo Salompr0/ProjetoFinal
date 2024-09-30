@@ -110,7 +110,7 @@ app.get("/compra", (req, res) => {
 app.post("/artigo/:id", async (req, res) => {
     const artigo = await getArtigos();
     
-    res.render(categorias, { artigo: artigo, totalArtigo: artigo.length});
+    res.render(artigo, { artigo: artigo, totalArtigo: artigo.length});
 });
 
 
