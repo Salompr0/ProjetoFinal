@@ -622,7 +622,7 @@ color: white;
 border: none;
 border-radius: 4px;
 cursor: pointer;
-margin-top: 8%;
+margin-top: 4%;
 margin-left: 25%;
 }
 
@@ -650,6 +650,6 @@ background-color: rgb(48, 47, 47);
 }
 
 .button-registo button {
-  width: 100%;
+  width: 50%;
 }
 }
