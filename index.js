@@ -11,7 +11,7 @@ const login = join(__dirname, "views/login.ejs");
 const registo = join(__dirname, "views/registar.ejs");
 const perfil = join(__dirname, "views/perfil.ejs");
 const artistas = join(__dirname, "views/artistas.ejs");
-const artigo = join(__dirname, "views/artigo.ejs");
+const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
 
@@ -100,7 +100,6 @@ app.get("/categorias", async (req, res) => {
 
 });
 
-
 //Página do carrinho de compras
 app.get("/compra", (req, res) => {
 
@@ -111,10 +110,29 @@ app.get("/compra", (req, res) => {
 
 
 //Página de um artigo
-app.post("/artigo/:id", async (req, res) => {
-    const artigo = await getArtigos();
+app.get("/artigo/:id", async (req, res) => {
+
+    const artigos = await getArtigos();
+
+    const artID = req.params.id;
+    const atualID = artigos.findIndex((art) => art.id === parseInt(artID));
+
+    //console.log(artID);
+    //console.log(atualID);
     
-    res.render(artigo, { artigo: artigo, totalArtigo: artigo.length});
+    let artigo = {
+        nome: artigos[artID].nome,
+        img: artigos[artID].img,
+        preco: artigos[artID].preco,
+        vendido: artigos[artID].vendido,
+        quantidade: artigos[artID].quantidade,
+        descricao: artigos[artID].descricao,
+        user_id: artigos[artID].user_id,
+        cat_id: artigos[artID].cat_id
+    };
+    //console.log(artigo);
+
+    res.render(artigoescolhido, { artigo: artigo });
 });
 
 app.patch("edit/user/:id", (req, res) => {

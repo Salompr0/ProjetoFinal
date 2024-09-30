@@ -13,7 +13,233 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1; /* Faz o conteúdo crescer para ocupar o espaço disponível */
+  padding: 20px;
+}
+
+
+/* Estilo do container principal da galeria */
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Customizando os Cards */
+.card {
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  z-index: 10;
+  position: relative;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Garantindo que as descrições longas sejam truncadas */
+.preco {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.descricao {
+  font-size: 14px;
+  margin-top: 5px;
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+/* Botão customizado */
+.btn-primary {
+  background-color: #000000;
+  border: none;
+  padding: 10px 20px;
+  margin-top: auto;
+}
+
+/* Corrigindo o corte do zoom no carrossel */
+.carousel-inner {
+  overflow: visible;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  background-color: black;
+  border-radius: 50%;
+}
+
+nav {
+  background-color: black;
+}
+
+/* Segundo CSS para o header.ejs */
+
+/* Inversão de cor para ícones com fundo transparente */
+#filter {
+  filter: invert(1);
+  background-color: transparent;
+}
+
+header {
+  background-color: black;
+  padding: 10px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Imagem + menu lado esquerdo */
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.left-section img {
+  margin-right: 20px;
+}
+
+/* Menu e submenu */
+.menu {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+.menu > li {
+  margin-right: 20px;
+  position: relative;
+  bottom: 5px;
+}
+
+.menu a {
+  background-color: white;
+  text-decoration: none;
+}
+
+.menu li:hover > .submenu {
+  display: block;
+}
+
+/* Submenu (categorias) */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.submenu li {
+  padding: 5px 10px;
+}
+
+.submenu a {
+  background-color: white;
+  text-decoration: none;
+}
+
+/* Seção central: logo */
+.logo {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.logo img {
+  max-width: 150%;
+}
+
+.logo a {
+  margin-right: 10%;
+}
+
+/* Login e carrinho */
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.icons a {
+  margin-right: 20px;
+}
+
+.icons img {
+  width: 25px;
+}
+
+/* Linha horizontal */
+.hr1 {
+  background-color: gray;
+  padding-top: 2px;
+  margin-top: 5px;
+}
+
+/* Footer */
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  
+}
+
+/* Responsividade */
+@media (max-width: 660px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .logo {
+    min-width: 300px;
+  }
+}
 main {
   flex-grow: 1; /* Faz o conteúdo crescer para ocupar o espaço disponível */
   padding: 20px;
@@ -229,7 +455,13 @@ footer {
 }
 
 /* LOGIN */
+/* LOGIN */
 
+.container-login {
+  display: flex;
+  height: 100vh;  /* Ocupa a altura total da tela */
+  padding: 0;
+}
 .container-login {
   display: flex;
   height: 100vh;  /* Ocupa a altura total da tela */
@@ -245,6 +477,19 @@ footer {
   align-items: center;
 }   
 
+.lado-esquerdo, .lado-direito {
+  flex: 1;        /* O formulário ocupa a outra metade da tela */
+  min-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}   
+
+.imagem {
+  width: 100%;
+  height: 100vh;
+  object-fit:cover; 
+}
 .imagem {
   width: 100%;
   height: 100vh;
@@ -257,7 +502,18 @@ footer {
   padding-top: 3px;
   margin-bottom: 20px;
 }
+/*Linha horizontal*/
+.linha {
+  background-color: black;
+  padding-top: 3px;
+  margin-bottom: 20px;
+}
 
+.login {
+  width: 100%;
+  max-width: 400px;
+  padding-top: 30px;
+}
 .login {
   width: 100%;
   max-width: 400px;
@@ -269,7 +525,20 @@ footer {
   margin-bottom: 20px;
   margin-top: 10%;
 }
+.title {  
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 10%;
+}
 
+.login input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 .login input {
   width: 100%;
   padding: 10px;
@@ -289,7 +558,20 @@ footer {
   cursor: pointer;
   margin-top: 30px;
 }
+.button-login button{
+  width: 100%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 30px;
+}
 
+.button-login button:hover {
+  background-color: rgb(48, 47, 47);
+}
 .button-login button:hover {
   background-color: rgb(48, 47, 47);
 }
@@ -298,7 +580,18 @@ footer {
   margin-top: 30px;
   text-align: center;
 }
+.registar {
+  margin-top: 30px;
+  text-align: center;
+}
 
+.registar a {
+  color: #007bff;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .registar a {
   color: #007bff;
   text-decoration: none;
@@ -322,7 +615,25 @@ footer {
   }
 }
 
+@media (max-width: 768px) {
+  .container-login {
+      flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
+  }
+
+  .left-side, .right-side {
+      min-width: 100%; /* Cada lado ocupa 100% em telas pequenas */
+      height: 50vh; /* Cada lado ocupa metade da altura da tela */
+  }
+
+  .imagem {
+      height: 50vh; /* Ajusta a altura da imagem para cobrir apenas 50% da tela */
+  }
+}
+
 body {
+font-family: Arial, sans-serif;
+line-height: 1.6;
+background-color: #f4f4f4;
 font-family: Arial, sans-serif;
 line-height: 1.6;
 background-color: #f4f4f4;
@@ -330,6 +641,11 @@ background-color: #f4f4f4;
 
 /* Estilo do container principal da galeria */
 .gallery {
+display: flex;
+flex-direction: column;
+gap: 40px;
+max-width: 1200px;
+margin: 0 auto;
 display: flex;
 flex-direction: column;
 gap: 40px;
@@ -343,9 +659,16 @@ border-radius: 10px;
 box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 transition: transform 0.2s;
 overflow: hidden;
+border-radius: 10px;
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+transition: transform 0.2s;
+overflow: hidden;
 }
 
 .card:hover {
+transform: scale(1.05);
+z-index: 10;
+position: relative;
 transform: scale(1.05);
 z-index: 10;
 position: relative;
@@ -354,9 +677,16 @@ position: relative;
 .card-img-top {
 height: 200px;
 object-fit: cover;
+height: 200px;
+object-fit: cover;
 }
 
 .card-body {
+text-align: center;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+height: 100%;
 text-align: center;
 display: flex;
 flex-direction: column;
@@ -369,9 +699,20 @@ height: 100%;
 font-size: 16px;
 font-weight: bold;
 margin-bottom: 10px;
+font-size: 16px;
+font-weight: bold;
+margin-bottom: 10px;
 }
 
 .descricao {
+font-size: 14px;
+margin-top: 5px;
+max-height: 40px;
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;
 font-size: 14px;
 margin-top: 5px;
 max-height: 40px;
@@ -388,19 +729,27 @@ background-color: #000000;
 border: none;
 padding: 10px 20px;
 margin-top: auto;
+background-color: #000000;
+border: none;
+padding: 10px 20px;
+margin-top: auto;
 }
 
 /* Corrigindo o corte do zoom no carrossel */
 .carousel-inner {
+overflow: visible;
 overflow: visible;
 }
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
 background-color: black;
 border-radius: 50%;
+background-color: black;
+border-radius: 50%;
 }
 
 nav {
+background-color: black;
 background-color: black;
 }
 
@@ -410,14 +759,21 @@ background-color: black;
 #filter {
 filter: invert(1);
 background-color: transparent;
+filter: invert(1);
+background-color: transparent;
 }
 
 header {
 background-color: black;
 padding: 10px;
+background-color: black;
+padding: 10px;
 }
 
 .container {
+display: flex;
+justify-content: space-between;
+align-items: center;
 display: flex;
 justify-content: space-between;
 align-items: center;
@@ -427,14 +783,22 @@ align-items: center;
 .left-section {
 display: flex;
 align-items: center;
+display: flex;
+align-items: center;
 }
 
 .left-section img {
+margin-right: 20px;
 margin-right: 20px;
 }
 
 /* Menu e submenu */
 .menu {
+display: flex;
+list-style-type: none;
+margin: 0;
+padding: 0;
+background-color: white;
 display: flex;
 list-style-type: none;
 margin: 0;
@@ -446,14 +810,20 @@ background-color: white;
 margin-right: 20px;
 position: relative;
 bottom: 5px;
+margin-right: 20px;
+position: relative;
+bottom: 5px;
 }
 
 .menu a {
 background-color: white;
 text-decoration: none;
+background-color: white;
+text-decoration: none;
 }
 
 .menu li:hover > .submenu {
+display: block;
 display: block;
 }
 
@@ -467,13 +837,24 @@ background-color: white;
 list-style-type: none;
 padding: 0;
 margin: 0;
+display: none;
+position: absolute;
+top: 100%;
+left: 0;
+background-color: white;
+list-style-type: none;
+padding: 0;
+margin: 0;
 }
 
 .submenu li {
 padding: 5px 10px;
+padding: 5px 10px;
 }
 
 .submenu a {
+background-color: white;
+text-decoration: none;
 background-color: white;
 text-decoration: none;
 }
@@ -482,13 +863,17 @@ text-decoration: none;
 .logo {
 text-align: center;
 flex-grow: 1;
+text-align: center;
+flex-grow: 1;
 }
 
 .logo img {
 max-width: 100%;
+max-width: 100%;
 }
 
 .logo a {
+margin-right: 10%;
 margin-right: 10%;
 }
 
@@ -496,13 +881,17 @@ margin-right: 10%;
 .icons {
 display: flex;
 align-items: center;
+display: flex;
+align-items: center;
 }
 
 .icons a {
 margin-right: 20px;
+margin-right: 20px;
 }
 
 .icons img {
+width: 25px;
 width: 25px;
 }
 
@@ -511,10 +900,21 @@ hr {
 background-color: gray;
 padding-top: 2px;
 margin-top: 5px;
+background-color: gray;
+padding-top: 2px;
+margin-top: 5px;
 }
 
 /* FOOTER */
+/* FOOTER */
 footer {
+background-color: black;
+color: white;
+text-align: center;
+padding: 10px;
+width: 100%;
+position: relative;
+bottom: 0;
 background-color: black;
 color: white;
 text-align: center;
@@ -529,7 +929,13 @@ bottom: 0;
 .container {
   display: flex;
 }
+.container {
+  display: flex;
+}
 
+.col-md-4{
+  padding: 5px;
+}
 .col-md-4{
   padding: 5px;
 }
@@ -537,7 +943,15 @@ bottom: 0;
 .logo img{
   max-width: 200px;
 }
+.logo img{
+  max-width: 200px;
+}
 
+.menu {
+  display: flex;
+  flex-direction: column;
+  font-size: small;
+}
 .menu {
   display: flex;
   flex-direction: column;
@@ -549,11 +963,25 @@ bottom: 0;
   flex-direction: column;
   margin-right: 20px;
 }
+.left-section{
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
 
 .icons{
   flex-direction: column;
   margin-left: 40px;
 }
+.icons{
+  flex-direction: column;
+  margin-left: 40px;
+}
+
+.space{
+  margin-top: 10px;
+  margin-bottom: 10px;
+} 
 
 .space{
   margin-top: 10px;
@@ -661,5 +1089,97 @@ background-color: rgb(48, 47, 47);
 
 .checkbox {
   justify-content: center; /* Centraliza a checkbox em telemóveis */
+}
+}
+
+/* REGISTO */
+
+.container-registo {
+display: flex;
+height: 100vh;
+padding: 0;
+}
+
+.lado-esquerdoR, .lado-direitoR {
+flex: 1;
+min-width: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.lado-direitoR {
+padding: 100px;
+padding-top: 8%;
+margin-bottom: 50px;
+}
+
+.checkbox {
+text-align: center;
+padding-right: 100px;
+display: flex;
+}
+
+.checkbox label {
+padding-left: 50%;
+margin-right: 15px;
+}
+
+.registo {
+width: 100%;
+}
+
+.form-group {
+display: flex;
+align-items: center;
+margin-top: 15px;
+}
+
+.form-group label {
+flex-basis: 30%;
+margin-right: 10px;
+}
+
+.form-control {
+flex-basis: 65%;
+}
+
+.button-registo button{
+width: 50%;
+padding: 10px;
+background-color: black;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+margin-top: 4%;
+margin-left: 25%;
+}
+
+.button-registo button:hover {
+background-color: rgb(48, 47, 47);
+}
+
+@media (max-width: 768px) {
+.container-registo {
+  flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
+}
+
+.lado-esquerdoR, .lado-direitoR {
+  flex-basis: 100%; /* Faz com que as colunas ocupem 100% da largura em tablets */
+  min-height: auto; /* Permite que as seções tenham altura automática em telas menores */
+}
+
+.form-group {
+  flex-direction: column; /* Torna os campos do formulário verticais em vez de lado a lado */
+}
+
+.form-group label, .form-control {
+  width: 100%; /* Ambos os elementos ocupam a largura total do container */
+  flex-basis: 100%;
+}
+
+.button-registo button {
+  width: 50%;
 }
 }
