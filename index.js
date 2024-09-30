@@ -99,6 +99,9 @@ app.get("/categorias", async (req, res) => {
 
 });
 
+app.get("/artigo", (req, res) => {
+    res.render(artigo);
+})
 
 //Página do carrinho de compras
 app.get("/compra", (req, res) => {
@@ -110,6 +113,8 @@ app.get("/compra", (req, res) => {
 app.post("/artigo/:id", async (req, res) => {
     const artigo = await getArtigos();
     
+
+
     res.render(artigo, { artigo: artigo, totalArtigo: artigo.length});
 });
 
