@@ -9,50 +9,31 @@
           <!-- Primeiro slide -->
                 <div class="carousel-item active">
                   <div class="row">
-                    <% for (i = 0; i < 3; i ++){ %>
-                      <% if (artigo[i].cat_id = 1){ %>
+                    <% for (i = 0; i < totalArtigo; i ++){ %>
+                      <% if (artigo[i].cat_id == 1){ %>
                         <%  if (artigo[i].vendido == true){ %>
                             <% break; %>
                           <% } %>
-                    <div class="col-md-4">
-                      <div class="card">
-                          <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
-                        </a>
-                        <div class="card-body">
-                          <h5 class="card-title"><%= artigo[i].nome %></h5>
-                          <p class="preco"><%= artigo[i].preco %></p>
-                          <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                          <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
+                        <div class="col-md-4">
+                          <div class="card">
+                              <a href="/artigo/<%= artigo[i].art_id %>">
+                              <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
+                            </a>
+                            <div class="card-body">
+                              <h5 class="card-title"><%= artigo[i].nome %></h5>
+                              <p class="preco"><%= artigo[i].preco %></p>
+                              <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                              <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <% } } %>
-                  </div>
-                </div>
-          <!-- Segundo slide -->
-          <div class="carousel-item active">
-            <div class="row">
-              <% for (i = 0; i < 3; i ++){ %>
-                <% if (artigo[i].cat_id = 1){ %>
-                  <%  if (artigo[i].vendido == true){ %>
+                    <% } else { %>
                       <% break; %>
                     <% } %>
-              <div class="col-md-4">
-                <div class="card">
-                    <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title"><%= artigo[i].nome %></h5>
-                    <p class="preco"><%= artigo[i].preco %></p>
-                    <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                    <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
+                  <% } %>
                   </div>
                 </div>
-              </div>
-              <% } } %>
-            </div>
-          </div>
-        </div>
+          
 
         <!-- Controles de Navegação -->
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -77,8 +58,8 @@
           <!-- Primeiro slide -->
                 <div class="carousel-item active">
                   <div class="row">
-                    <% for (i = 0; i < 3; i ++){ %>
-                      <% if (artigo[i].cat_id = 2){ %>
+                    <% for (i = 0; i < totalArtigo; i ++){ %>
+                      <% if (artigo[i].cat_id == 2){ %>
                         <%  if (artigo[i].vendido == true){ %>
                             <% break; %>
                           <% } %>
@@ -94,7 +75,10 @@
                         </div>
                       </div>
                     </div>
-                    <% } } %>
+                    <% } else { %>
+                      <% break; %>
+                    <% } %> 
+                  <% } %>
                   </div>
                 </div>
           <!-- Segundo slide -->
