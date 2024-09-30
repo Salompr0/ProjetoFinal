@@ -40,6 +40,7 @@ async function getCategorias(){
     
     const result = await db.query("SELECT * FROM categoria");
 
+
     categoria = result.rows;
     
     //console.log(categoria);
@@ -102,7 +103,10 @@ app.get("/categorias", async (req, res) => {
 
 //Página do carrinho de compras
 app.get("/compra", (req, res) => {
-    res.render(compra);
+
+    const pedidos = 0;//change
+
+    res.render(compra, { pedidos: pedidos });
 });
 
 
@@ -113,10 +117,13 @@ app.post("/artigo/:id", async (req, res) => {
     res.render(artigo, { artigo: artigo, totalArtigo: artigo.length});
 });
 
+app.patch("edit/user/:id", (req, res) => {
+
+    res.render("registo");
+})
 
 
-
-
+app.delete
 
 
 app.listen(port, () => {
