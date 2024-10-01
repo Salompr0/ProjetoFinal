@@ -1,7 +1,7 @@
 <%- include("partials/header.ejs") %>
 
-<div class="container my-5">
-  <h1 class="mb-4">Carrinho de Compras</h1>
+<div class="container my-5 compra">
+  <h1 class="mb-4 ">Meu Carrinho</h1>
   
   <table class="table">
     <thead>
@@ -13,20 +13,26 @@
       </tr>
     </thead>
     <tbody>
-      <% pedidos.forEach(item => { %>
+      <% //pedidos.forEach(item => { %>
         <tr>
-          <td><%= item.nome_art %></td>
-          <td><%= item.quantidade %></td>
-          <td><%= item.preco.toFixed(2) %> €</td>
-          <td><%= (item.quantidade * item.preco).toFixed(2) %> €</td>
+          <td>
+            <%= //item.nome_art %>
+            <a href="/artigo/3"><!--/artigo/:id-->
+              <img src="/img/8.jpg" width="100" alt="Pintura Agapórnis">
+            </a>
+            <p>Pintura Agapórnis</p>
+          </td>
+          <td><%= //item.quantidade %>1</td>
+          <td>€ 180,00<%= //item.preco.toFixed(2) %></td>
+          <td>€ 180,00<%= //(item.quantidade * item.preco).toFixed(2) %></td>
         </tr>
-      <% }) %>
+      <% //}) %>
     </tbody>
   </table>
   
-  <div class="text-end">
-    <h4>Total: <%= total.toFixed(2) %> €</h4>
-    <a href="/checkout" class="btn btn-primary">Finalizar Compra</a>
+  <div class="text-end finalizar">
+    <h4 class="total">Total:  € 180,00<%= //total.toFixed(2) %></h4>
+    <a href="/checkout" class="btn btn-primary ">Finalizar Compra</a>
   </div>
 </div>
 

@@ -5,6 +5,7 @@
     box-sizing: border-box;
   }
   
+  /* INDEX/COMPRA */
   body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -81,6 +82,10 @@
     padding: 10px 20px;
     margin-top: auto;
   }
+
+  .btn-primary:hover {
+    background-color: rgb(48, 47, 47);
+  }
   
   /* Corrigindo o corte do zoom no carrossel */
   .carousel-inner {
@@ -96,7 +101,7 @@
     background-color: black;
   }
   
-  /* Segundo CSS para o header.ejs */
+  /* HEADER */
   
   /* Inversão de cor para ícones com fundo transparente */
   #filter {
@@ -198,7 +203,7 @@
     width: 25px;
   }
   
-  /* Linha horizontal */
+  /* LINHA HORIZONTAL LOGIN */
   .hr1 {
     background-color: gray;
     padding-top: 2px;
@@ -322,6 +327,8 @@
     }
 }
 
+/* INDEX/COMPRA */
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
@@ -404,7 +411,7 @@ nav {
   background-color: black;
 }
 
-/* Segundo CSS para o header.ejs */
+/* HEADER */
 
 /* Inversão de cor para ícones com fundo transparente */
 #filter {
@@ -506,7 +513,7 @@ header {
   width: 25px;
 }
 
-/* Linha horizontal */
+/* LINHA HORIZONTAL */
 hr {
   background-color: gray;
   padding-top: 2px;
@@ -668,3 +675,24 @@ footer {
     width: 50%; /* Botão ocupa 100% da largura em ecrãs menores */
   }
 }
+
+
+/* COMPRA */
+.compra {
+  flex-direction: column;
+  align-items: start;
+}
+
+.total {
+  margin-right: 120vh;
+  margin-top: 2%;
+}
+
+.finalizar {
+  /*margin-left: 145vh;*/
+  display: flex;
+  flex-direction: row;
+}
+
+
+
