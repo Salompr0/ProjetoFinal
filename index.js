@@ -10,7 +10,6 @@ const home = join(__dirname, "views/index.ejs");
 const login = join(__dirname, "views/login.ejs");
 const registo = join(__dirname, "views/registar.ejs");
 const perfil = join(__dirname, "views/perfil.ejs");
-const artistas = join(__dirname, "views/artistas.ejs");
 const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
@@ -32,6 +31,7 @@ const db = new pg.Client({
 //CSS Path
 app.use(express.static("public"));
 
+app.set('render engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Função para obter categorias
@@ -104,31 +104,31 @@ app.get("/compra", (req, res) => {
     res.render(compra);
 });
 
-
 //Página de um artigo
-app.get("/artigo/:id", async (req, res) => {
+app.get("/arte/:id", async (req, res) => {
+    try {
+        const artID = parseInt(req.params.id, 10);
 
-    const artigos = await getArtigos();
+        // Verifique se o artID é um número válido
+        if (isNaN(artID)) {
+            return res.status(400).send("ID inválido. O ID deve ser um número.");
+        }
 
-    const artID = req.params.id;
-    const atualID = artigos.findIndex((art) => art.id === parseInt(artID));
+        const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
+        const artigo = result.rows;
 
-    //console.log(artID);
-    //console.log(atualID);
-    
-    let artigo = {
-        nome: artigos[artID].nome,
-        img: artigos[artID].img,
-        preco: artigos[artID].preco,
-        vendido: artigos[artID].vendido,
-        quantidade: artigos[artID].quantidade,
-        descricao: artigos[artID].descricao,
-        user_id: artigos[artID].user_id,
-        cat_id: artigos[artID].cat_id
-    };
-    //console.log(artigo);
+        // Verifique se o artigo foi encontrado
+        if (artigo.length === 0) {
+            return res.status(404).send("Artigo não encontrado.");
+        }
+        //console.log(artID);
+        console.log(artigo);
 
-    res.render(artigoescolhido, { artigo: artigo });
+        res.render(artigoescolhido, { artigo: artigo });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Erro no servidor.");
+    }
 });
 
 

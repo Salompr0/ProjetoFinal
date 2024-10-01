@@ -1,22 +1,30 @@
 <%- include("partials/header.ejs") %>
 
-<div>
-  <form action="/artigo/id:">
-    <div class="container my-5">
-      <div class="row">
-        <div class="col-md-6">
-          <img src="<%= artigo.img %>" alt="<%= artigo.nome %>" class="img-fluid">
-        </div>
-        <div class="col-md-6">
-          <h1><%= artigo.nome %></h1>
-          <p class="preco">Preço: <%= artigo.preco %> €</p>
-          <p class="descricao"><%= artigo.descricao %></p>
-          <a href="/compras" class="btn btn-primary">Adicionar ao Carrinho</a>
-          <a href="/" class="btn btn-secondary">Voltar</a>
-        </div>
-      </div>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Imagem do artigo -->
+      <img src="<%= artigo.imagem %>" class="img-fluid" alt="<%= artigo.titulo %>">
     </div>
-  </form>
+
+    <div class="col-md-6">
+      <!-- Detalhes do artigo -->
+      <h1><%= artigo.titulo %></h1>
+      <p class="preco"><%= artigo.preco %> €</p>
+      <p class="descricao"><%= artigo.descricao %></p>
+
+      <!-- Botão para adicionar ao carrinho -->
+      <a href="#" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
+
+      <!-- Outras informações sobre o artigo -->
+      <h5>Informações adicionais</h5>
+      <ul>
+        <li><strong>Artista:</strong> <%= artigo.user_id %></li>
+        <li><strong>Categoria:</strong> <%= artigo.categoria %></li>
+        <li><strong>Quantidade:</strong> <%= artigo.quantidade %></li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-<%- include("partials/footer.ejs") %>
+<%- include("partials/footer.ejs") %>
