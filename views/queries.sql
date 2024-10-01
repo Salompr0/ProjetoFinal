@@ -1,5 +1,5 @@
 -- Tabela Users
-CREATE TABLE user (
+CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     user_nome VARCHAR(100),
     email VARCHAR(100) UNIQUE,

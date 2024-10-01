@@ -22,7 +22,7 @@ const db = new pg.Client({
     user: "postgres",
     host: "localhost",
     database: "LogArte",
-    password: "",
+    password: "Prog.sal23",
     port: 5432,
   });
   
@@ -128,7 +128,6 @@ app.patch("edit/user/:id", (req, res) => {
 })
 
 
-app.delete
 
 
 app.listen(port, () => {
