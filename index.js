@@ -13,6 +13,7 @@ const perfil = join(__dirname, "views/perfil.ejs");
 const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
+const registoArt = join(__dirname, "views/registarArtigos.ejs");
 
 const app = express();
 const port = 3000;
@@ -69,7 +70,11 @@ app.get("/", async (req, res) => {
 
     const artigos = await getArtigos();
 
-    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length});
+    let idArtigo = [];
+
+    let newRow = [];
+
+    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
 });
 
 //Página de login
@@ -106,6 +111,12 @@ app.get("/compra", (req, res) => {
     const pedidos = 0;//change
 
     res.render(compra, { pedidos: pedidos });
+});
+
+//Registo de artigo
+
+app.post("/registoArtigo", (req, res) => {
+    res.render(registoArt);
 });
 
 //Página de um artigo

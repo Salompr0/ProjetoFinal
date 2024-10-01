@@ -34,7 +34,7 @@ CREATE TABLE artigo (
     user_id INT,
     cat_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (cat_id) REFERENCES categorias(cat_id)
+    FOREIGN KEY (cat_id) REFERENCES categoria(cat_id)
 );
 
 -- Tabela Pedidos
@@ -51,6 +51,6 @@ CREATE TABLE pedido_artigo (
     art_id INT,
     quantidade INT,
     PRIMARY KEY (pedido_id, art_id),
-    FOREIGN KEY (pedido_id) REFERENCES pedidos(pedido_id),
+    FOREIGN KEY (pedido_id) REFERENCES pedido(pedido_id),
     FOREIGN KEY (art_id) REFERENCES artigo(art_id)
 );
