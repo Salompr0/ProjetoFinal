@@ -106,29 +106,16 @@ app.get("/compra", (req, res) => {
 
 //Página de um artigo
 app.get("/arte/:id", async (req, res) => {
-    try {
-        const artID = parseInt(req.params.id, 10);
 
-        // Verifique se o artID é um número válido
-        if (isNaN(artID)) {
-            return res.status(400).send("ID inválido. O ID deve ser um número.");
-        }
+        const artID = parseInt(req.params.id);
 
         const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
         const artigo = result.rows;
 
-        // Verifique se o artigo foi encontrado
-        if (artigo.length === 0) {
-            return res.status(404).send("Artigo não encontrado.");
-        }
         //console.log(artID);
         console.log(artigo);
 
-        res.render(artigoescolhido, { artigo: artigo });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro no servidor.");
-    }
+        res.render(artigoescolhido, { artigoEscolhido: artigo });
 });
 
 
