@@ -1,457 +1,239 @@
 /* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  flex-grow: 1; /* Faz o conteúdo crescer para ocupar o espaço disponível */
-  padding: 20px;
-}
-
-
-/* Estilo do container principal da galeria */
-.gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Customizando os Cards */
-.card {
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: scale(1.05);
-  z-index: 10;
-  position: relative;
-}
-
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-body {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-/* Garantindo que as descrições longas sejam truncadas */
-.preco {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.descricao {
-  font-size: 14px;
-  margin-top: 5px;
-  max-height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-}
-
-/* Botão customizado */
-.btn-primary {
-  background-color: #000000;
-  border: none;
-  padding: 10px 20px;
-  margin-top: auto;
-}
-
-/* Corrigindo o corte do zoom no carrossel */
-.carousel-inner {
-  overflow: visible;
-}
-
-.carousel-control-prev-icon, .carousel-control-next-icon {
-  background-color: black;
-  border-radius: 50%;
-}
-
-nav {
-  background-color: black;
-}
-
-/* Segundo CSS para o header.ejs */
-
-/* Inversão de cor para ícones com fundo transparente */
-#filter {
-  filter: invert(1);
-  background-color: transparent;
-}
-
-header {
-  background-color: black;
-  padding: 10px;
-}
-
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Imagem + menu lado esquerdo */
-.left-section {
-  display: flex;
-  align-items: center;
-}
-
-.left-section img {
-  margin-right: 20px;
-}
-
-/* Menu e submenu */
-.menu {
-  display: flex;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: white;
-}
-
-.menu > li {
-  margin-right: 20px;
-  position: relative;
-  bottom: 5px;
-}
-
-.menu a {
-  background-color: white;
-  text-decoration: none;
-}
-
-.menu li:hover > .submenu {
-  display: block;
-}
-
-/* Submenu (categorias) */
-.submenu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.submenu li {
-  padding: 5px 10px;
-}
-
-.submenu a {
-  background-color: white;
-  text-decoration: none;
-}
-
-/* Seção central: logo */
-.logo {
-  text-align: center;
-  flex-grow: 1;
-}
-
-.logo img {
-  max-width: 150%;
-}
-
-.logo a {
-  margin-right: 10%;
-}
-
-/* Login e carrinho */
-.icons {
-  display: flex;
-  align-items: center;
-}
-
-.icons a {
-  margin-right: 20px;
-}
-
-.icons img {
-  width: 25px;
-}
-
-/* Linha horizontal */
-.hr1 {
-  background-color: gray;
-  padding-top: 2px;
-  margin-top: 5px;
-}
-
-/* Footer */
-footer {
-  background-color: black;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  width: 100%;
-  position: relative;
-  bottom: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   
-}
-
-/* Responsividade */
-@media (max-width: 660px) {
-  .container {
+  /* INDEX/COMPRA */
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    display: flex;
     flex-direction: column;
+    min-height: 100vh;
   }
 
-  .logo {
-    min-width: 300px;
+  main {
+    flex-grow: 1; /* Faz o conteúdo crescer para ocupar o espaço disponível */
+    padding: 20px;
   }
-}
-main {
-  flex-grow: 1; /* Faz o conteúdo crescer para ocupar o espaço disponível */
-  padding: 20px;
-}
-
-
-/* Estilo do container principal da galeria */
-.gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Customizando os Cards */
-.card {
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: scale(1.05);
-  z-index: 10;
-  position: relative;
-}
-
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-body {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-/* Garantindo que as descrições longas sejam truncadas */
-.preco {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.descricao {
-  font-size: 14px;
-  margin-top: 5px;
-  max-height: 40px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-}
-
-/* Botão customizado */
-.btn-primary {
-  background-color: #000000;
-  border: none;
-  padding: 10px 20px;
-  margin-top: auto;
-}
-
-/* Corrigindo o corte do zoom no carrossel */
-.carousel-inner {
-  overflow: visible;
-}
-
-.carousel-control-prev-icon, .carousel-control-next-icon {
-  background-color: black;
-  border-radius: 50%;
-}
-
-nav {
-  background-color: black;
-}
-
-/* Segundo CSS para o header.ejs */
-
-/* Inversão de cor para ícones com fundo transparente */
-#filter {
-  filter: invert(1);
-  background-color: transparent;
-}
-
-header {
-  background-color: black;
-  padding: 10px;
-}
-
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Imagem + menu lado esquerdo */
-.left-section {
-  display: flex;
-  align-items: center;
-}
-
-.left-section img {
-  margin-right: 20px;
-}
-
-/* Menu e submenu */
-.menu {
-  display: flex;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: white;
-}
-
-.menu > li {
-  margin-right: 20px;
-  position: relative;
-  bottom: 5px;
-}
-
-.menu a {
-  background-color: white;
-  text-decoration: none;
-}
-
-.menu li:hover > .submenu {
-  display: block;
-}
-
-/* Submenu (categorias) */
-.submenu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: white;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.submenu li {
-  padding: 5px 10px;
-}
-
-.submenu a {
-  background-color: white;
-  text-decoration: none;
-}
-
-/* Seção central: logo */
-.logo {
-  text-align: center;
-  flex-grow: 1;
-}
-
-.logo img {
-  max-width: 150%;
-}
-
-.logo a {
-  margin-right: 10%;
-}
-
-/* Login e carrinho */
-.icons {
-  display: flex;
-  align-items: center;
-}
-
-.icons a {
-  margin-right: 20px;
-}
-
-.icons img {
-  width: 25px;
-}
-
-/* Linha horizontal */
-.hr1 {
-  background-color: gray;
-  padding-top: 2px;
-  margin-top: 5px;
-}
-
-/* Footer */
-footer {
-  background-color: black;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  width: 100%;
-  position: relative;
-  bottom: 0;
   
-}
-
-/* Responsividade */
-@media (max-width: 660px) {
-  .container {
+  
+  /* Estilo do container principal da galeria */
+  .gallery {
+    display: flex;
     flex-direction: column;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Customizando os Cards */
+  .card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    overflow: hidden;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    position: relative;
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  
+  /* Garantindo que as descrições longas sejam truncadas */
+  .preco {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .descricao {
+    font-size: 14px;
+    margin-top: 5px;
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  
+  /* Botão customizado */
+  .btn-primary {
+    background-color: #000000;
+    border: none;
+    padding: 10px 20px;
+    margin-top: auto;
   }
 
+  .btn-primary:hover {
+    background-color: rgb(48, 47, 47);
+  }
+  
+  /* Corrigindo o corte do zoom no carrossel */
+  .carousel-inner {
+    overflow: visible;
+  }
+  
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: black;
+    border-radius: 50%;
+  }
+  
+  nav {
+    background-color: black;
+  }
+  
+  /* HEADER */
+  
+  /* Inversão de cor para ícones com fundo transparente */
+  #filter {
+    filter: invert(1);
+    background-color: transparent;
+  }
+  
+  header {
+    background-color: black;
+    padding: 10px;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Imagem + menu lado esquerdo */
+  .left-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .left-section img {
+    margin-right: 20px;
+  }
+  
+  /* Menu e submenu */
+  .menu {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+  }
+  
+  .menu > li {
+    margin-right: 20px;
+    position: relative;
+    bottom: 5px;
+  }
+  
+  .menu a {
+    background-color: white;
+    text-decoration: none;
+  }
+  
+  .menu li:hover > .submenu {
+    display: block;
+  }
+  
+  /* Submenu (categorias) */
+  .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .submenu li {
+    padding: 5px 10px;
+  }
+  
+  .submenu a {
+    background-color: white;
+    text-decoration: none;
+  }
+  
+  /* Seção central: logo */
   .logo {
-    min-width: 300px;
+    text-align: center;
+    flex-grow: 1;
   }
-}
+  
+  .logo img {
+    max-width: 150%;
+  }
+  
+  .logo a {
+    margin-right: 10%;
+  }
+  
+  /* Login e carrinho */
+  .icons {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icons a {
+    margin-right: 20px;
+  }
+  
+  .icons img {
+    width: 25px;
+  }
+  
+  /* LINHA HORIZONTAL LOGIN */
+  .hr1 {
+    background-color: gray;
+    padding-top: 2px;
+    margin-top: 5px;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    
+  }
+  
+  /* Responsividade */
+  @media (max-width: 660px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .logo {
+      min-width: 300px;
+    }
+  }
 
-/* LOGIN */
-/* LOGIN */
+  /* LOGIN */
 
 .container-login {
   display: flex;
@@ -492,18 +274,12 @@ footer {
   object-fit:cover; 
 }
 
-/*Linha horizontal*/
-.linha {
-  background-color: black;
-  padding-top: 3px;
-  margin-bottom: 20px;
-}
-/*Linha horizontal*/
-.linha {
-  background-color: black;
-  padding-top: 3px;
-  margin-bottom: 20px;
-}
+  /*Linha horizontal*/
+  .linha {
+    background-color: black;
+    padding-top: 3px;
+    margin-bottom: 15px;
+  }
 
 .login {
   width: 100%;
@@ -625,6 +401,8 @@ footer {
       height: 50vh; /* Ajusta a altura da imagem para cobrir apenas 50% da tela */
   }
 }
+
+/* INDEX/COMPRA */
 
 body {
 font-family: Arial, sans-serif;
@@ -749,7 +527,7 @@ background-color: black;
 background-color: black;
 }
 
-/* Segundo CSS para o header.ejs */
+/* HEADER */
 
 /* Inversão de cor para ícones com fundo transparente */
 #filter {
@@ -891,7 +669,7 @@ width: 25px;
 width: 25px;
 }
 
-/* Linha horizontal */
+/* LINHA HORIZONTAL */
 hr {
 background-color: gray;
 padding-top: 2px;
@@ -995,17 +773,32 @@ padding: 0;
 }
 
 .lado-esquerdoR, .lado-direitoR {
-flex: 1;
-min-width: 50%;
-display: flex;
-justify-content: center;
-align-items: center;
+  flex: 1;
+  min-width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .lado-direitoR {
 padding: 100px;
 padding-top: 8%;
 margin-bottom: 50px;
+}
+
+.ficheiro {
+  position: absolute;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 25%;
+  margin-left: 10%;
+}
+
+.foto{
+  margin-bottom: 15%;
+  border-radius: 50%;
 }
 
 .checkbox {
@@ -1039,143 +832,62 @@ flex-basis: 65%;
 }
 
 .button-registo button{
-width: 50%;
-padding: 10px;
-background-color: black;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-margin-top: 8%;
-margin-left: 25%;
-}
-
-.button-registo button:hover {
-background-color: rgb(48, 47, 47);
-}
-
-@media (max-width: 768px) {
-.container-registo {
-  flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
-}
-
-.lado-esquerdoR, .lado-direitoR {
-  flex-basis: 100%; /* Faz com que as colunas ocupem 100% da largura em tablets */
-  min-height: auto; /* Permite que as seções tenham altura automática em telas menores */
-}
-
-.form-group {
-  flex-direction: column; /* Torna os campos do formulário verticais em vez de lado a lado */
-}
-
-.form-group label, .form-control {
-  width: 100%; /* Ambos os elementos ocupam a largura total do container */
-  flex-basis: 100%;
-}
-
-.button-registo button {
-  width: 100%; /* Botão ocupa 100% da largura em ecrãs menores */
-}
-}
-
-@media (max-width: 350px) {
-.lado-direitoR {
-  padding: 5%; /* Reduz o padding em dispositivos muito pequenos */
-}
-
-.checkbox {
-  justify-content: center; /* Centraliza a checkbox em telemóveis */
-}
-}
-
-/* REGISTO */
-
-.container-registo {
-display: flex;
-height: 100vh;
-padding: 0;
-}
-
-.lado-esquerdoR, .lado-direitoR {
-flex: 1;
-min-width: 50%;
-display: flex;
-justify-content: center;
-align-items: center;
-}
-
-.lado-direitoR {
-padding: 100px;
-padding-top: 8%;
-margin-bottom: 50px;
-}
-
-.checkbox {
-text-align: center;
-padding-right: 100px;
-display: flex;
-}
-
-.checkbox label {
-padding-left: 50%;
-margin-right: 15px;
-}
-
-.registo {
-width: 100%;
-}
-
-.form-group {
-display: flex;
-align-items: center;
-margin-top: 15px;
-}
-
-.form-group label {
-flex-basis: 30%;
-margin-right: 10px;
-}
-
-.form-control {
-flex-basis: 65%;
-}
-
-.button-registo button{
-width: 50%;
-padding: 10px;
-background-color: black;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-margin-top: 4%;
-margin-left: 25%;
-}
-
-.button-registo button:hover {
-background-color: rgb(48, 47, 47);
-}
-
-@media (max-width: 768px) {
-.container-registo {
-  flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
-}
-
-.lado-esquerdoR, .lado-direitoR {
-  flex-basis: 100%; /* Faz com que as colunas ocupem 100% da largura em tablets */
-  min-height: auto; /* Permite que as seções tenham altura automática em telas menores */
-}
-
-.form-group {
-  flex-direction: column; /* Torna os campos do formulário verticais em vez de lado a lado */
-}
-
-.form-group label, .form-control {
-  width: 100%; /* Ambos os elementos ocupam a largura total do container */
-  flex-basis: 100%;
-}
-
-.button-registo button {
   width: 50%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 4%;
+  margin-left: 25%;
 }
+
+.button-registo button:hover {
+background-color: rgb(48, 47, 47);
 }
+
+@media (max-width: 768px) {
+.container-registo {
+  flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
+}
+
+.lado-esquerdoR, .lado-direitoR {
+  flex-basis: 100%; /* Faz com que as colunas ocupem 100% da largura em tablets */
+  min-height: auto; /* Permite que as seções tenham altura automática em telas menores */
+}
+
+.form-group {
+  flex-direction: column; /* Torna os campos do formulário verticais em vez de lado a lado */
+}
+
+.form-group label, .form-control {
+  width: 100%; /* Ambos os elementos ocupam a largura total do container */
+  flex-basis: 100%;
+}
+
+  .button-registo button {
+    width: 50%; /* Botão ocupa 100% da largura em ecrãs menores */
+  }
+}
+
+
+/* COMPRA */
+.compra {
+  flex-direction: column;
+  align-items: start;
+}
+
+.total {
+  margin-right: 120vh;
+  margin-top: 2%;
+}
+
+.finalizar {
+  /*margin-left: 145vh;*/
+  display: flex;
+  flex-direction: row;
+}
+
+
+
