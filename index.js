@@ -79,22 +79,40 @@ app.get("/", async (req, res) => {
 
 //Página de login
 app.get("/login", (req,res) =>{
+    
     res.render(login);
 });
 
 
 //Página de Registo
-app.get("/registar", (req, res) => {
+app.get("/registar", async (req, res) => {
+
+    const nome = req.body.nome;
+    const email = req.body.email;
+    const telemovel = req.body.telemovel;
+    const nif = req.body.nif;
+    const morada = req.body.morada;
+    const qualificacao = req.body.qualificacao;
+    const vendedor = req.body.vendedor;
+    const password = req.body.password;
     
+    await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, ing_user, password) VALUES ($1), ($2), ($3), ($4), ($5), ($6), ($7), ($8)", [ nome, email, telemovel, nif, morada, qualificacao, vendedor, password]);
+
     res.render(registo);
 });
 
-
 //Página de Perfil do Utilizador
-app.get("/perfil", (req, res) => {
-    res.render(perfil);
-});
+app.get("/perfil/:id", async (req, res) => {
+    const userID = parseInt(req.params.id);
 
+    const result = await db.query('SELECT * FROM user WHERE user_id = $1', [userID]);
+    const perfil = result.rows;
+
+    //console.log(userID);
+    console.log(perfil);
+
+    res.render(perfil, { perfil: perfil });
+});
 
 //Página com todas as categorias
 app.get("/categorias", async (req, res) => {
@@ -117,6 +135,7 @@ app.get("/compra", (req, res) => {
 //Registo de artigo
 
 app.post("/registoArtigo", (req, res) => {
+
     res.render(registoArt);
 });
 
