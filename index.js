@@ -118,6 +118,9 @@ app.get("/compra", (req, res) => {
 app.post("/registoArtigo", (req, res) => {
     res.render(registoArt);
 });
+app.get("arte", (req, res) => { z
+    console.log(artigoescolhido);
+});
 
 //Página de um artigo
 app.get("/arte/:id", async (req, res) => {
