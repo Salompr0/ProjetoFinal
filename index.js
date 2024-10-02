@@ -22,7 +22,7 @@ const db = new pg.Client({
     user: "postgres",
     host: "localhost",
     database: "LogArte",
-    password: "Mari9770",
+    password: "Felpes27",
     port: 5432,
   });
   
@@ -32,6 +32,9 @@ const db = new pg.Client({
 app.use(express.static("public"));
 
 app.set('render engine', 'ejs');
+// Configurando o EJS como mecanismo de view
+app.set('view engine', 'ejs');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Função para obter categorias
@@ -133,3 +136,10 @@ app.patch("edit/user/:id", (req, res) => {
 app.listen(port, () => {
     console.log(`Successfully started server on port ${port}.`);
 });
+
+
+// Middleware para página 404
+app.use((req, res, next) => {
+    res.status(404).render("404");
+});
+
