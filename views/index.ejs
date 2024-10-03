@@ -10,51 +10,57 @@
                 <div class="carousel-item active">
                   <div class="row">
                     <% for (i = 0; i < totalArtigo; i ++){ %>
-                      <% if (artigo[i].cat_id == 1){ %>
-                        <% if (artigo[i].vendido == true){ %>
-                            <% break; %>
+                      <% if (idArtigo.length < 3) { %>
+                        <% if (artigo[i].cat_id == 1){ %>
+                          <% if (artigo[i].vendido === true){ %>
+                            <% break %>
                           <% } %>
+                          <% idArtigo[i] = artigo[i].art_id %>
                           <div class="col-md-4">
                             <div class="card">
                                 <a href="/arte/<%= artigo[i].art_id %>">
-                                <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
+                                <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
                               </a>
                               <div class="card-body">
                                 <h5 class="card-title"><%= artigo[i].nome %></h5>
                                 <p class="preco"><%= artigo[i].preco %></p>
                                 <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                                <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
+                                <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
                               </div>
                             </div>
                           </div>
                       <% } else { %>
                         <% break; %>
-                      <% } %>
-                    <% } %>
+                      <% } /*console.log(idArtigo)*/} }%>
                   </div>
                 </div>
             
           <!-- Segundo slide -->
-          <div class="carousel-item active">
+          <div class="carousel-item">
             <div class="row">
+              <% let j = 0 %>
               <% for (i = 0; i < totalArtigo; i ++){ %>
-                <% if (artigo[i].cat_id == 1){ %>
-                  <%  if (artigo[i].vendido == true){ %>
-                      <% break; %>
+                <% if (newRow.length < 3) { %>
+                  <% if (artigo[i].cat_id == 1 && artigo[i].art_id !== idArtigo[i]){ %>
+                    <% if (artigo[i].vendido === true){ %>
+                      <% break %>
                     <% } %>
-              <div class="col-md-4">
-                <div class="card">
-                    <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title"><%= artigo[i].nome %></h5>
-                    <p class="preco"><%= artigo[i].preco %></p>
-                    <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                    <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
+                  <% newRow[j] = artigo[i].art_id %>
+                  <% j ++ %>
+                  <div class="col-md-4">
+                    <div class="card">
+                      <a href="/arte/<%= artigo[i].art_id %>">
+                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                      </a>
+                      <div class="card-body">
+                        <h5 class="card-title"><%= artigo[i].nome %></h5>
+                        <p class="preco"><%= artigo[i].preco %></p>
+                        <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                        <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <% } } %>
+              <% } /*console.log(newRow)*/} }%>
             </div>
           </div>
         <!-- Controles de Navegação -->
@@ -69,65 +75,73 @@
       </div>
 </div>
 
-<!--2nd Carroussel-->
 
-<div class="container gallery my-5">
+<div class="container gallery my-5"></div>
   <h5> <%= categoria[1].cat_nome %> </h5>
-
-      <!-- Carrossel Customizado -->
+      
+      <!--2nd Carroussel-->    
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <!-- Primeiro slide -->
                 <div class="carousel-item active">
                   <div class="row">
                     <% for (i = 0; i < totalArtigo; i ++){ %>
-                      <% if (artigo[i].cat_id == 2){ %>
-                        <%  if (artigo[i].vendido == true){ %>
-                            <% break; %>
-                          <% } %>
-                    <div class="col-md-4">
-                      <div class="card">
-                          <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
-                        </a>
-                        <div class="card-body">
-                          <h5 class="card-title"><%= artigo[i].nome %></h5>
-                          <p class="preco"><%= artigo[i].preco %></p>
-                          <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                          <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-                        </div>
-                      </div>
-                    </div>
-                    <% } else { %>
-                      <% break; %>
-                    <% } %> 
-                  <% } %>
+                      <% idArtigo = []; %>
+                      <% if (idArtigo.length < 3) { %>
+                        <% if (artigo[i].cat_id == 2){ %>
+                          <% if (artigo[i].vendido == true){ %>
+                              <% break; %>
+                            <% } %>
+                            <% idArtigo[i] = artigo[i].art_id%>
+                            <div class="col-md-4">
+                              <div class="card">
+                                  <a href="/arte/<%= artigo[i].art_id %>">
+                                  <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                                </a>
+                                <div class="card-body">
+                                  <h5 class="card-title"><%= artigo[i].nome %></h5>
+                                  <p class="preco"><%= artigo[i].preco %></p>
+                                  <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                                  <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                                </div>
+                              </div>
+                            </div>
+                        <% } else { %>
+                          <% break; %>
+                        <% } /*console.log(idArtigo)*/} } %>
                   </div>
                 </div>
+            
           <!-- Segundo slide -->
           <div class="carousel-item active">
             <div class="row">
-              <% for (i = 0; i < totalArtigo; i ++){ %>
-                <% if (artigo[i].cat_id == 2){ %>
-                  <%  if (artigo[i].vendido == true){ %>
-                      <% break; %>
-                    <% } %>
-              <div class="col-md-4">
-                <div class="card">
-                    <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte"><!--Change the name of the file-->
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title"><%= artigo[i].nome %></h5>
-                    <p class="preco"><%= artigo[i].preco %></p>
-                    <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                    <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
+                <% j = 0 %>
+                <% for (i = idArtigo[3]; i < totalArtigo; i ++){ %>
+                  <% if (newRow.length < 3) { %>
+                    <% if (artigo[i].cat_id == 2 && artigo[i].art_id !== idArtigo[i]){ %>
+                      <%  if (artigo[i].vendido == true){ %>
+                          <% break; %>
+                        <% } %>
+                      <% newRow[j] = artigo[i].art_id %>
+                      <% j ++ %>
+                  <div class="col-md-4">
+                    <div class="card">
+                      <a href="/arte/<%= artigo[i].art_id %>">
+                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<% artigo[i].nome %>">
+                      </a>
+                      <div class="card-body">
+                        <h5 class="card-title"><%= artigo[i].nome %></h5>
+                        <p class="preco"><%= artigo[i].preco %></p>
+                        <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                        <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <% } } %>
+                  <% } else { %>
+                    <% break; %>
+                <% } /*console.log(newRow)*/} }%>
             </div>
           </div>
-        </div>
-
         <!-- Controles de Navegação -->
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
