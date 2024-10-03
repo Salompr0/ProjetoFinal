@@ -1,7 +1,7 @@
-import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
+import express from "express";
 import { dirname, join } from "path";
+import pg from "pg";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -83,22 +83,25 @@ app.get("/login", (req,res) =>{
     res.render(login);
 });
 
+app.get("/registar", (req, res) => {
+    res.render(registo);
+})
 
 //Página de Registo
-app.get("/registar", async (req, res) => {
+app.post("/registar", async (req, res) => {
 
-    const nome = req.body.nome;
-    const email = req.body.email;
-    const telemovel = req.body.telemovel;
-    const nif = req.body.nif;
-    const morada = req.body.morada;
-    const qualificacao = req.body.qualificacao;
-    const vendedor = req.body.vendedor;
-    const password = req.body.password;
+    const nome = req.body["nome"];
+    const email = req.body["email"];
+    const telemovel = req.body["telemovel"];
+    const nif = req.body["nif"];
+    const morada = req.body["morada"];
+    const qualificacao = req.body["qualificacao"];
+    const vendedor = req.body["vendedor"];
+    const password = req.body["password"];
     
-    await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, ing_user, password) VALUES ($1), ($2), ($3), ($4), ($5), ($6), ($7), ($8)", [ nome, email, telemovel, nif, morada, qualificacao, vendedor, password]);
+    await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, password]);
 
-    res.render(registo);
+    res.redirect("/");
 });
 
 //Página de Perfil do Utilizador
@@ -145,12 +148,11 @@ app.get("/arte/:id", async (req, res) => {
         const artID = parseInt(req.params.id);
 
         const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
-        const artigo = result.rows;
+        const artigo = result.rows[0];
 
-        //console.log(artID);
         console.log(artigo);
 
-        res.render(artigoescolhido, { artigoEscolhido: artigo });
+        res.render(artigoescolhido, { artigos: artigo, categoria: categoria });
 });
 
 app.patch("edit/user/:id", (req, res) => {

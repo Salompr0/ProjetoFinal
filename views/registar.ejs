@@ -33,7 +33,7 @@
             <form action="/registar" method="post">
                 <div class="checkbox">
                     <label for="vendedor">Vendedor</label>
-                    <input type="checkbox" name="vendedor" id="vendedor" value="Vendedor"><br>
+                    <input type="checkbox" name="vendedor" id="vendedor" value="true"><br>
                 </div> 
 
                 <div class="form-group">
@@ -61,10 +61,12 @@
                     <input type="text"  name="nif" placeholder="Insira seu nif" class="form-control" required>
                 </div>
 
+                <% //if (vendedor == true){ %>
                 <div class="form-group">
                     <label for="">Qualificações</label>
                     <textarea type="text"  name="qualificacao" placeholder="Insira suas qualificações" class="form-control" required></textarea>
                 </div>
+                <% //} %>
 
                 <div class="form-group">
                     <label for="password">Senha</label>
