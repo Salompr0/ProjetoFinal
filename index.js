@@ -150,9 +150,9 @@ app.get("/arte/:id", async (req, res) => {
         const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
         const artigo = result.rows[0];
 
-        console.log(artigo);
+        //console.log(artigo);
 
-        res.render(artigoescolhido, { artigos: artigo, categoria: categoria });
+        res.render(artigoescolhido, { artigos: artigo});
 });
 
 app.patch("edit/user/:id", (req, res) => {

@@ -15,10 +15,6 @@
         <img src="img/fundo.jpg" alt="Pintura de fundo" class="imagem">
     </div>
 
-    <!--<div class="foto">
-        <img src="img/panda vermelho.jpg" width="100"><input type="hidden" name="nome_foto" value="">
-    </div>-->
-
     <div class="ficheiro">
         <img class="foto" src="img/f.jpg" width="200" ><input type="hidden" name="nome_foto" value="">
         <input type="file" name="ficheiro" width="50">
@@ -33,7 +29,7 @@
             <form action="/registar" method="post">
                 <div class="checkbox">
                     <label for="vendedor">Vendedor</label>
-                    <input type="checkbox" name="vendedor" id="vendedor" value="true"><br>
+                    <input type="checkbox" name="vendedor" id="vendedor"><br>
                 </div> 
 
                 <div class="form-group">
@@ -61,12 +57,10 @@
                     <input type="text"  name="nif" placeholder="Insira seu nif" class="form-control" required>
                 </div>
 
-                <% //if (vendedor == true){ %>
-                <div class="form-group">
-                    <label for="">Qualificações</label>
+                <div class="form-group" id="qualificacao" hidden>
+                    <label>Qualificações</label>
                     <textarea type="text"  name="qualificacao" placeholder="Insira suas qualificações" class="form-control" required></textarea>
                 </div>
-                <% //} %>
 
                 <div class="form-group">
                     <label for="password">Senha</label>
@@ -81,6 +75,16 @@
 
         </div> 
     </div>
-    <link rel="stylesheet" href="/styles/main.css">
+<script>
+ var checkbox = document.querySelector("input[id=vendedor]");
+ 
+ checkbox.addEventListener('change', function(){
+    if (this.checked){
+        document.getElementById("qualificacao").removeAttribute("hidden");
+    } else {
+        document.getElementById("qualificacao").setAttribute("hidden", true)
+    }
+ });
+</script>
 </head>
 <body>
