@@ -13,6 +13,8 @@ const perfil = join(__dirname, "views/perfil.ejs");
 const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
+const artistas = join(__dirname, "views/artistas.ejs");
+
 
 const app = express();
 const port = 3000;
@@ -88,8 +90,12 @@ app.get("/registar", (req, res) => {
 
 
 //Página de Perfil do Utilizador
-app.get("/perfil", (req, res) => {
-    res.render(perfil);
+app.get("/perfil", async(req, res) => {
+
+    const result = await db.query('SELECT * FROM users WHERE user_id = $1', [1]);
+    const user = result.rows;
+
+    res.render (perfil, {user: user});
 });
 
 
@@ -130,6 +136,15 @@ app.patch("edit/user/:id", (req, res) => {
     res.render("registo");
 })
 
+
+//Página de artistas
+app.get("/artistas", async (req,res) => {
+
+    const result = await db.query('SELECT * FROM users WHERE vendedor = true');
+    const artista = result.rows;
+
+    res.render(artistas, { artistas: artista });
+});
 
 
 

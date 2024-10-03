@@ -7,11 +7,11 @@
     <% artistas.forEach(artista => { %>
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
-          <img src="<%= artista.imagem %>" class="card-img-top" alt="<%= artista.nome %>">
+          <img src="<%= artista.img_user %>" class="card-img-top" alt="<%= artista.nome %>">
           <div class="card-body">
             <h5 class="card-title"><%= artista.nome %></h5>
-            <p class="card-text"><%= artista.biografia %></p>
-            <a href="/artista/<%= artista.id %>" class="btn btn-primary">Ver Perfil</a>
+            <p class="card-text"><%= artista.qualificacao %></p>
+            <!--<a href="/artista/<%= //artista.id %>" class="btn btn-primary">Ver Perfil</a>--> 
           </div>
         </div>
       </div>
