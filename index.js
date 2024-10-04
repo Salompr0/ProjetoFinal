@@ -231,3 +231,50 @@ app.post("/registar_artigo", upload.single('img'), async (req, res) => {
   }
 });
 
+
+// Exibir a página de checkout
+app.get("/checkout", (req, res) => {
+  // Supondo que o carrinho esteja salvo na sessão
+  const carrinho = req.session.carrinho || [];
+  const total = carrinho.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
+
+  res.render("checkout", { carrinho: carrinho, total: total });
+});
+
+// Processar o pagamento
+app.post("/checkout", (req, res) => {
+  const { firstName, lastName, email, address, paymentMethod, ccName, ccNumber, ccExpiration, ccCVV } = req.body;
+
+  // Aqui você pode processar o pagamento ou salvar o pedido no banco de dados
+  // Por exemplo, salvar um novo pedido no banco
+  const pedidoQuery = `
+    INSERT INTO pedido (user_id) VALUES ($1) RETURNING pedido_id
+  `;
+  const pedidoValues = [req.session.user_id];
+
+  db.query(pedidoQuery, pedidoValues)
+    .then(result => {
+      const pedido_id = result.rows[0].pedido_id;
+
+      // Agora vincular os itens do carrinho ao pedido
+      const promises = req.session.carrinho.map(item => {
+        const insertPedidoArtigo = `
+          INSERT INTO pedido_artigo (pedido_id, art_id, quantidade) 
+          VALUES ($1, $2, $3)
+        `;
+        return db.query(insertPedidoArtigo, [pedido_id, item.art_id, item.quantidade]);
+      });
+
+      return Promise.all(promises);
+    })
+    .then(() => {
+      // Limpar o carrinho após finalizar o pedido
+      req.session.carrinho = [];
+      res.redirect("/pedido_concluido");
+    })
+    .catch(error => {
+      console.error("Erro ao processar o pedido: ", error);
+      res.status(500).send("Erro ao processar o pedido.");
+    });
+});
+

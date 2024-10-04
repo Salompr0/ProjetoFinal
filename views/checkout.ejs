@@ -1,0 +1,117 @@
+<%- include("partials/header.ejs") %>
+
+<div class="container my-5">
+  <h2>Finalizar Compra</h2>
+
+  <!-- Exibir os artigos no carrinho -->
+  <h3>Itens no Carrinho:</h3>
+  <div class="row">
+    <div class="col-md-8">
+      <% if (carrinho.length > 0) { %>
+        <ul class="list-group mb-3">
+          <% carrinho.forEach(item => { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <h6 class="my-0"><%= item.nome_art %></h6>
+                <small class="text-muted">Quantidade: <%= item.quantidade %></small>
+              </div>
+              <span class="text-muted">€ <%= item.preco %></span>
+            </li>
+          <% }) %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (EUR)</span>
+            <strong>€ <%= total %></strong>
+          </li>
+        </ul>
+      <% } else { %>
+        <p>Seu carrinho está vazio.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Formulário de pagamento -->
+  <h3>Informações do Pagamento</h3>
+  <form action="/checkout" method="POST">
+    <div class="row g-3">
+      <div class="col-sm-6">
+        <label for="firstName" class="form-label">Primeiro Nome</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Seu nome" required>
+      </div>
+
+      <div class="col-sm-6">
+        <label for="lastName" class="form-label">Último Nome</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Seu sobrenome" required>
+      </div>
+
+      <div class="col-12">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="seuemail@email.com" required>
+      </div>
+
+      <div class="col-12">
+        <label for="address" class="form-label">Endereço</label>
+        <input type="text" class="form-control" id="address" name="address" placeholder="Endereço completo" required>
+      </div>
+
+      <div class="col-md-4">
+        <label for="country" class="form-label">País</label>
+        <input type="text" class="form-control" id="country" name="country" placeholder="Portugal" required>
+      </div>
+
+      <div class="col-md-4">
+        <label for="city" class="form-label">Cidade</label>
+        <input type="text" class="form-control" id="city" name="city" placeholder="Lisboa" required>
+      </div>
+
+      <div class="col-md-4">
+        <label for="zip" class="form-label">Código Postal</label>
+        <input type="text" class="form-control" id="zip" name="zip" placeholder="1234-567" required>
+      </div>
+
+      <h4 class="mb-3">Método de Pagamento</h4>
+
+      <div class="my-3">
+        <div class="form-check">
+          <input id="credit" name="paymentMethod" type="radio" class="form-check-input" value="cartao" checked required>
+          <label class="form-check-label" for="credit">Cartão de Crédito</label>
+        </div>
+        <div class="form-check">
+          <input id="debit" name="paymentMethod" type="radio" class="form-check-input" value="debito" required>
+          <label class="form-check-label" for="debit">Cartão de Débito</label>
+        </div>
+        <div class="form-check">
+          <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" value="paypal" required>
+          <label class="form-check-label" for="paypal">PayPal</label>
+        </div>
+      </div>
+
+      <div class="row gy-3">
+        <div class="col-md-6">
+          <label for="cc-name" class="form-label">Nome no Cartão</label>
+          <input type="text" class="form-control" id="cc-name" name="ccName" placeholder="Nome como exibido no cartão" required>
+        </div>
+
+        <div class="col-md-6">
+          <label for="cc-number" class="form-label">Número do Cartão</label>
+          <input type="text" class="form-control" id="cc-number" name="ccNumber" placeholder="Número do cartão" required>
+        </div>
+
+        <div class="col-md-3">
+          <label for="cc-expiration" class="form-label">Validade</label>
+          <input type="text" class="form-control" id="cc-expiration" name="ccExpiration" placeholder="MM/AA" required>
+        </div>
+
+        <div class="col-md-3">
+          <label for="cc-cvv" class="form-label">CVV</label>
+          <input type="text" class="form-control" id="cc-cvv" name="ccCVV" placeholder="CVV" required>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <button class="w-100 btn btn-primary btn-lg" type="submit">Finalizar Compra</button>
+  </form>
+</div>
+
+<%- include("partials/footer.ejs") %>
