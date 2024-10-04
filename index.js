@@ -99,9 +99,10 @@ app.post("/registar", async (req, res) => {
     const vendedor = req.body["vendedor"];
     const password = req.body["password"];
     
-    await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, password]);
+    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, password]);
 
-    res.redirect("/");
+    console.log(result);
+    res.render(home);
 });
 
 //Página de Perfil do Utilizador

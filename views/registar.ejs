@@ -9,16 +9,14 @@
 </head>
 <body>
 <main class="container-registo">
-    <div class="lado-esquerdoR">
-        <!--Adicionar Foto-->
-        
+    <div class="lado-esquerdoR">    
         <img src="img/fundo.jpg" alt="Pintura de fundo" class="imagem">
     </div>
-
+    <!--Adicionar Foto
     <div class="ficheiro">
         <img class="foto" src="img/f.jpg" width="200" ><input type="hidden" name="nome_foto" value="">
-        <input type="file" name="ficheiro" width="50">
-    </div>
+        <input type="file" name="img" width="50">
+    </div>-->
     
     <div class="lado-direitoR">
 
@@ -81,8 +79,10 @@
  checkbox.addEventListener('change', function(){
     if (this.checked){
         document.getElementById("qualificacao").removeAttribute("hidden");
+        vendedor.value = true;
     } else {
-        document.getElementById("qualificacao").setAttribute("hidden", true)
+        document.getElementById("qualificacao").setAttribute("hidden", true);
+        document.getElementById("qualificacao").removeAttribute("required");
     }
  });
 </script>
