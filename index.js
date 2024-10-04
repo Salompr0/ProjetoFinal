@@ -77,15 +77,9 @@ app.get("/", async (req, res) => {
     res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
 });
 
-//Página de login
-app.get("/login", (req,res) =>{
-    
-    res.render(login);
-});
-
 app.get("/registar", (req, res) => {
     res.render(registo);
-})
+});
 
 //Página de Registo
 app.post("/registar", async (req, res) => {
@@ -97,12 +91,53 @@ app.post("/registar", async (req, res) => {
     const morada = req.body["morada"];
     const qualificacao = req.body["qualificacao"];
     const vendedor = req.body["vendedor"];
+    const img = req.body["img"];
     const password = req.body["password"];
     
-    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, password]);
+    try{
+        const checkResult = await db.query("SELECT FROM users WHERE email = $1", [email]);
 
-    console.log(result);
-    res.render(home);
+        if (checkResult.rows.length > 0){
+            res.send("Esse email já existe. Tente fazer login.");
+        } else {
+            const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, password]);
+
+            console.log(result);
+            res.render(home);
+        }
+    } catch (err){
+        console.log(err);
+    }
+});
+
+app.get("/login", async (req, res) => {
+    res.render(login);
+});
+
+//Página de login
+app.post("/login", async (req,res) =>{
+    
+    const email = req.body["nome"];
+    const password = req.body["password"];
+
+    try {
+        const result = await db.query("SELECT email, password FROM users WHERE email = $1", [email]);
+
+        if (result.rows > 0){
+            const utilizador = result.rows[0];
+            const pass = utilizador.password;
+            
+            if (password === pass){
+                res.render(home);
+            } else {
+                res.send("Password Incorreta");
+            }
+        } else {
+            res.send("Utilizador não encontrado");
+        }
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 //Página de Perfil do Utilizador
@@ -158,7 +193,8 @@ app.get("/arte/:id", async (req, res) => {
 
 app.patch("edit/user/:id", (req, res) => {
 
-    res.render("registo");
+    
+    res.render(registo);
 })
 
 
