@@ -1,5 +1,47 @@
 <%- include("partials/header.ejs") %>
 
-<h1>Para vendedores / clientes</h1>
+<h2>Perfil do utilizador</h2>
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-4">
+      <!-- Exibir a foto de perfil -->
+      <div class="profile-image">
+        <img src="<%= user.img_user %>" alt="Foto de Perfil" class="img-fluid rounded-circle">
+      </div>
+    </div>
+    <div class="col-md-8">
+      <form action="/perfil" method="POST" enctype="multipart/form-data">
+        <!-- Nome do Usuário -->
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" id="nome" name="nome" value="<%= user.nome %>" required>
+        </div>
+
+        <!-- Email do Usuário -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" required>
+        </div>
+
+        <!-- Senha -->
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" class="form-control" id="senha" name="senha">
+          <small class="form-text text-muted">Deixe em branco para manter a senha atual.</small>
+        </div>
+
+        <!-- Atualizar Foto de Perfil -->
+        <div class="form-group">
+          <label for="foto">Atualizar Foto de Perfil</label>
+          <input type="file" class="form-control-file" id="foto" name="foto">
+        </div>
+
+        <!-- Botão de Atualizar Perfil -->
+        <button type="submit" class="btn btn-primary mt-3">Atualizar Perfil</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <%- include("partials/footer.ejs") %>

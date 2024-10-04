@@ -8,12 +8,17 @@
   },
   "author": "Felipe_Mariana_Salomé",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
-    "git": "^0.1.5",
-    "nodemon": "^3.1.4"
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.13.0"
+  },
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }
