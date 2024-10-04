@@ -1,7 +1,7 @@
-import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
+import express from "express";
 import { dirname, join } from "path";
+import pg from "pg";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -23,7 +23,7 @@ const db = new pg.Client({
     user: "postgres",
     host: "localhost",
     database: "LogArte",
-    password: "Mari9770",
+    password: "Prog.sal23",
     port: 5432,
   });
   
@@ -79,21 +79,44 @@ app.get("/", async (req, res) => {
 
 //Página de login
 app.get("/login", (req,res) =>{
+    
     res.render(login);
 });
 
-
-//Página de Registo
 app.get("/registar", (req, res) => {
     res.render(registo);
-});
+})
 
+//Página de Registo
+app.post("/registar", async (req, res) => {
+
+    const nome = req.body["nome"];
+    const email = req.body["email"];
+    const telemovel = req.body["telemovel"];
+    const nif = req.body["nif"];
+    const morada = req.body["morada"];
+    const qualificacao = req.body["qualificacao"];
+    const vendedor = req.body["vendedor"];
+    const password = req.body["password"];
+    
+    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, password]);
+
+    console.log(result);
+    res.render(home);
+});
 
 //Página de Perfil do Utilizador
-app.get("/perfil", (req, res) => {
-    res.render(perfil);
-});
+app.get("/perfil/:id", async (req, res) => {
+    const userID = parseInt(req.params.id);
 
+    const result = await db.query('SELECT * FROM user WHERE user_id = $1', [userID]);
+    const perfil = result.rows;
+
+    //console.log(userID);
+    console.log(perfil);
+
+    res.render(perfil, { perfil: perfil });
+});
 
 //Página com todas as categorias
 app.get("/categorias", async (req, res) => {
@@ -116,10 +139,8 @@ app.get("/compra", (req, res) => {
 //Registo de artigo
 
 app.post("/registoArtigo", (req, res) => {
+
     res.render(registoArt);
-});
-app.get("arte", (req, res) => { z
-    console.log(artigoescolhido);
 });
 
 //Página de um artigo
@@ -128,12 +149,11 @@ app.get("/arte/:id", async (req, res) => {
         const artID = parseInt(req.params.id);
 
         const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
-        const artigo = result.rows;
+        const artigo = result.rows[0];
 
-        //console.log(artID);
-        console.log(artigo);
+        //console.log(artigo);
 
-        res.render(artigoescolhido, { artigoEscolhido: artigo });
+        res.render(artigoescolhido, { artigos: artigo});
 });
 
 app.patch("edit/user/:id", (req, res) => {
