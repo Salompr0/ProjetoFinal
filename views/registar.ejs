@@ -12,11 +12,10 @@
     <div class="lado-esquerdoR">    
         <img src="img/fundo.jpg" alt="Pintura de fundo" class="imagem">
     </div>
-    <!--Adicionar Foto
+    <!--Adicionar Foto-->
     <div class="ficheiro">
-        <img class="foto" src="img/f.jpg" width="200" ><input type="hidden" name="nome_foto" value="">
-        <input type="file" name="img" width="50">
-    </div>-->
+        <img class="foto" src="img/" width="200" ><input type="hidden" name="nome_foto" value="">
+    </div>
     
     <div class="lado-direitoR">
 
@@ -32,7 +31,7 @@
 
                 <div class="form-group">
                     <label for="nome">Nome</label>
-                    <input type="text"  name="nome" placeholder="Insira seu nome" class="form-control" required>
+                    <input type="text" name="nome" placeholder="Insira seu nome" class="form-control" required>
                 </div>
 
                 <div class="form-group">
@@ -57,7 +56,7 @@
 
                 <div class="form-group" id="qualificacao" hidden>
                     <label>Qualificações</label>
-                    <textarea type="text"  name="qualificacao" placeholder="Insira suas qualificações" class="form-control" required></textarea>
+                    <textarea type="text"  name="qualificacao" placeholder="Insira suas qualificações" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -73,13 +72,15 @@
                     </div>
 
                 </div>
-
             </form>
 
         </div> 
     </div>
+
 <script>
  var checkbox = document.querySelector("input[id=vendedor]");
+
+ var imagem = document.querySelector("input[id=file-button]");
  
  checkbox.addEventListener('change', function(){
     if (this.checked){
@@ -87,7 +88,7 @@
         vendedor.value = true;
     } else {
         document.getElementById("qualificacao").setAttribute("hidden", true);
-        document.getElementById("qualificacao").removeAttribute("required");
+        qualificacao.value = null;
     }
  });
 </script>
