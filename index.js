@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import multer from "multer";
+import path from "path";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //The path names
@@ -158,3 +161,72 @@ app.use((req, res, next) => {
     res.status(404).render("404");
 });
 
+// Registro de artigos
+app.get("/registar_artigo", async (req, res) => {
+    try {
+      // Busca todas as categorias para o dropdown do formulário
+      const result = await db.query("SELECT cat_id, cat_nome FROM categoria");
+      res.render("registar_artigo", { categorias: result.rows });
+    } catch (error) {
+      console.error("Erro ao carregar categorias: ", error);
+      res.status(500).send("Erro ao carregar a página de registro de artigos.");
+    }
+  });
+  
+  // Rota para processar o formulário de registro de artigos
+  app.post("/registar_artigo", async (req, res) => {
+    try {
+      const { nome_art, preco, quantidade, descricao, cat_id } = req.body;
+      const img = req.file ? req.file.filename : null; // Assumindo que o upload da imagem seja tratado com multer
+  
+      // Inserção do artigo no banco de dados
+      const query = `
+        INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, user_id, cat_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `;
+      const values = [nome_art, img, preco, quantidade, descricao, req.session.user_id, cat_id]; // Usando o user_id da sessão
+  
+      await db.query(query, values);
+  
+      res.redirect("/artigos"); // Redireciona após o sucesso
+    } catch (error) {
+      console.error("Erro ao registrar artigo: ", error);
+      res.status(500).send("Erro ao registrar o artigo.");
+    }
+  });
+
+  
+
+
+// Configuração do multer para upload de imagens
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/'); // Pasta onde as imagens serão salvas
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Nome único baseado no timestamp
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Modifique a rota POST para aceitar upload de imagens
+app.post("/registar_artigo", upload.single('img'), async (req, res) => {
+  try {
+    const { nome_art, preco, quantidade, descricao, cat_id } = req.body;
+    const img = req.file ? req.file.filename : null;
+
+    const query = `
+      INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, user_id, cat_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `;
+    const values = [nome_art, img, preco, quantidade, descricao, req.session.user_id, cat_id];
+
+    await db.query(query, values);
+
+    res.redirect("/artigos");
+  } catch (error) {
+    console.error("Erro ao registrar artigo: ", error);
+    res.status(500).send("Erro ao registrar o artigo.");
+  }
+});
