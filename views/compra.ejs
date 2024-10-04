@@ -10,21 +10,29 @@
         <th>Quantidade</th>
         <th>Preço Unitário</th>
         <th>Subtotal</th>
+        <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="">
       <% //pedidos.forEach(item => { %>
         <tr>
           <td>
-            <%= //item.nome_art %>
+            <div class="arte">
             <a href="/artigo/3"><!--/artigo/:id-->
               <img src="/img/8.jpg" width="100" alt="Pintura Agapórnis">
             </a>
-            <p>Pintura Agapórnis</p>
+            <p class="nome-arte">Pintura Agapórnis</p>
+            <%= //item.nome_art %>
+          </div>
           </td>
           <td><%= //item.quantidade %>1</td>
           <td>€ 180,00<%= //item.preco.toFixed(2) %></td>
           <td>€ 180,00<%= //(item.quantidade * item.preco).toFixed(2) %></td>
+          <td>
+            <a href="remover.ejs"></a>
+              <img src="/img/remover.png" width="25" alt="lixo" class="remover">
+            </a>
+          </td>
         </tr>
       <% //}) %>
     </tbody>
@@ -32,7 +40,7 @@
   
   <div class="text-end finalizar">
     <h4 class="total">Total:  € 180,00<%= //total.toFixed(2) %></h4>
-    <a href="/checkout" class="btn btn-primary ">Finalizar Compra</a>
+    <a href="/checkout" class="btn btn-primary">Finalizar Compra</a>
   </div>
 </div>
 

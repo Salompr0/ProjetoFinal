@@ -25,6 +25,7 @@
         <hr class="linha">
 
             <form action="/registar" method="post">
+            <form action="/registar" method="post">
                 <div class="checkbox">
                     <label for="vendedor">Vendedor</label>
                     <input type="checkbox" name="vendedor" id="vendedor"><br>
@@ -65,9 +66,17 @@
                     <input type="password"  name="password" placeholder="Insira sua senha" class="form-control" required>
                 </div>
 
-                <div class="button-registo">
-                    <button type="submit">Registar</button>
+                <div class="form-group" id="file-button">
+                    <input type="file" name="img" width="50">
+                
+                    <div class="button-registo">
+                        <button type="submit">Registar</button>
+                    </div>
+
                 </div>
+              
+                </div>
+
 
             </form>
 
