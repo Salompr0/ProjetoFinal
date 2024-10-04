@@ -110,6 +110,10 @@ app.post("/registar", async (req, res) => {
     }
 });
 
+app.get("/login", async (req, res) => {
+    res.render(login);
+});
+
 //Página de login
 app.post("/login", async (req,res) =>{
     
