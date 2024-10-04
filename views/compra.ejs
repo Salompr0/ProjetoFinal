@@ -16,20 +16,18 @@
     <tbody class="">
       <% //pedidos.forEach(item => { %>
         <tr>
-          <td>
-            <div class="arte">
+          <td> 
             <a href="/artigo/3"><!--/artigo/:id-->
               <img src="/img/8.jpg" width="100" alt="Pintura Agapórnis">
             </a>
             <p class="nome-arte">Pintura Agapórnis</p>
             <%= //item.nome_art %>
-          </div>
           </td>
           <td><%= //item.quantidade %>1</td>
           <td>€ 180,00<%= //item.preco.toFixed(2) %></td>
           <td>€ 180,00<%= //(item.quantidade * item.preco).toFixed(2) %></td>
           <td>
-            <a href="remover.ejs"></a>
+            <a href="/remover"></a>
               <img src="/img/remover.png" width="25" alt="lixo" class="remover">
             </a>
           </td>
