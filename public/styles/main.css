@@ -57,7 +57,7 @@ main {
 
 /* Preço e Descrição do Card */
 .preco {
-  font-size: 16px;
+  font-size: 25px;
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -402,7 +402,7 @@ footer {
   }
 
   .imagem {
-      height: 50vh;
+    display: none;
   }
 
   .container-registo {
@@ -425,16 +425,29 @@ footer {
       flex-basis: 100%;
   }
 
-  .button-registo button {
-      width: 100%;
+  .form-group label {
+    margin-left: 5%;
   }
+
+  .button-registo button {
+      width: 70vw;
+      margin-top: 10%;
+  }
+
+  #file-button {
+    margin-top: 7%;
+  }
+
+  .foto{
+    display: none;
+  }
+
 }
 
 /* COMPRA */
 .compra {
   flex-direction: column;
   align-items: start;
-  
 }
 
 .total {
@@ -447,10 +460,6 @@ footer {
   flex-direction: row;
 }
 
-.arte {
-  flex-direction: column;
-}
-
 .remover {
   margin-top: 15%;
 }
@@ -460,3 +469,12 @@ footer {
 }
 
 /* ARTE/ARTIGO */
+/*.artigo {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+ display: flex;
+ justify-content: center;
+}*/
