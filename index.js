@@ -74,7 +74,7 @@ app.get("/", async (req, res) => {
 
     let newRow = [];
 
-    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
+    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin});
 });
 
 app.get("/registar", (req, res) => {
@@ -117,6 +117,7 @@ app.get("/login", async (req, res) => {
 //Página de login
 app.post("/login", async (req,res) =>{
     
+    //const loggedin = false;
     const email = req.body["nome"];
     const password = req.body["password"];
 
@@ -128,7 +129,10 @@ app.post("/login", async (req,res) =>{
             const pass = utilizador.password;
             
             if (password === pass){
-                res.render(home);
+
+                //loggedin = true;
+
+                res.render(home, {loggedin: loggedin});
             } else {
                 res.send("Password Incorreta");
             }
@@ -138,6 +142,8 @@ app.post("/login", async (req,res) =>{
     } catch (err) {
         console.log(err);
     }
+
+//Help with loggin: https://codeshack.io/basic-login-system-nodejs-express-mysql/
 });
 
 //Página de Perfil do Utilizador
@@ -150,7 +156,13 @@ app.get("/perfil/:id", async (req, res) => {
     //console.log(userID);
     console.log(perfil);
 
-    res.render(perfil, { perfil: perfil });
+    res.render(perfil, { perfil: perfil, loggedin: loggedin});
+});
+
+app.patch("edit/user/:id", (req, res) => {
+
+    
+    res.render(registo, {loggedin: loggedin});
 });
 
 //Página com todas as categorias
@@ -159,8 +171,27 @@ app.get("/categorias", async (req, res) => {
     const categoria = await getCategorias();
     const artigo = await getArtigos();
     
-    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length});
+    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length, loggedin: loggedin});
 
+});
+
+//Registo de artigo
+app.post("/registoArtigo", (req, res) => {
+
+    res.render(registoArt, {loggedin: loggedin});
+});
+
+//Página de um artigo
+app.get("/arte/:id", async (req, res) => {
+
+    const artID = parseInt(req.params.id);
+
+    const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
+    const artigo = result.rows[0];
+
+    //console.log(artigo);
+
+    res.render(artigoescolhido, { artigos: artigo});
 });
 
 //Página do carrinho de compras
@@ -168,34 +199,8 @@ app.get("/compra", (req, res) => {
 
     const pedidos = 0;//change
 
-    res.render(compra, { pedidos: pedidos });
+    res.render(compra, { pedidos: pedidos, loggedin: loggedin});
 });
-
-//Registo de artigo
-
-app.post("/registoArtigo", (req, res) => {
-
-    res.render(registoArt);
-});
-
-//Página de um artigo
-app.get("/arte/:id", async (req, res) => {
-
-        const artID = parseInt(req.params.id);
-
-        const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
-        const artigo = result.rows[0];
-
-        //console.log(artigo);
-
-        res.render(artigoescolhido, { artigos: artigo});
-});
-
-app.patch("edit/user/:id", (req, res) => {
-
-    
-    res.render(registo);
-})
 
 
 
