@@ -13,7 +13,7 @@ const perfil = join(__dirname, "views/perfil.ejs");
 const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
-const registoArt = join(__dirname, "views/registarArtigos.ejs");
+const registoArt = join(__dirname, "views/registarArtigo.ejs");
 
 const app = express();
 const port = 3000;
@@ -74,7 +74,7 @@ app.get("/", async (req, res) => {
 
     let newRow = [];
 
-    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin});
+    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
 });
 
 app.get("/registar", (req, res) => {
@@ -132,7 +132,7 @@ app.post("/login", async (req,res) =>{
 
                 //loggedin = true;
 
-                res.render(home, {loggedin: loggedin});
+                res.render(home);
             } else {
                 res.send("Password Incorreta");
             }
@@ -156,7 +156,7 @@ app.get("/perfil/:id", async (req, res) => {
     //console.log(userID);
     console.log(perfil);
 
-    res.render(perfil, { perfil: perfil, loggedin: loggedin});
+    res.render(perfil, { perfil: perfil});
 });
 
 app.patch("edit/user/:id", (req, res) => {
@@ -176,9 +176,14 @@ app.get("/categorias", async (req, res) => {
 });
 
 //Registo de artigo
-app.post("/registoArtigo", (req, res) => {
 
-    res.render(registoArt, {loggedin: loggedin});
+app.get("/registoArtigo", (req, res) => {
+    res.render(registoArt);
+})
+
+app.post("/registoArtigo", async (req, res) => {
+    const categorias = await getCategorias();
+    res.render(registoArt);
 });
 
 //Página de um artigo
@@ -199,7 +204,7 @@ app.get("/compra", (req, res) => {
 
     const pedidos = 0;//change
 
-    res.render(compra, { pedidos: pedidos, loggedin: loggedin});
+    res.render(compra, { pedidos: pedidos});
 });
 
 
