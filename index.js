@@ -3,6 +3,8 @@ import express from "express";
 import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
+import bcrypt from "bcrypt";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //The path names
@@ -183,7 +185,7 @@ app.get("/registoArtigo", (req, res) => {
 
 app.post("/registoArtigo", async (req, res) => {
     const categorias = await getCategorias();
-    res.render(registoArt);
+    res.render(registoArt, {categorias: categorias});
 });
 
 //Página de um artigo
