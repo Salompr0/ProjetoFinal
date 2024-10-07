@@ -164,7 +164,7 @@ app.get("/perfil/:id", async (req, res) => {
 app.patch("edit/user/:id", (req, res) => {
 
     
-    res.render(registo, {loggedin: loggedin});
+    res.render(registo);
 });
 
 //Página com todas as categorias
@@ -173,7 +173,7 @@ app.get("/categorias", async (req, res) => {
     const categoria = await getCategorias();
     const artigo = await getArtigos();
     
-    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length, loggedin: loggedin});
+    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length});
 
 });
 
@@ -181,11 +181,20 @@ app.get("/categorias", async (req, res) => {
 
 app.get("/registoArtigo", (req, res) => {
     res.render(registoArt);
-})
+});
 
 app.post("/registoArtigo", async (req, res) => {
 
     const categorias = await getCategorias();
+
+    const nome = req.params["nome_art"];
+    const img = req.params["img"];
+    const preco = req.params["preco"];
+    const quantidade = req.params["quantidade"];
+    const descricao = req.params["descricao"];
+    const categoria = req.params["cat_id"];
+
+    const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
 
     res.render(registoArt, {categorias: categorias, total: categorias.length});
 });
