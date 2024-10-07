@@ -3,7 +3,8 @@
 <div class="container my-5">
   <h1 class="text-center mb-4">Registrar Novo Artigo</h1>
 
-  <form action="/registoArt" method="POST" enctype="multipart/form-data">
+  <form action="/registoArtigo" method="POST" enctype="multipart/form-data">
+
     <div class="mb-3">
       <label for="nome_art" class="form-label">Nome do Artigo</label>
       <input type="text" class="form-control" id="nome_art" name="nome_art" required>
@@ -32,9 +33,9 @@
     <div class="mb-3">
       <label for="categoria" class="form-label">Categoria</label>
       <select class="form-select" id="categoria" name="cat_id" required>
-        <% categorias.forEach((categoria) { %>
-          <option value="<%= categoria.cat_id %>"><%= categoria.cat_nome %></option>
-        <% }) %>
+        <% //categorias.forEach((categoria) => { %>
+          <option value="<%= //categoria.cat_id %>"><%= //categoria.cat_nome %></option>
+        <% //}) %>
       </select>
     </div>
 

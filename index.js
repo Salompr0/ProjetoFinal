@@ -3,7 +3,7 @@ import express from "express";
 import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
-import bcrypt from "bcrypt";
+//import bcrypt from "bcrypt";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -34,7 +34,7 @@ const db = new pg.Client({
 //CSS Path
 app.use(express.static("public"));
 
-app.set('render engine', 'ejs');
+//app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Função para obter categorias
@@ -112,7 +112,7 @@ app.post("/registar", async (req, res) => {
     }
 });
 
-app.get("/login", async (req, res) => {
+app.get("/login", (req, res) => {
     res.render(login);
 });
 
@@ -184,8 +184,10 @@ app.get("/registoArtigo", (req, res) => {
 })
 
 app.post("/registoArtigo", async (req, res) => {
+
     const categorias = await getCategorias();
-    res.render(registoArt, {categorias: categorias});
+
+    res.render(registoArt, {categorias: categorias, total: categorias.length});
 });
 
 //Página de um artigo
