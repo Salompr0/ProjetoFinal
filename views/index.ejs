@@ -1,204 +1,157 @@
 <%- include("partials/header.ejs") %>
 
 <div class="container gallery my-5">
-  <h5>CATEGORIA1</h5>
+  <h5> <%= categoria[0].cat_nome %> </h5>
 
-  <!-- Carrossel Customizado -->
-  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <!-- Primeiro slide -->
-      <% //for (i = 0; i = artigoID; i ++){ 
-        /*if (vendido == true){
-          break;
-          break;
-        }*/
-      %>
-      <div class="carousel-item active">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/1"><!--/artigo/:id-->
-                <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Materiais de Arte</h5>
-                <p class="preco">150 €</p>
-                <p class="card-text descricao">Materiais de arte de alta qualidade.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
+      <!-- Carrossel Customizado -->
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <!-- Primeiro slide -->
+                <div class="carousel-item active">
+                  <div class="row">
+                    <% for (i = 0; i < totalArtigo; i ++){ %>
+                      <% if (idArtigo.length < 3) { %>
+                        <% if (artigo[i].cat_id == 1){ %>
+                          <% if (artigo[i].vendido === true){ %>
+                            <% break %>
+                          <% } %>
+                          <% idArtigo[i] = artigo[i].art_id %>
+                          <div class="col-md-4">
+                            <div class="card">
+                                <a href="/arte/<%= artigo[i].art_id %>">
+                                <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                              </a>
+                              <div class="card-body">
+                                <h5 class="card-title"><%= artigo[i].nome %></h5>
+                                <p class="preco"><%= artigo[i].preco %></p>
+                                <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                                <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                              </div>
+                            </div>
+                          </div>
+                      <% } else { %>
+                        <% break; %>
+                      <% } /*console.log(idArtigo)*/} }%>
+                  </div>
+                </div>
+            
+          <!-- Segundo slide -->
+          <div class="carousel-item">
+            <div class="row">
+              <% let j = 0 %>
+              <% for (i = 0; i < totalArtigo; i ++){ %>
+                <% if (newRow.length < 3) { %>
+                  <% if (artigo[i].cat_id == 1 && artigo[i].art_id !== idArtigo[i]){ %>
+                    <% if (artigo[i].vendido === true){ %>
+                      <% break %>
+                    <% } %>
+                  <% newRow[j] = artigo[i].art_id %>
+                  <% j ++ %>
+                  <div class="col-md-4">
+                    <div class="card">
+                      <a href="/arte/<%= artigo[i].art_id %>">
+                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                      </a>
+                      <div class="card-body">
+                        <h5 class="card-title"><%= artigo[i].nome %></h5>
+                        <p class="preco"><%= artigo[i].preco %></p>
+                        <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                        <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                      </div>
+                    </div>
+                  </div>
+              <% } /*console.log(newRow)*/} }%>
             </div>
           </div>
-        <% //} %>
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/2"><!--/artigo/:id-->
-                <img src="/img/1.jpg" class="card-img-top" alt="Pintura da Ponte">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura da Ponte</h5>
-                <p class="preco">200 €</p>
-                <p class="card-text descricao">Uma bela pintura da ponte ao entardecer.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/3"><!--/artigo/:id-->
-                <img src="/img/8.jpg" class="card-img-top" alt="Pintura de Papagaios">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura de Papagaios</h5>
-                <p class="preco">180 €</p>
-                <p class="card-text descricao">Pintura colorida de papagaios em seu habitat natural.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Controles de Navegação -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
-      
-      <!-- Segundo slide -->
-      <div class="carousel-item">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/4"><!--/artigo/:id-->
-                <img src="/img/8.jpg" class="card-img-top" alt="Pintura de Papagaios">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura de Papagaios</h5>
-                <p class="preco">180 €</p>
-                <p class="card-text descricao">Pintura colorida de papagaios em seu habitat natural.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/5"><!--/artigo/:id-->
-                <img src="/img/8.jpg" class="card-img-top" alt="Pintura de Papagaios">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura de Papagaios</h5>
-                <p class="preco">180 €</p>
-                <p class="card-text descricao">Pintura colorida de papagaios em seu habitat natural.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Controles de Navegação -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
 </div>
 
-<!--2nd Carroussel-->
 
-<div class="container gallery my-5">
-  <h5>CATEGORIA2</h5>
-
-  <!-- Carrossel Customizado; mudar id-->
-  <div id="carouselExampleControls1" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <!-- Primeiro slide -->
-      <div class="carousel-item active">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/1"><!--/artigo/:id-->
-                <img src="/img/9.jpg" class="card-img-top" alt="Materiais de Arte">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Materiais de Arte</h5>
-                <p class="preco">150 €</p>
-                <p class="card-text descricao">Materiais de arte de alta qualidade.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/2"><!--/artigo/:id-->
-                <img src="/img/1.jpg" class="card-img-top" alt="Pintura da Ponte">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura da Ponte</h5>
-                <p class="preco">200 €</p>
-                <p class="card-text descricao">Uma bela pintura da ponte ao entardecer.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/3"><!--/artigo/:id-->
-                <img src="/img/8.jpg" class="card-img-top" alt="Pintura de Papagaios">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura de Papagaios</h5>
-                <p class="preco">180 €</p>
-                <p class="card-text descricao">Pintura colorida de papagaios em seu habitat natural.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="container gallery my-5"></div>
+  <h5> <%= categoria[1].cat_nome %> </h5>
       
-      <!-- Segundo slide -->
-      <div class="carousel-item">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/4"><!--/artigo/:id-->
-                <img src="/img/8.jpg" class="card-img-top" alt="Pintura de Papagaios">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura de Papagaios</h5>
-                <p class="preco">180 €</p>
-                <p class="card-text descricao">Pintura colorida de papagaios em seu habitat natural.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
+      <!--2nd Carroussel-->    
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <!-- Primeiro slide -->
+                <div class="carousel-item active">
+                  <div class="row">
+                    <% for (i = 0; i < totalArtigo; i ++){ %>
+                      <% idArtigo = []; %>
+                      <% if (idArtigo.length < 3) { %>
+                        <% if (artigo[i].cat_id == 2){ %>
+                          <% if (artigo[i].vendido == true){ %>
+                              <% break; %>
+                            <% } %>
+                            <% idArtigo[i] = artigo[i].art_id%>
+                            <div class="col-md-4">
+                              <div class="card">
+                                  <a href="/arte/<%= artigo[i].art_id %>">
+                                  <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                                </a>
+                                <div class="card-body">
+                                  <h5 class="card-title"><%= artigo[i].nome %></h5>
+                                  <p class="preco"><%= artigo[i].preco %></p>
+                                  <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                                  <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                                </div>
+                              </div>
+                            </div>
+                        <% } else { %>
+                          <% break; %>
+                        <% } /*console.log(idArtigo)*/} } %>
+                  </div>
+                </div>
+            
+          <!-- Segundo slide -->
+          <div class="carousel-item active">
+            <div class="row">
+                <% j = 0 %>
+                <% for (i = idArtigo[3]; i < totalArtigo; i ++){ %>
+                  <% if (newRow.length < 3) { %>
+                    <% if (artigo[i].cat_id == 2 && artigo[i].art_id !== idArtigo[i]){ %>
+                      <%  if (artigo[i].vendido == true){ %>
+                          <% break; %>
+                        <% } %>
+                      <% newRow[j] = artigo[i].art_id %>
+                      <% j ++ %>
+                  <div class="col-md-4">
+                    <div class="card">
+                      <a href="/arte/<%= artigo[i].art_id %>">
+                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<% artigo[i].nome %>">
+                      </a>
+                      <div class="card-body">
+                        <h5 class="card-title"><%= artigo[i].nome %></h5>
+                        <p class="preco"><%= artigo[i].preco %></p>
+                        <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                        <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                      </div>
+                    </div>
+                  </div>
+                  <% } else { %>
+                    <% break; %>
+                <% } /*console.log(newRow)*/} }%>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card">
-              <a href="/artigo/5"><!--/artigo/:id-->
-                <img src="/img/8.jpg" class="card-img-top" alt="Pintura de Papagaios">
-              </a>
-              <div class="card-body">
-                <h5 class="card-title">Pintura de Papagaios</h5>
-                <p class="preco">180 €</p>
-                <p class="card-text descricao">Pintura colorida de papagaios em seu habitat natural.</p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a><!--CARRINHO-->
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Controles de Navegação -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
-    </div>
-
-    <!-- Controles de Navegação -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls1" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
 </div>
 
 <%- include("partials/footer.ejs") %>
