@@ -9,18 +9,6 @@ import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-//The path names
-const home = join(__dirname, "views/index.ejs");
-const login = join(__dirname, "views/login.ejs");
-const registo = join(__dirname, "views/registar.ejs");
-const perfil = join(__dirname, "views/perfil.ejs");
-const artigoescolhido = join(__dirname, "views/artigo.ejs");
-const categorias = join(__dirname, "views/categorias.ejs");
-const compra = join(__dirname, "views/compra.ejs");
-const registoArt = join(__dirname, "views/registarArtigo.ejs");
-
 const app = express();
 const port = 3000;
 
@@ -31,16 +19,33 @@ const salt = 10;
 env.config();
 
 //Conexão à session
-/*app.use(
+app.use(
     session({
       secret: process.env.SESSION_LOGARTE,
       resave: false,
       saveUninitialized: true,
     })
-  );*/
+  );
 
-//app.use(passport.initialize());
-//app.use(passport.session());
+//CSS Path
+app.use(express.static("public"));
+
+//app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+//The path names
+const home = join(__dirname, "views/index.ejs");
+const login = join(__dirname, "views/login.ejs");
+const registo = join(__dirname, "views/registar.ejs");
+const perfil = join(__dirname, "views/perfil.ejs");
+const artigoescolhido = join(__dirname, "views/artigo.ejs");
+const categorias = join(__dirname, "views/categorias.ejs");
+const compra = join(__dirname, "views/compra.ejs");
+const registoArt = join(__dirname, "views/registarArtigo.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -52,12 +57,6 @@ const db = new pg.Client({
   });
   
 db.connect();
-
-//CSS Path
-app.use(express.static("public"));
-
-//app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //Função para obter categorias
 async function getCategorias(){
