@@ -3,7 +3,7 @@ import express from "express";
 import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
-//import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
