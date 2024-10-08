@@ -25,10 +25,6 @@ app.use(
       secret: "WELCOMEARTE23",
       resave: false,
       saveUninitialized: true,
-      cookie: {
-        secure: true,
-        maxAge: new Date(Date.now() + 3600000)
-      }
     })
   );
 
@@ -55,15 +51,16 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 //Connexão à base de dados
 const db = new pg.Client({
     user: "postgres",
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
+    host: "localhost",
+    database: "LogArte",
     password: "Prog.sal23",
-    port: process.env.PG_PORT,
+    port: 5432,
   });
-  
+  db.connect();
+  //console.log(process.env);
 
 console.log( process.env.PG_PASSWORD);
-db.connect();
+
 
 //Função para obter categorias
 async function getCategorias(){
