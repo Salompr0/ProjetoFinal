@@ -18,11 +18,10 @@ const salt = 10;
 //Conexão ao dotenv
 env.config();
 
-
 //Conexão à session
 app.use(
     session({
-      secret: "WELCOMEARTE23",
+      secret: "",
       resave: false,
       saveUninitialized: true,
     })
@@ -50,24 +49,23 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "LogArte",
+    user: "",
+    host: "",
+    database: "",
     password: "",
-    port: 5432,
+    port: ,
   });
   db.connect();
   //console.log(process.env);
 
-console.log( process.env.PG_PASSWORD);
-
+//console.log( process.env.PG_PASSWORD);
 
 //Função para obter categorias
 async function getCategorias(){
     let categoria = [];
     
     const result = await db.query("SELECT * FROM categoria");
-
+  
     categoria = result.rows;
     
     //console.log(categoria);
@@ -126,7 +124,6 @@ app.post("/registar", async (req, res) => {
         if (checkResult.rows.length > 0){
             res.send("Esse email já existe. Tente fazer login.");
         } else {
-
             bcrypt.hash(password, salt, async (err, hash) => {
                 if (err){
                     console.log("Error hashing password: ", err);

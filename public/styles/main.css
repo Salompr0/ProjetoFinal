@@ -59,12 +59,11 @@ main {
 .preco {
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 10%;
 }
 
 .descricao {
   font-size: 14px;
-  margin-top: 5px;
   max-height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -259,6 +258,7 @@ footer {
   width: 100%;
   max-width: 400px;
   padding-top: 30px;
+
 }
 
 .title {
@@ -417,6 +417,7 @@ footer {
 
   .form-group {
       flex-direction: column;
+
   }
 
   .form-group label,
@@ -469,6 +470,20 @@ footer {
 }
 
 /* ARTE/ARTIGO */
+.artigo {
+  margin-left: 10%;
+}
+
+.info {
+  padding-left: 8%;
+}
+
+.info h5, li {
+  margin-top: 5%
+}
+
+
+/* ARTE/ARTIGO */
 /*.artigo {
   display: flex;
   flex-direction: column;
@@ -478,3 +493,4 @@ footer {
  display: flex;
  justify-content: center;
 }*/
+
