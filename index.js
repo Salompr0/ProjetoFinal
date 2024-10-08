@@ -9,10 +9,24 @@ import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
 
-
 const app = express();
 const port = 3000;
+
+//Hashing 10 vezes
+const salt = 10;
+
+//Conexão ao dotenv
 env.config();
+
+
+//Conexão à session
+app.use(
+    session({
+      secret: "WELCOMEARTE23",
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
 
 //CSS Path
 app.use(express.static("public"));
@@ -20,9 +34,11 @@ app.use(express.static("public"));
 //app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//The path names
-const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(passport.initialize());
+app.use(passport.session());
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+//The path names
 const home = join(__dirname, "views/index.ejs");
 const login = join(__dirname, "views/login.ejs");
 const registo = join(__dirname, "views/registar.ejs");
@@ -40,15 +56,17 @@ const db = new pg.Client({
     password: "Prog.sal23",
     port: 5432,
   });
-  
   db.connect();
+  //console.log(process.env);
+
+console.log( process.env.PG_PASSWORD);
+
 
 //Função para obter categorias
 async function getCategorias(){
     let categoria = [];
     
     const result = await db.query("SELECT * FROM categoria");
-
 
     categoria = result.rows;
     
@@ -108,51 +126,79 @@ app.post("/registar", async (req, res) => {
         if (checkResult.rows.length > 0){
             res.send("Esse email já existe. Tente fazer login.");
         } else {
-            const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, password]);
 
-            console.log(result);
-            res.render(home);
+            bcrypt.hash(password, salt, async (err, hash) => {
+                if (err){
+                    console.log("Error hashing password: ", err);
+                } else {
+                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
+
+                    console.log(result);
+                    res.render(home);
+                }
+            });    
         }
     } catch (err){
         console.log(err);
     }
 });
 
+passport.use(
+    new Strategy(async function verify(username, password, cb) {
+        try {
+            const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
+
+            if(result.rows.length > 0){
+                const user = result.rows[0];
+                const pass = user.password;
+
+                bcrypt.compare(password, pass, (err, valid) => {
+                    if(err) {
+                        console.error("Erro ao comparar as passwords: ", err);
+                        return cb(err);
+                    } else {
+                        if(valid) {
+                            return cb(null, user);
+                        } else {
+                            return cb(null, false); 
+                        }
+                    }    
+                });
+            } else {
+                return cb(" Utilizador não encontrado");
+            }
+        } catch (err){
+            console.log(err); 
+        }
+    })
+);
+    
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+passport.deserializeUser((user, cb) => {
+  cb(null, user);
+});
+
+app.get("/logout", (req, res) => {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  });
+
 app.get("/login", (req, res) => {
     res.render(login);
 });
 
 //Página de login
-app.post("/login", async (req,res) =>{
-    
-    //const loggedin = false;
-    const email = req.body["nome"];
-    const password = req.body["password"];
-
-    try {
-        const result = await db.query("SELECT email, password FROM users WHERE email = $1", [email]);
-
-        if (result.rows > 0){
-            const utilizador = result.rows[0];
-            const pass = utilizador.password;
-            
-            if (password === pass){
-
-                //loggedin = true;
-
-                res.render(home);
-            } else {
-                res.send("Password Incorreta");
-            }
-        } else {
-            res.send("Utilizador não encontrado");
-        }
-    } catch (err) {
-        console.log(err);
-    }
-
-//Help with loggin: https://codeshack.io/basic-login-system-nodejs-express-mysql/
-});
+app.post("/login", passport.authenticate("local", {
+        successRedirect: home,
+        failureRedirect: login,
+    })
+);
 
 //Página de Perfil do Utilizador
 app.get("/perfil/:id", async (req, res) => {
@@ -191,8 +237,6 @@ app.get("/registoArtigo", (req, res) => {
 
 app.post("/registoArtigo", async (req, res) => {
 
-    const categorias = await getCategorias();
-
     const nome = req.params["nome_art"];
     const img = req.params["img"];
     const preco = req.params["preco"];
@@ -200,9 +244,14 @@ app.post("/registoArtigo", async (req, res) => {
     const descricao = req.params["descricao"];
     const categoria = req.params["cat_id"];
 
+    const categorias = await getCategorias();
+    console.log(categorias);
+
     const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
 
-    res.render(registoArt, {categorias: categorias, total: categorias.length});
+    console.log(result);
+
+    res.render(registoArt, {categoria: categorias, total: categorias.length});
 });
 
 //Página de um artigo

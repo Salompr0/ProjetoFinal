@@ -33,14 +33,22 @@
     <div class="mb-3">
       <label for="categoria" class="form-label">Categoria</label>
       <select class="form-select" id="categoria" name="cat_id" required>
-        <% categorias.forEach((categoria) => { %>
-          <option value="<%= categoria.cat_id %>"><%= categoria.cat_nome %></option>
-        <% }) %>
+        <% for (i = 0; i < total; i++){ %> 
+        <% //categorias.forEach((categoria) => { %>
+          <option value="<%= categoria[i].cat_id %>">
+            <%= categoria[i].cat_nome %>
+          </option>
+        <% }/*) */%>
       </select>
     </div>
 
     <button type="submit" class="btn btn-primary">Registrar Artigo</button>
   </form>
 </div>
+
+<script>
+  var imagem = document.getElementById("img");
+  
+</script>
 
 <%- include("partials/footer.ejs") %>
