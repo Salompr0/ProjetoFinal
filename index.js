@@ -18,12 +18,17 @@ const salt = 10;
 //Conexão ao dotenv
 env.config();
 
+
 //Conexão à session
 app.use(
     session({
-      secret: process.env.SESSION_LOGARTE,
+      secret: "WELCOMEARTE23",
       resave: false,
       saveUninitialized: true,
+      cookie: {
+        secure: true,
+        maxAge: new Date(Date.now() + 3600000)
+      }
     })
   );
 
@@ -49,13 +54,15 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
-    user: process.env.PG_USER,
+    user: "postgres",
     host: process.env.PG_HOST,
     database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
+    password: "Prog.sal23",
     port: process.env.PG_PORT,
   });
   
+
+console.log( process.env.PG_PASSWORD);
 db.connect();
 
 //Função para obter categorias
@@ -139,42 +146,62 @@ app.post("/registar", async (req, res) => {
     }
 });
 
+passport.use(
+    new Strategy(async function verify(username, password, cb) {
+        try {
+            const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
+
+            if(result.rows.length > 0){
+                const user = result.rows[0];
+                const pass = user.password;
+
+                bcrypt.compare(password, pass, (err, valid) => {
+                    if(err) {
+                        console.error("Erro ao comparar as passwords: ", err);
+                        return cb(err);
+                    } else {
+                        if(valid) {
+                            return cb(null, user);
+                        } else {
+                            return cb(null, false); 
+                        }
+                    }    
+                });
+            } else {
+                return cb(" Utilizador não encontrado");
+            }
+        } catch (err){
+            console.log(err); 
+        }
+    })
+);
+    
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+passport.deserializeUser((user, cb) => {
+  cb(null, user);
+});
+
+app.get("/logout", (req, res) => {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  });
+
 app.get("/login", (req, res) => {
     res.render(login);
 });
 
 //Página de login
-app.post("/login", async (req,res) =>{
-    
-    const email = req.body["nome"];
-    const password = req.body["password"];
-
-    try {
-        const result = await db.query("SELECT email, password FROM users WHERE email = $1", [email]);
-
-        if (result.rows > 0){
-            const utilizador = result.rows[0];
-            const pass = utilizador.password;
-            
-            bcrypt.compare(password, pass, (err, result) => {
-                if (err){
-                    console.log("Erro ao comparar as passwords: ", err);
-                } else {
-                    if(result) {
-                        res.render(home);
-                    } else {
-                        res.send("Password Incorreta");
-                    }
-                } 
-            });
-            
-        } else {
-            res.send("Utilizador não encontrado");
-        }
-    } catch (err) {
-        console.log(err);
-    }
-});
+app.post("/login", passport.authenticate("local", {
+        successRedirect: home,
+        failureRedirect: login,
+    })
+);
 
 //Página de Perfil do Utilizador
 app.get("/perfil/:id", async (req, res) => {
@@ -221,6 +248,7 @@ app.post("/registoArtigo", async (req, res) => {
     const categoria = req.params["cat_id"];
 
     const categorias = await getCategorias();
+    console.log(categorias);
 
     const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
 
