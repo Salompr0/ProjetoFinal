@@ -258,6 +258,7 @@ footer {
   width: 100%;
   max-width: 400px;
   padding-top: 30px;
+
 }
 
 .title {
@@ -416,6 +417,7 @@ footer {
 
   .form-group {
       flex-direction: column;
+
   }
 
   .form-group label,
@@ -479,3 +481,16 @@ footer {
 .info h5, li {
   margin-top: 5%
 }
+
+
+/* ARTE/ARTIGO */
+/*.artigo {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+ display: flex;
+ justify-content: center;
+}*/
+
