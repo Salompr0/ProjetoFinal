@@ -9,9 +9,20 @@ import { Strategy } from "passport-local";
 import session from "express-session";
 import env from "dotenv";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const app = express();
+const port = 3000;
+env.config();
+
+//CSS Path
+app.use(express.static("public"));
+
+//app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //The path names
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const home = join(__dirname, "views/index.ejs");
 const login = join(__dirname, "views/login.ejs");
 const registo = join(__dirname, "views/registar.ejs");
@@ -20,9 +31,6 @@ const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
 const registoArt = join(__dirname, "views/registarArtigo.ejs");
-
-const app = express();
-const port = 3000;
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -34,12 +42,6 @@ const db = new pg.Client({
   });
   
   db.connect();
-
-//CSS Path
-app.use(express.static("public"));
-
-//app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //Função para obter categorias
 async function getCategorias(){
