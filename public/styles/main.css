@@ -335,6 +335,7 @@ footer {
 .foto{
   margin-bottom: 15%;
   border-radius: 50%;
+  border: solid 5px black; 
 }
 
 .checkbox {
@@ -369,7 +370,7 @@ footer {
   flex-basis: 65%;
 }
 
-#file-button {
+.file-button {
   flex-direction: column;
   width: 100%;
 }
@@ -395,8 +396,8 @@ footer {
       flex-direction: column;
   }
 
-  .left-side,
-  .right-side {
+  .lado-esquerdo,
+  .lado-direito {
       min-width: 100%;
       height: 50vh;
   }
@@ -482,15 +483,31 @@ footer {
   margin-top: 5%
 }
 
-
-/* ARTE/ARTIGO */
-/*.artigo {
+/* REGISTO DE ARTIGO */
+.ficheiro2 {
+  position: absolute;
+  align-items: center;
   display: flex;
-  flex-direction: column;
+  margin-top: 10%;
+  margin-left: 5%;
 }
 
-.info {
- display: flex;
- justify-content: center;
-}*/
+.border1 {
+  width: 500%;
+  height: 400%;
+  margin-right: 12%;
+  border: dashed 5px black; 
+}
 
+.registo2 {
+  width: 100%;
+  margin-bottom: 10%;
+  margin-right: 5%;
+}
+
+.nova-img {
+  width: 100%;
+  height: 388px;
+ 
+ 
+}
