@@ -4,6 +4,10 @@ import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
 import bcrypt from "bcrypt";
+import passport from "passport";
+import { Strategy } from "passport-local";
+import session from "express-session";
+import env from "dotenv";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -20,16 +24,34 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 const app = express();
 const port = 3000;
 
+//Hashing 10 vezes
+const salt = 10;
+
+//Conexão ao dotenv
+env.config();
+
+//Conexão à session
+/*app.use(
+    session({
+      secret: process.env.SESSION_LOGARTE,
+      resave: false,
+      saveUninitialized: true,
+    })
+  );*/
+
+//app.use(passport.initialize());
+//app.use(passport.session());
+
 //Connexão à base de dados
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "LogArte",
-    password: "Prog.sal23",
-    port: 5432,
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
   });
   
-  db.connect();
+db.connect();
 
 //CSS Path
 app.use(express.static("public"));
@@ -42,7 +64,6 @@ async function getCategorias(){
     let categoria = [];
     
     const result = await db.query("SELECT * FROM categoria");
-
 
     categoria = result.rows;
     
@@ -102,10 +123,17 @@ app.post("/registar", async (req, res) => {
         if (checkResult.rows.length > 0){
             res.send("Esse email já existe. Tente fazer login.");
         } else {
-            const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, password]);
 
-            console.log(result);
-            res.render(home);
+            bcrypt.hash(password, salt, async (err, hash) => {
+                if (err){
+                    console.log("Error hashing password: ", err);
+                } else {
+                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
+
+                    console.log(result);
+                    res.render(home);
+                }
+            });    
         }
     } catch (err){
         console.log(err);
@@ -119,7 +147,6 @@ app.get("/login", (req, res) => {
 //Página de login
 app.post("/login", async (req,res) =>{
     
-    //const loggedin = false;
     const email = req.body["nome"];
     const password = req.body["password"];
 
@@ -130,22 +157,24 @@ app.post("/login", async (req,res) =>{
             const utilizador = result.rows[0];
             const pass = utilizador.password;
             
-            if (password === pass){
-
-                //loggedin = true;
-
-                res.render(home);
-            } else {
-                res.send("Password Incorreta");
-            }
+            bcrypt.compare(password, pass, (err, result) => {
+                if (err){
+                    console.log("Erro ao comparar as passwords: ", err);
+                } else {
+                    if(result) {
+                        res.render(home);
+                    } else {
+                        res.send("Password Incorreta");
+                    }
+                } 
+            });
+            
         } else {
             res.send("Utilizador não encontrado");
         }
     } catch (err) {
         console.log(err);
     }
-
-//Help with loggin: https://codeshack.io/basic-login-system-nodejs-express-mysql/
 });
 
 //Página de Perfil do Utilizador
@@ -185,8 +214,6 @@ app.get("/registoArtigo", (req, res) => {
 
 app.post("/registoArtigo", async (req, res) => {
 
-    const categorias = await getCategorias();
-
     const nome = req.params["nome_art"];
     const img = req.params["img"];
     const preco = req.params["preco"];
@@ -194,9 +221,13 @@ app.post("/registoArtigo", async (req, res) => {
     const descricao = req.params["descricao"];
     const categoria = req.params["cat_id"];
 
+    const categorias = await getCategorias();
+
     const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
 
-    res.render(registoArt, {categorias: categorias, total: categorias.length});
+    console.log(result);
+
+    res.render(registoArt, {categoria: categorias, total: categorias.length});
 });
 
 //Página de um artigo
