@@ -1,9 +1,31 @@
 <%- include("partials/header.ejs") %>
 
+<div class="my-5">
+  <h1 class="mb-4">Categoria: <%= //categoriaNome %></h1>
   
-    <% for (i = 0; i < total; i++){ %>
-    <p>Categoria <%= i %></p>
-    <p><%= categoria[i] %></p>
-<% } %>
+  <% //if (artigos.length > 0) { %>
+    <div class="row">
+      <% //artigos.forEach(function(artigo) { %>
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <a href="/artigo/<%= //artigo.art_id %>">
+              <img src="/uploads/<%= //artigo.img %>" class="card-img-top" alt="<%= //artigo.nome_art %>">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title"><%= //artigo.nome_art %></h5>
+              <p class="preco"><strong>Preço:</strong> <%= //artigo.preco %> €</p>
+              <p class="descricao"><%= //artigo.descricao %></p>
+              <a href="/arte/<%= //artigo.art_id %>" class="btn btn-primary">Ver Artigo</a>
+            </div>
+          </div>
+        </div>
+      <% //}) %>
+    </div>
+  <% //} else { %>
+    <p>Não há artigos disponíveis nesta categoria no momento.</p>
+  <% //} %>
+
+  <a href="/categorias" class="btn btn-secondary mt-4">Voltar às Categorias</a>
+</div>
 
 <%- include("partials/footer.ejs") %>
