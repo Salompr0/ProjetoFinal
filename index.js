@@ -49,11 +49,11 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "LogArte",
-    password: "Mari9770",
-    port: 5432,
+    user: "",
+    host: "",
+    database: "",
+    password: "",
+    port: ,
   });
   db.connect();
   //console.log(process.env);
