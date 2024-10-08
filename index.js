@@ -3,7 +3,11 @@ import express from "express";
 import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
-//import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
+import passport from "passport";
+import { Strategy } from "passport-local";
+import session from "express-session";
+import env from "dotenv";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
