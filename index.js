@@ -22,7 +22,7 @@ env.config();
 //Conexão à session
 app.use(
     session({
-      secret: "WELCOMEARTE23",
+      secret: "WELCOMEARTE24",
       resave: false,
       saveUninitialized: true,
     })
@@ -42,7 +42,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const home = join(__dirname, "views/index.ejs");
 const login = join(__dirname, "views/login.ejs");
 const registo = join(__dirname, "views/registar.ejs");
-const perfil = join(__dirname, "views/perfil.ejs");
 const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
@@ -92,8 +91,10 @@ async function getArtigos(){
 //Página principal
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
-    console.log(req.user);
+    
     if (req.isAuthenticated()){
+
+        console.log(req.user);
 
         const categoriaDestaque = await getCategorias();
 
@@ -109,6 +110,8 @@ app.get("/", async (req, res) => {
 
     } else {
 
+        console.log(req.user);
+
         const categoriaDestaque = await getCategorias();
 
         const artigos = await getArtigos();
@@ -117,7 +120,9 @@ app.get("/", async (req, res) => {
 
         let newRow = [];
 
-        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
+        const loggedin = false;
+
+        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin});
     }
 });
 
@@ -232,19 +237,18 @@ app.post("/registar", async (req, res) => {
         const checkResult = await db.query("SELECT FROM users WHERE user_nome = $1", [nome]);
 
         if (checkResult.rows.length > 0){
-            res.send("Esse nome já existe. Tente fazer login.");
             req.redirect("/login");
-        } else {
 
+        } else {
             bcrypt.hash(password, salt, async (err, hash) => {
                 if (err){
-                    console.log("Error hashing password: ", err);
+                    console.log("Erro hashing password: ", err);
                 } else {
-                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
+                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
 
                     const user = result.rows[0];
                     req.login(user, (err) => {
-                        console.log("Sucesso!");
+                        console.log(err);
                         res.redirect("/");
                     });
                 }
@@ -256,20 +260,24 @@ app.post("/registar", async (req, res) => {
 });
 
 //Página de login
-app.post("/login", passport.authenticate("local", {
+app.post("/login", 
+    passport.authenticate("local", {
         successRedirect: "/",
         failureRedirect: "/login",
     })
 );
 
-passport.use(
-    new Strategy(async function verify(nome, password, cb) {
+passport.use("local",
+    new Strategy(async function verify(userNome, password, cb) {
         try {
-            const result = await db.query("SELECT * FROM users WHERE user_nome = $1", [nome]);
+            const result =  await db.query("SELECT * FROM users WHERE user_nome = $1", [userNome]);
 
+            console.log(result);
             if(result.rows.length > 0){
                 const user = result.rows[0];
                 const hashedPass = user.password;
+                
+                console.log(user);
 
                 bcrypt.compare(password, hashedPass, (err, valid) => {
                     if(err) {
