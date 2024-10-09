@@ -1,16 +1,18 @@
+import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
+import env from "dotenv";
 import express from "express";
+import session from "express-session";
+import passport from "passport";
+import {LocalStrategy} from "passport-local";
 import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
-import bcrypt from "bcrypt";
-import passport from "passport";
-import { Strategy } from "passport-local";
-import session from "express-session";
-import env from "dotenv";
 
 const app = express();
 const port = 3000;
+
+var LocalStrategy = require('passport-local');
 
 //Hashing 10 vezes
 const salt = 10;
@@ -259,16 +261,7 @@ app.post("/registar", async (req, res) => {
     }
 });
 
-//Página de login
-app.post("/login", 
-    passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/login",
-    })
-);
-
-passport.use("local",
-    new Strategy(async function verify(userNome, password, cb) {
+passport.use(new LocalStrategy(async function verify(userNome, password, cb) {
         try {
             const result =  await db.query("SELECT * FROM users WHERE user_nome = $1", [userNome]);
 
@@ -299,6 +292,13 @@ passport.use("local",
         }
     })
 );
+
+//Página de login
+app.post('/login', 
+    passport.authenticate('local', { failureRedirect: '/login' }),
+    function(req, res) {
+      res.redirect('/');
+    });
 
 passport.serializeUser((user, cb) => {
     cb(null, user);
