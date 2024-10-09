@@ -1,10 +1,10 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import bodyParser from "body-parser";
 import env from "dotenv";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import {LocalStrategy} from "passport-local";
+import { Strategy as LocalStrategy } from "passport-local";
 import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
@@ -12,7 +12,7 @@ import { fileURLToPath } from "url";
 const app = express();
 const port = 3000;
 
-var LocalStrategy = require('passport-local');
+//var LocalStrategy = require('passport-local').Strategy;
 
 //Hashing 10 vezes
 const salt = 10;
@@ -93,8 +93,6 @@ async function getArtigos(){
 //Página principal
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
-    
-    if (req.isAuthenticated()){
 
         console.log(req.user);
 
@@ -106,26 +104,11 @@ app.get("/", async (req, res) => {
 
         let newRow = [];
 
-        const loggedin = true;
+        const loggedin = req.isAuthenticated();
+        const logoutSuccess = req.query.logoutSuccess === 'true';
 
-        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin});
+        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin, logoutSuccess: logoutSuccess});
 
-    } else {
-
-        console.log(req.user);
-
-        const categoriaDestaque = await getCategorias();
-
-        const artigos = await getArtigos();
-
-        let idArtigo = [];
-
-        let newRow = [];
-
-        const loggedin = false;
-
-        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin});
-    }
 });
 
 app.get("/registar", (req, res) => {
@@ -187,7 +170,7 @@ app.get("/compra", (req, res) => {
 
 //Logout
 app.get("/logout", (req, res) => {
-    req.logout(function (err) {
+    req.logout((err) => {
       if (err) {
         return next(err);
       }
@@ -205,12 +188,12 @@ app.patch("edit/user/:id", (req, res) => {
 //Página para registar artigo
 app.post("/registoArtigo", async (req, res) => {
 
-    const nome = req.params["nome_art"];
-    const img = req.params["img"];
-    const preco = req.params["preco"];
-    const quantidade = req.params["quantidade"];
-    const descricao = req.params["descricao"];
-    const categoria = req.params["cat_id"];
+    const nome = req.body["nome_art"];
+    const img = req.body["img"];
+    const preco = req.body["preco"];
+    const quantidade = req.body["quantidade"];
+    const descricao = req.body["descricao"];
+    const categoria = req.body["cat_id"];
 
     const categorias = await getCategorias();
     console.log(categorias);
@@ -236,10 +219,10 @@ app.post("/registar", async (req, res) => {
     const password = req.body["password"];
     
     try{
-        const checkResult = await db.query("SELECT FROM users WHERE user_nome = $1", [nome]);
+        const checkResult = await db.query("SELECT * FROM users WHERE user_nome = $1", [nome]);
 
         if (checkResult.rows.length > 0){
-            req.redirect("/login");
+            res.redirect("/login");
 
         } else {
             bcrypt.hash(password, salt, async (err, hash) => {
@@ -261,9 +244,10 @@ app.post("/registar", async (req, res) => {
     }
 });
 
-passport.use(new LocalStrategy(async function verify(userNome, password, cb) {
+passport.use(new LocalStrategy(async (username, password, cb) => {
+    //console.log("Ajuda");
         try {
-            const result =  await db.query("SELECT * FROM users WHERE user_nome = $1", [userNome]);
+            const result = await db.query("SELECT * FROM users WHERE user_nome = $1", [username]);
 
             console.log(result);
             if(result.rows.length > 0){
@@ -272,33 +256,31 @@ passport.use(new LocalStrategy(async function verify(userNome, password, cb) {
                 
                 console.log(user);
 
-                bcrypt.compare(password, hashedPass, (err, valid) => {
-                    if(err) {
-                        console.error("Erro ao comparar as passwords: ", err);
-                        return cb(err);
+                const valid = await bcrypt.compare(password, hashedPass);
+                    if(valid) {
+
+                        return cb(null, user);
                     } else {
-                        if(valid) {
-                            return cb(null, user);
-                        } else {
-                            return cb(null, false); 
-                        }
-                    }    
-                });
-            } else {
-                return cb(" Utilizador não encontrado");
+
+                        return cb(null, false, {message: 'Senha incorreta'}); 
+                    }
+                } else {
+                return cb(null, false, {message: 'Utilizador não encontrado'});
             }
         } catch (err){
-            console.log(err); 
+            console.log(err);
+            return cb(err); 
         }
     })
 );
 
 //Página de login
 app.post('/login', 
-    passport.authenticate('local', { failureRedirect: '/login' }),
-    function(req, res) {
+    passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
+    (req, res) => {
       res.redirect('/');
     });
+    
 
 passport.serializeUser((user, cb) => {
     cb(null, user);
