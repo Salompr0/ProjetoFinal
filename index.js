@@ -56,6 +56,7 @@ async function getCategorias(){
     return categoria;
 }
 
+  
 //Função para obter artigos de uma categoria
 async function getArtigos(){
 
@@ -156,10 +157,7 @@ app.listen(port, () => {
 });
 
 
-// Middleware para página 404
-app.use((req, res, next) => {
-    res.status(404).render("404");
-});
+
 
 // Registro de artigos
 app.get("/registar_artigo", async (req, res) => {
@@ -278,3 +276,9 @@ app.post("/checkout", (req, res) => {
     });
 });
 
+
+
+// Middleware para página 404
+app.use((req, res, next) => {
+  res.status(404).render("404");
+});
