@@ -3,6 +3,7 @@
 <div class="container my-5">
   <h1 class="text-center mb-4">Registrar Novo Artigo</h1>
 
+  <!-- Formulário de Registro de Artigos -->
   <form action="/registoArtigo" method="POST" enctype="multipart/form-data">
 
     <div class="mb-3">
@@ -33,22 +34,16 @@
     <div class="mb-3">
       <label for="categoria" class="form-label">Categoria</label>
       <select class="form-select" id="categoria" name="cat_id" required>
-        <% for (i = 0; i < total; i++){ %> 
+        <% //for (i = 0; i < total; i++){ %> 
         <% //categorias.forEach((categoria) => { %>
-          <option value="<%= categoria[i].cat_id %>">
-            <%= categoria[i].cat_nome %>
+          <option value="<%= //categoria[i].cat_id %>">
+            <%= //categoria[i].cat_nome %>
           </option>
         <% }/*) */%>
       </select>
     </div>
-
     <button type="submit" class="btn btn-primary">Registrar Artigo</button>
   </form>
 </div>
-
-<script>
-  var imagem = document.getElementById("img");
-  
-</script>
 
 <%- include("partials/footer.ejs") %>
