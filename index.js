@@ -59,7 +59,7 @@ const db = new pg.Client({
   db.connect();
   //console.log(process.env);
 
-console.log( process.env.PG_PASSWORD);
+//console.log( process.env.PG_PASSWORD);
 
 
 //Função para obter categorias
@@ -92,113 +92,42 @@ async function getArtigos(){
 //Página principal
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
-    const categoriaDestaque = await getCategorias();
+    console.log(req.user);
+    if (req.isAuthenticated()){
 
-    const artigos = await getArtigos();
+        const categoriaDestaque = await getCategorias();
 
-    let idArtigo = [];
+        const artigos = await getArtigos();
 
-    let newRow = [];
+        let idArtigo = [];
 
-    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
+        let newRow = [];
+
+        const loggedin = true;
+
+        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin});
+
+    } else {
+
+        const categoriaDestaque = await getCategorias();
+
+        const artigos = await getArtigos();
+
+        let idArtigo = [];
+
+        let newRow = [];
+
+        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
+    }
 });
 
 app.get("/registar", (req, res) => {
     res.render(registo);
 });
 
-//Página de Registo
-app.post("/registar", async (req, res) => {
-
-    const nome = req.body["nome"];
-    const email = req.body["email"];
-    const telemovel = req.body["telemovel"];
-    const nif = req.body["nif"];
-    const morada = req.body["morada"];
-    const qualificacao = req.body["qualificacao"];
-    const vendedor = req.body["vendedor"];
-    const img = req.body["img"];
-    const password = req.body["password"];
-    
-    try{
-        const checkResult = await db.query("SELECT FROM users WHERE email = $1", [email]);
-
-        if (checkResult.rows.length > 0){
-            res.send("Esse email já existe. Tente fazer login.");
-        } else {
-
-            bcrypt.hash(password, salt, async (err, hash) => {
-                if (err){
-                    console.log("Error hashing password: ", err);
-                } else {
-                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
-
-                    console.log(result);
-                    res.render(home);
-                }
-            });    
-        }
-    } catch (err){
-        console.log(err);
-    }
-});
-
-passport.use(
-    new Strategy(async function verify(username, password, cb) {
-        try {
-            const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
-
-            if(result.rows.length > 0){
-                const user = result.rows[0];
-                const pass = user.password;
-
-                bcrypt.compare(password, pass, (err, valid) => {
-                    if(err) {
-                        console.error("Erro ao comparar as passwords: ", err);
-                        return cb(err);
-                    } else {
-                        if(valid) {
-                            return cb(null, user);
-                        } else {
-                            return cb(null, false); 
-                        }
-                    }    
-                });
-            } else {
-                return cb(" Utilizador não encontrado");
-            }
-        } catch (err){
-            console.log(err); 
-        }
-    })
-);
-    
-passport.serializeUser((user, cb) => {
-  cb(null, user);
-});
-passport.deserializeUser((user, cb) => {
-  cb(null, user);
-});
-
-app.get("/logout", (req, res) => {
-    req.logout(function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.redirect("/");
-    });
-  });
-
 app.get("/login", (req, res) => {
     res.render(login);
 });
-
-//Página de login
-app.post("/login", passport.authenticate("local", {
-        successRedirect: home,
-        failureRedirect: login,
-    })
-);
 
 //Página de Perfil do Utilizador
 app.get("/perfil/:id", async (req, res) => {
@@ -213,12 +142,6 @@ app.get("/perfil/:id", async (req, res) => {
     res.render(perfil, { perfil: perfil});
 });
 
-app.patch("edit/user/:id", (req, res) => {
-
-    
-    res.render(registo);
-});
-
 //Página com todas as categorias
 app.get("/categorias", async (req, res) => {
 
@@ -230,28 +153,8 @@ app.get("/categorias", async (req, res) => {
 });
 
 //Registo de artigo
-
 app.get("/registoArtigo", (req, res) => {
     res.render(registoArt);
-});
-
-app.post("/registoArtigo", async (req, res) => {
-
-    const nome = req.params["nome_art"];
-    const img = req.params["img"];
-    const preco = req.params["preco"];
-    const quantidade = req.params["quantidade"];
-    const descricao = req.params["descricao"];
-    const categoria = req.params["cat_id"];
-
-    const categorias = await getCategorias();
-    console.log(categorias);
-
-    const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
-
-    console.log(result);
-
-    res.render(registoArt, {categoria: categorias, total: categorias.length});
 });
 
 //Página de um artigo
@@ -275,8 +178,127 @@ app.get("/compra", (req, res) => {
     res.render(compra, { pedidos: pedidos});
 });
 
+//Logout
+app.get("/logout", (req, res) => {
+    req.logout(function (err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  });
 
+//Página para editar utilizador
+app.patch("edit/user/:id", (req, res) => {
 
+    
+    res.render(registo);
+});
+
+//Página para registar artigo
+app.post("/registoArtigo", async (req, res) => {
+
+    const nome = req.params["nome_art"];
+    const img = req.params["img"];
+    const preco = req.params["preco"];
+    const quantidade = req.params["quantidade"];
+    const descricao = req.params["descricao"];
+    const categoria = req.params["cat_id"];
+
+    const categorias = await getCategorias();
+    console.log(categorias);
+
+    const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
+
+    console.log(result);
+
+    res.render(registoArt, {categoria: categorias, total: categorias.length});
+});
+
+//Página de Registo
+app.post("/registar", async (req, res) => {
+
+    const nome = req.body["nome"];
+    const email = req.body["email"];
+    const telemovel = req.body["telemovel"];
+    const nif = req.body["nif"];
+    const morada = req.body["morada"];
+    const qualificacao = req.body["qualificacao"];
+    const vendedor = req.body["vendedor"];
+    const img = req.body["img"];
+    const password = req.body["password"];
+    
+    try{
+        const checkResult = await db.query("SELECT FROM users WHERE user_nome = $1", [nome]);
+
+        if (checkResult.rows.length > 0){
+            res.send("Esse nome já existe. Tente fazer login.");
+            req.redirect("/login");
+        } else {
+
+            bcrypt.hash(password, salt, async (err, hash) => {
+                if (err){
+                    console.log("Error hashing password: ", err);
+                } else {
+                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
+
+                    const user = result.rows[0];
+                    req.login(user, (err) => {
+                        console.log("Sucesso!");
+                        res.redirect("/");
+                    });
+                }
+            });    
+        }
+    } catch (err){
+        console.log(err);
+    }
+});
+
+//Página de login
+app.post("/login", passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+    })
+);
+
+passport.use(
+    new Strategy(async function verify(nome, password, cb) {
+        try {
+            const result = await db.query("SELECT * FROM users WHERE user_nome = $1", [nome]);
+
+            if(result.rows.length > 0){
+                const user = result.rows[0];
+                const hashedPass = user.password;
+
+                bcrypt.compare(password, hashedPass, (err, valid) => {
+                    if(err) {
+                        console.error("Erro ao comparar as passwords: ", err);
+                        return cb(err);
+                    } else {
+                        if(valid) {
+                            return cb(null, user);
+                        } else {
+                            return cb(null, false); 
+                        }
+                    }    
+                });
+            } else {
+                return cb(" Utilizador não encontrado");
+            }
+        } catch (err){
+            console.log(err); 
+        }
+    })
+);
+
+passport.serializeUser((user, cb) => {
+    cb(null, user);
+  });
+  passport.deserializeUser((user, cb) => {
+    cb(null, user);
+  });
+  
 
 app.listen(port, () => {
     console.log(`Successfully started server on port ${port}.`);
