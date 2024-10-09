@@ -9,19 +9,12 @@
 </head>
 <body>
 <main class="container-registo">
-    <div class="lado-esquerdoR">
-        <!--Adicionar Foto-->
-        
+    <div class="lado-esquerdoR">    
         <img src="img/fundo.jpg" alt="Pintura de fundo" class="imagem">
     </div>
-
-    <!--<div class="foto">
-        <img src="img/panda vermelho.jpg" width="100"><input type="hidden" name="nome_foto" value="">
-    </div>-->
-
+    <!--Adicionar Foto-->
     <div class="ficheiro">
-        <img class="foto" src="img/f.jpg" width="200" ><input type="hidden" name="nome_foto" value="">
-        <input type="file" name="ficheiro" width="50">
+        <img class="foto" src="img/*" width="200" ><input type="hidden" name="nome_foto" value="">
     </div>
     
     <div class="lado-direitoR">
@@ -30,15 +23,15 @@
         <h1 class="title">Crie a sua conta</h1>
         <hr class="linha">
 
-            <form action="/home" method="post">
+            <form action="/registar" method="post">
                 <div class="checkbox">
                     <label for="vendedor">Vendedor</label>
-                    <input type="checkbox" name="vendedor" id="vendedor" value="Vendedor"><br>
+                    <input type="checkbox" name="vendedor" id="vendedor"><br>
                 </div> 
 
                 <div class="form-group">
                     <label for="nome">Nome</label>
-                    <input type="text"  name="nome" placeholder="Insira seu nome" class="form-control" required>
+                    <input type="text" name="nome" placeholder="Insira seu nome" class="form-control" required>
                 </div>
 
                 <div class="form-group">
@@ -52,38 +45,50 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="data_nasc">Data de Nascimento</label>
-                    <input type="date"  name="data_nasc" placeholder="Insira sua data de nascimento" class="form-control" required>
-                </div>
-
-                <div class="form-group">
                     <label for="morada">Morada</label>
                     <input type="text"  name="morada" placeholder="Insira sua morada" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="nif">Nif</label>
-                    <input type="text"  name="email" placeholder="Insira seu nif" class="form-control" required>
+                    <input type="text"  name="nif" placeholder="Insira seu nif" class="form-control" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="">Qualificações</label>
-                    <textarea type="text"  name="email" placeholder="Insira suas qualificações" class="form-control" required></textarea>
+                <div class="form-group" id="qualificacao" hidden>
+                    <label>Qualificações</label>
+                    <textarea type="text"  name="qualificacao" placeholder="Insira suas qualificações" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Senha</label>
-                    <input type="password"  name="password" placeholder="Insira sua senha" class="form-control" required>
+                    <input type="password" name="password" placeholder="Insira sua senha" class="form-control" required>
                 </div>
 
-                <div class="button-registo">
-                    <button type="submit">Registar</button>
+                <div class="form-group" id="file-button">
+                    <input type="file" name="img" width="50">
+                
+                    <div class="button-registo">
+                        <button type="submit">Registar</button>
+                    </div>
                 </div>
-
             </form>
-
         </div> 
     </div>
-    <link rel="stylesheet" href="/styles/main.css">
+
+<script>
+ var checkbox = document.querySelector("input[id=vendedor]");
+
+ var imagem = document.querySelector("input[id=file-button]");
+ 
+ checkbox.addEventListener('change', function(){
+    if (this.checked){
+        document.getElementById("qualificacao").removeAttribute("hidden");
+        vendedor.value = true;
+    } else {
+        document.getElementById("qualificacao").setAttribute("hidden", true);
+        qualificacao.value = null;
+    }
+ });
+</script>
 </head>
 <body>

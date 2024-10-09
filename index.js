@@ -1,13 +1,42 @@
-import express from "express";
 import bodyParser from "body-parser";
-import pg from "pg";
+import express from "express";
 import { dirname, join } from "path";
+import pg from "pg";
 import { fileURLToPath } from "url";
-import multer from "multer";
-import path from "path";
+import bcrypt from "bcrypt";
+import passport from "passport";
+import { Strategy } from "passport-local";
+import session from "express-session";
+import env from "dotenv";
+
+const app = express();
+const port = 3000;
+
+//Hashing 10 vezes
+const salt = 10;
+
+//Conexão ao dotenv
+env.config();
+
+// Configurar a sessão antes das rotas
+app.use(session({
+  secret: 'seuSegredoAqui', // Substitua por uma chave secreta forte
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Se você estiver usando HTTPS, defina 'secure' como true
+}));
+
+
+//CSS Path
+app.use(express.static("public"));
+
+//app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 //The path names
 const home = join(__dirname, "views/index.ejs");
 const login = join(__dirname, "views/login.ejs");
@@ -16,269 +45,238 @@ const perfil = join(__dirname, "views/perfil.ejs");
 const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
-const artistas = join(__dirname, "views/artistas.ejs");
+const registoArt = join(__dirname, "views/registarArtigo.ejs");
 
-
-const app = express();
-const port = 3000;
 
 //Connexão à base de dados
 const db = new pg.Client({
     user: "postgres",
     host: "localhost",
     database: "LogArte",
-    password: "",
+    password: "Felpes27",
     port: 5432,
   });
   
   db.connect();
+ //console.log(process.env);
 
-//CSS Path
-app.use(express.static("public"));
-
-app.set('render engine', 'ejs');
-// Configurando o EJS como mecanismo de view
-app.set('view engine', 'ejs');
-
-app.use(bodyParser.urlencoded({ extended: true }));
+//console.log( process.env.PG_PASSWORD);
 
 //Função para obter categorias
 async function getCategorias(){
-    let categoria = [];
-    
-    const result = await db.query("SELECT * FROM categoria");
+  let categoria = [];
+  
+  const result = await db.query("SELECT * FROM categoria");
 
+  categoria = result.rows;
+  
+  //console.log(categoria);
 
-    categoria = result.rows;
-    
-    //console.log(categoria);
-
-    return categoria;
+  return categoria;
 }
 
-  
 //Função para obter artigos de uma categoria
 async function getArtigos(){
 
-    let artigos = [];
+  let artigos = [];
 
-    const result = await db.query("SELECT * FROM artigo ORDER BY art_id ASC");
+  const result = await db.query("SELECT * FROM artigo ORDER BY art_id ASC");
 
-    artigos = result.rows;
+  artigos = result.rows;
 
-    //console.log(artigos);
-    
-    return artigos;
+  //console.log(artigos);
+  
+  return artigos;
 }
 
 //Página principal
 app.get("/", async (req, res) => {
-    //Categorias em Destaque (Acrílico, Aguarelas)
-    const categoriaDestaque = await getCategorias();
+  //Categorias em Destaque (Acrílico, Aguarelas)
+  const categoriaDestaque = await getCategorias();
 
-    const artigos = await getArtigos();
+  const artigos = await getArtigos();
 
-    res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length});
+  let idArtigo = [];
+
+  let newRow = [];
+
+  res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow});
+});
+
+app.get("/registar", (req, res) => {
+  res.render(registo);
+});
+
+//Página de Registo
+app.post("/registar", async (req, res) => {
+
+  const nome = req.body["nome"];
+  const email = req.body["email"];
+  const telemovel = req.body["telemovel"];
+  const nif = req.body["nif"];
+  const morada = req.body["morada"];
+  const qualificacao = req.body["qualificacao"];
+  const vendedor = req.body["vendedor"];
+  const img = req.body["img"];
+  const password = req.body["password"];
+  
+  try{
+      const checkResult = await db.query("SELECT FROM users WHERE email = $1", [email]);
+
+      if (checkResult.rows.length > 0){
+          res.send("Esse email já existe. Tente fazer login.");
+      } else {
+          bcrypt.hash(password, salt, async (err, hash) => {
+              if (err){
+                  console.log("Error hashing password: ", err);
+              } else {
+                  const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
+
+                  console.log(result);
+                  res.render(home);
+              }
+          });    
+      }
+  } catch (err){
+      console.log(err);
+  }
+});
+
+passport.use(
+  new Strategy(async function verify(username, password, cb) {
+      try {
+          const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
+
+          if(result.rows.length > 0){
+              const user = result.rows[0];
+              const pass = user.password;
+
+              bcrypt.compare(password, pass, (err, valid) => {
+                  if(err) {
+                      console.error("Erro ao comparar as passwords: ", err);
+                      return cb(err);
+                  } else {
+                      if(valid) {
+                          return cb(null, user);
+                      } else {
+                          return cb(null, false); 
+                      }
+                  }    
+              });
+          } else {
+              return cb(" Utilizador não encontrado");
+          }
+      } catch (err){
+          console.log(err); 
+      }
+  })
+);
+  
+passport.serializeUser((user, cb) => {
+cb(null, user);
+});
+passport.deserializeUser((user, cb) => {
+cb(null, user);
+});
+
+app.get("/logout", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+app.get("/login", (req, res) => {
+  res.render(login);
 });
 
 //Página de login
-app.get("/login", (req,res) =>{
-    res.render(login);
-});
-
-
-//Página de Registo
-app.get("/registar", (req, res) => {
-    res.render(registo);
-});
-
+app.post("/login", passport.authenticate("local", {
+      successRedirect: home,
+      failureRedirect: login,
+  })
+);
 
 //Página de Perfil do Utilizador
-app.get("/perfil", async(req, res) => {
+app.get("/perfil/:id", async (req, res) => {
+  const userID = parseInt(req.params.id);
 
-    const result = await db.query('SELECT * FROM users WHERE user_id = $1', [1]);
-    const user = result.rows;
+  const result = await db.query('SELECT * FROM user WHERE user_id = $1', [userID]);
+  const perfil = result.rows;
 
-    res.render (perfil, {user: user});
+  //console.log(userID);
+  console.log(perfil);
+
+  res.render(perfil, { perfil: perfil});
 });
 
+app.patch("edit/user/:id", (req, res) => {
+
+  
+  res.render(registo);
+});
 
 //Página com todas as categorias
 app.get("/categorias", async (req, res) => {
 
-    const categoria = await getCategorias();
-    const artigo = await getArtigos();
-    
-    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length});
+  const categoria = await getCategorias();
+  const artigo = await getArtigos();
+  
+  res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length});
 
 });
 
-//Página do carrinho de compras
-app.get("/compra", (req, res) => {
+//Registo de artigo
 
-    const pedidos = 0;//change
+app.get("/registoArtigo", (req, res) => {
+  res.render(registoArt);
+});
 
-    res.render(compra, { pedidos: pedidos });
+app.post("/registoArtigo", async (req, res) => {
+
+  const nome = req.params["nome_art"];
+  const img = req.params["img"];
+  const preco = req.params["preco"];
+  const quantidade = req.params["quantidade"];
+  const descricao = req.params["descricao"];
+  const categoria = req.params["cat_id"];
+
+  const categorias = await getCategorias();
+  console.log(categorias);
+
+  const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
+
+  console.log(result);
+
+  res.render(registoArt, {categoria: categorias, total: categorias.length});
 });
 
 //Página de um artigo
 app.get("/arte/:id", async (req, res) => {
 
-        const artID = parseInt(req.params.id);
+  const artID = parseInt(req.params.id);
 
-        const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
-        const artigo = result.rows;
+  const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
+  const artigo = result.rows[0];
 
-        //console.log(artID);
-        console.log(artigo);
+  //console.log(artigo);
 
-        res.render(artigoescolhido, { artigoEscolhido: artigo });
+  res.render(artigoescolhido, { artigos: artigo});
 });
 
-app.patch("edit/user/:id", (req, res) => {
+//Página do carrinho de compras
+app.get("/compra", (req, res) => {
 
-    res.render("registo");
-})
+  const pedidos = 0;//change
 
-
-//Página de artistas
-app.get("/artistas", async (req,res) => {
-
-    const result = await db.query('SELECT * FROM users WHERE vendedor = true');
-    const artista = result.rows;
-
-    res.render(artistas, { artistas: artista });
+  res.render(compra, { pedidos: pedidos});
 });
+
 
 
 
 app.listen(port, () => {
-    console.log(`Successfully started server on port ${port}.`);
-});
-
-
-
-
-// Registro de artigos
-app.get("/registar_artigo", async (req, res) => {
-    try {
-      // Busca todas as categorias para o dropdown do formulário
-      const result = await db.query("SELECT cat_id, cat_nome FROM categoria");
-      res.render("registar_artigo", { categorias: result.rows });
-    } catch (error) {
-      console.error("Erro ao carregar categorias: ", error);
-      res.status(500).send("Erro ao carregar a página de registro de artigos.");
-    }
-  });
-  
-  // Rota para processar o formulário de registro de artigos
-  app.post("/registar_artigo", async (req, res) => {
-    try {
-      const { nome_art, preco, quantidade, descricao, cat_id } = req.body;
-      const img = req.file ? req.file.filename : null; // Assumindo que o upload da imagem seja tratado com multer
-  
-      // Inserção do artigo no banco de dados
-      const query = `
-        INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, user_id, cat_id)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-      `;
-      const values = [nome_art, img, preco, quantidade, descricao, req.session.user_id, cat_id]; // Usando o user_id da sessão
-  
-      await db.query(query, values);
-  
-      res.redirect("/artigos"); // Redireciona após o sucesso
-    } catch (error) {
-      console.error("Erro ao registrar artigo: ", error);
-      res.status(500).send("Erro ao registrar o artigo.");
-    }
-  });
-
-  
-
-
-// Configuração do multer para upload de imagens
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads/'); // Pasta onde as imagens serão salvas
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // Nome único baseado no timestamp
-  }
-});
-
-const upload = multer({ storage: storage });
-
-// Modifique a rota POST para aceitar upload de imagens
-app.post("/registar_artigo", upload.single('img'), async (req, res) => {
-  try {
-    const { nome_art, preco, quantidade, descricao, cat_id } = req.body;
-    const img = req.file ? req.file.filename : null;
-
-    const query = `
-      INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, user_id, cat_id)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-    `;
-    const values = [nome_art, img, preco, quantidade, descricao, req.session.user_id, cat_id];
-
-    await db.query(query, values);
-
-    res.redirect("/artigos");
-  } catch (error) {
-    console.error("Erro ao registrar artigo: ", error);
-    res.status(500).send("Erro ao registrar o artigo.");
-  }
-});
-
-
-// Exibir a página de checkout
-app.get("/checkout", (req, res) => {
-  // Supondo que o carrinho esteja salvo na sessão
-  const carrinho = req.session.carrinho || [];
-  const total = carrinho.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
-
-  res.render("checkout", { carrinho: carrinho, total: total });
-});
-
-// Processar o pagamento
-app.post("/checkout", (req, res) => {
-  const { firstName, lastName, email, address, paymentMethod, ccName, ccNumber, ccExpiration, ccCVV } = req.body;
-
-  // Aqui você pode processar o pagamento ou salvar o pedido no banco de dados
-  // Por exemplo, salvar um novo pedido no banco
-  const pedidoQuery = `
-    INSERT INTO pedido (user_id) VALUES ($1) RETURNING pedido_id
-  `;
-  const pedidoValues = [req.session.user_id];
-
-  db.query(pedidoQuery, pedidoValues)
-    .then(result => {
-      const pedido_id = result.rows[0].pedido_id;
-
-      // Agora vincular os itens do carrinho ao pedido
-      const promises = req.session.carrinho.map(item => {
-        const insertPedidoArtigo = `
-          INSERT INTO pedido_artigo (pedido_id, art_id, quantidade) 
-          VALUES ($1, $2, $3)
-        `;
-        return db.query(insertPedidoArtigo, [pedido_id, item.art_id, item.quantidade]);
-      });
-
-      return Promise.all(promises);
-    })
-    .then(() => {
-      // Limpar o carrinho após finalizar o pedido
-      req.session.carrinho = [];
-      res.redirect("/pedido_concluido");
-    })
-    .catch(error => {
-      console.error("Erro ao processar o pedido: ", error);
-      res.status(500).send("Erro ao processar o pedido.");
-    });
-});
-
-
-
-// Middleware para página 404
-app.use((req, res, next) => {
-  res.status(404).render("404");
+  console.log(`Successfully started server on port ${port}.`);
 });
