@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import bodyParser from "body-parser";
-import env from "dotenv";
+import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
@@ -12,18 +12,16 @@ import { fileURLToPath } from "url";
 const app = express();
 const port = 3000;
 
-//var LocalStrategy = require('passport-local').Strategy;
-
 //Hashing 10 vezes
 const salt = 10;
 
 //Conexão ao dotenv
-env.config();
+dotenv.config();
 
 //Conexão à session
 app.use(
     session({
-      secret: "WELCOMEARTE24",
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
       cookie: { secure: false }
@@ -53,17 +51,14 @@ const perfilView = join(__dirname, "views/perfil.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "LogArte",
-    password: "Prog.sal23",
-    port: 5432,
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
   });
   db.connect();
-  //console.log(process.env);
-
-//console.log( process.env.PG_PASSWORD);
-
+//console.log(process.env);
 
 //Função para obter categorias
 async function getCategorias(){
@@ -140,8 +135,7 @@ app.get("/perfil", async (req, res) => {
         //console.log("PERFIL:", perfil);
 
         res.render(perfilView, { perfil: perfil, loggedin: loggedin, logoutSuccess: logoutSuccess});
-    
-  
+     
 });
 
 //Página com todas as categorias
