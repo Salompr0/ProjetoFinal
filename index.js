@@ -96,8 +96,8 @@ async function getArtigos(){
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
 
-        //console.log(req.user);
-
+        console.log(req.user);
+        
         const categoriaDestaque = await getCategorias();
 
         const artigos = await getArtigos();
@@ -107,9 +107,9 @@ app.get("/", async (req, res) => {
         let newRow = [];
 
         const loggedin = req.isAuthenticated();
-        const logoutSuccess = req.query.logoutSuccess === 'true';
+        
 
-        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin, logoutSuccess: logoutSuccess});
+        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin });
 
 });
 
@@ -127,15 +127,19 @@ app.get("/perfil", async (req, res) => {
     console.log("Authenticated:", req.isAuthenticated());
     console.log("User:", req.user);
 
-        const loggedin = req.isAuthenticated();
+    const loggedin = req.isAuthenticated();
+    const logoutSuccess = req.query.logoutSuccess === 'true';
         
-        const userID = req.user.user_id;
+    const userID = req.user.user_id;
         
         const result = await db.query("SELECT * FROM users WHERE user_id = $1", [userID]);
-
+        
         const perfil = result.rows[0];
 
-        res.render(perfilView, { perfil: perfil, loggedin: loggedin});
+        //console.log("ID:", userID);
+        //console.log("PERFIL:", perfil);
+
+        res.render(perfilView, { perfil: perfil, loggedin: loggedin, logoutSuccess: logoutSuccess});
     
   
 });
