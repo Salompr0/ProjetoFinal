@@ -1,30 +1,31 @@
 <%- include("partials/header.ejs") %>
 
-<div class="container my-5">
+<div class="artigo">
   <div class="row">
     <div class="col-md-6">
       <!-- Imagem do artigo -->
-      <img src="<%= artigoEscolhido.img %>" class="img-fluid" alt="<%= artigoEscolhido.titulo %>">
+      <img src="/img/8.jpg<%= artigos.img %>" class="img-fluid" alt="<%= artigos.nome %>">
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 info">
       <!-- Detalhes do artigo -->
-      <h1><%= artigoEscolhido.titulo %></h1>
-      <p class="preco"><%= artigoEscolhido.preco %> €</p>
-      <p class="descricao"><%= artigoEscolhido.descricao %></p>
+      <h1>Pintura Agapórnis<%= artigos.nome %></h1>
+      
+      <p class="descricao"><%= artigos.descricao %></p>
 
-      <!-- Botão para adicionar ao carrinho -->
-      <a href="#" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
+      <p class="preco">€ 200,00<%= artigos.preco %> </p>
 
       <!-- Outras informações sobre o artigo -->
       <h5>Informações adicionais</h5>
       <ul>
-        <li><strong>Artista:</strong> <%= artigoEscolhido.user_id %></li>
-        <li><strong>Categoria:</strong> <%= artigoEscolhido.categoria %></li>
-        <li><strong>Quantidade:</strong> <%= artigoEscolhido.quantidade %></li>
+        <li><strong>Artista:</strong> <%= artigos.user_id %></li>
+        <li><strong>Quantidade:</strong> <%= artigos.quantidade %></li>
       </ul>
+
+      <!-- Botão para adicionar ao carrinho -->
+      <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
+
     </div>
   </div>
-</div>
 
 <%- include("partials/footer.ejs") %>

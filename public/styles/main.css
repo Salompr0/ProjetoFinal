@@ -1,876 +1,450 @@
 /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* INDEX/COMPRA */
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
-  main {
-    flex-grow: 1; /* Faz o conteúdo crescer para ocupar o espaço disponível */
-    padding: 20px;
-  }
-  
-  
-  /* Estilo do container principal da galeria */
-  .gallery {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  /* Customizando os Cards */
-  .card {
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    overflow: hidden;
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-    z-index: 10;
-    position: relative;
-  }
-  
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .card-body {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-  }
-  
-  /* Garantindo que as descrições longas sejam truncadas */
-  .preco {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .descricao {
-    font-size: 14px;
-    margin-top: 5px;
-    max-height: 40px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  
-  /* Botão customizado */
-  .btn-primary {
-    background-color: #000000;
-    border: none;
-    padding: 10px 20px;
-    margin-top: auto;
-  }
-
-  .btn-primary:hover {
-    background-color: rgb(48, 47, 47);
-  }
-  
-  /* Corrigindo o corte do zoom no carrossel */
-  .carousel-inner {
-    overflow: visible;
-  }
-  
-  .carousel-control-prev-icon, .carousel-control-next-icon {
-    background-color: black;
-    border-radius: 50%;
-  }
-  
-  nav {
-    background-color: black;
-  }
-  
-  /* HEADER */
-  
-  /* Inversão de cor para ícones com fundo transparente */
-  #filter {
-    filter: invert(1);
-    background-color: transparent;
-  }
-  
-  header {
-    background-color: black;
-    padding: 10px;
-  }
-  
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  /* Imagem + menu lado esquerdo */
-  .left-section {
-    display: flex;
-    align-items: center;
-  }
-  
-  .left-section img {
-    margin-right: 20px;
-  }
-  
-  /* Menu e submenu */
-  .menu {
-    display: flex;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: white;
-  }
-  
-  .menu > li {
-    margin-right: 20px;
-    position: relative;
-    bottom: 5px;
-  }
-  
-  .menu a {
-    background-color: white;
-    text-decoration: none;
-  }
-  
-  .menu li:hover > .submenu {
-    display: block;
-  }
-  
-  /* Submenu (categorias) */
-  .submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .submenu li {
-    padding: 5px 10px;
-  }
-  
-  .submenu a {
-    background-color: white;
-    text-decoration: none;
-  }
-  
-  /* Seção central: logo */
-  .logo {
-    text-align: center;
-    flex-grow: 1;
-  }
-  
-  .logo img {
-    max-width: 150%;
-  }
-  
-  .logo a {
-    margin-right: 10%;
-  }
-  
-  /* Login e carrinho */
-  .icons {
-    display: flex;
-    align-items: center;
-  }
-  
-  .icons a {
-    margin-right: 20px;
-  }
-  
-  .icons img {
-    width: 25px;
-  }
-  
-  /* LINHA HORIZONTAL LOGIN */
-  .hr1 {
-    background-color: gray;
-    padding-top: 2px;
-    margin-top: 5px;
-  }
-  
-  /* Footer */
-  footer {
-    background-color: black;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    width: 100%;
-    position: relative;
-    bottom: 0;
-    
-  }
-  
-  /* Responsividade */
-  @media (max-width: 660px) {
-    .container {
-      flex-direction: column;
-    }
-  
-    .logo {
-      min-width: 300px;
-    }
-  }
-
-  /* LOGIN */
-
-.container-login {
-  display: flex;
-  height: 100vh;  /* Ocupa a altura total da tela */
-  padding: 0;
-}
-.container-login {
-  display: flex;
-  height: 100vh;  /* Ocupa a altura total da tela */
-  padding: 0;
-}
-
-
-.lado-esquerdo, .lado-direito {
-  flex: 1;        /* O formulário ocupa a outra metade da tela */
-  min-width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}   
-
-.lado-esquerdo, .lado-direito {
-  flex: 1;        /* O formulário ocupa a outra metade da tela */
-  min-width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}   
-
-.imagem {
-  width: 100%;
-  height: 100vh;
-  object-fit:cover; 
-}
-.imagem {
-  width: 100%;
-  height: 100vh;
-  object-fit:cover; 
-}
-
-  /*Linha horizontal*/
-  .linha {
-    background-color: black;
-    padding-top: 3px;
-    margin-bottom: 15px;
-  }
-
-.login {
-  width: 100%;
-  max-width: 400px;
-  padding-top: 30px;
-}
-.login {
-  width: 100%;
-  max-width: 400px;
-  padding-top: 30px;
-}
-
-.title {  
-  text-align: center;
-  margin-bottom: 20px;
-  margin-top: 10%;
-}
-.title {  
-  text-align: center;
-  margin-bottom: 20px;
-  margin-top: 10%;
-}
-
-.login input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.login input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 30px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.button-login button{
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 30px;
-}
-.button-login button{
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 30px;
-}
-
-.button-login button:hover {
-  background-color: rgb(48, 47, 47);
-}
-.button-login button:hover {
-  background-color: rgb(48, 47, 47);
-}
-
-.registar {
-  margin-top: 30px;
-  text-align: center;
-}
-.registar {
-  margin-top: 30px;
-  text-align: center;
-}
-
-.registar a {
-  color: #007bff;
-  text-decoration: none;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-.registar a {
-  color: #007bff;
-  text-decoration: none;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .container-login {
-      flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
-  }
-
-  .left-side, .right-side {
-      min-width: 100%; /* Cada lado ocupa 100% em telas pequenas */
-      height: 50vh; /* Cada lado ocupa metade da altura da tela */
-  }
-
-  .imagem {
-      height: 50vh; /* Ajusta a altura da imagem para cobrir apenas 50% da tela */
-  }
-}
-
-@media (max-width: 768px) {
-  .container-login {
-      flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
-  }
-
-  .left-side, .right-side {
-      min-width: 100%; /* Cada lado ocupa 100% em telas pequenas */
-      height: 50vh; /* Cada lado ocupa metade da altura da tela */
-  }
-
-  .imagem {
-      height: 50vh; /* Ajusta a altura da imagem para cobrir apenas 50% da tela */
-  }
-}
-
-/* INDEX/COMPRA */
 
 body {
-font-family: Arial, sans-serif;
-line-height: 1.6;
-background-color: #f4f4f4;
-font-family: Arial, sans-serif;
-line-height: 1.6;
-background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Estilo do container principal da galeria */
+main {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Estilo da galeria principal */
 .gallery {
-display: flex;
-flex-direction: column;
-gap: 40px;
-max-width: 1200px;
-margin: 0 auto;
-display: flex;
-flex-direction: column;
-gap: 40px;
-max-width: 1200px;
-margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* Customizando os Cards */
 .card {
-border-radius: 10px;
-box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-transition: transform 0.2s;
-overflow: hidden;
-border-radius: 10px;
-box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-transition: transform 0.2s;
-overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  overflow: hidden;
 }
 
 .card:hover {
-transform: scale(1.05);
-z-index: 10;
-position: relative;
-transform: scale(1.05);
-z-index: 10;
-position: relative;
+  transform: scale(1.05);
+  z-index: 10;
+  position: relative;
 }
 
 .card-img-top {
-height: 200px;
-object-fit: cover;
-height: 200px;
-object-fit: cover;
+  height: 200px;
+  object-fit: cover;
 }
 
 .card-body {
-text-align: center;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-height: 100%;
-text-align: center;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-height: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
-/* Garantindo que as descrições longas sejam truncadas */
+/* Preço e Descrição do Card */
 .preco {
-font-size: 16px;
-font-weight: bold;
-margin-bottom: 10px;
-font-size: 16px;
-font-weight: bold;
-margin-bottom: 10px;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10%;
 }
 
 .descricao {
-font-size: 14px;
-margin-top: 5px;
-max-height: 40px;
-overflow: hidden;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-line-clamp: 1;
--webkit-box-orient: vertical;
-font-size: 14px;
-margin-top: 5px;
-max-height: 40px;
-overflow: hidden;
-text-overflow: ellipsis;
-display: -webkit-box;
--webkit-line-clamp: 1;
--webkit-box-orient: vertical;
+  font-size: 14px;
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 /* Botão customizado */
 .btn-primary {
-background-color: #000000;
-border: none;
-padding: 10px 20px;
-margin-top: auto;
-background-color: #000000;
-border: none;
-padding: 10px 20px;
-margin-top: auto;
+  background-color: #000000;
+  border: none;
+  padding: 10px 20px;
+  margin-top: auto;
+}
+
+.btn-primary:hover {
+  background-color: rgb(48, 47, 47);
 }
 
 /* Corrigindo o corte do zoom no carrossel */
 .carousel-inner {
-overflow: visible;
-overflow: visible;
+  overflow: visible;
 }
 
-.carousel-control-prev-icon, .carousel-control-next-icon {
-background-color: black;
-border-radius: 50%;
-background-color: black;
-border-radius: 50%;
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: black;
+  border-radius: 50%;
 }
 
+/* Estilo do Nav e Header */
 nav {
-background-color: black;
-background-color: black;
-}
-
-/* HEADER */
-
-/* Inversão de cor para ícones com fundo transparente */
-#filter {
-filter: invert(1);
-background-color: transparent;
-filter: invert(1);
-background-color: transparent;
+  background-color: black;
 }
 
 header {
-background-color: black;
-padding: 10px;
-background-color: black;
-padding: 10px;
+  background-color: black;
+  padding: 10px;
 }
 
 .container {
-display: flex;
-justify-content: space-between;
-align-items: center;
-display: flex;
-justify-content: space-between;
-align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Imagem + menu lado esquerdo */
 .left-section {
-display: flex;
-align-items: center;
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .left-section img {
-margin-right: 20px;
-margin-right: 20px;
+  margin-right: 20px;
 }
 
-/* Menu e submenu */
-.menu {
-display: flex;
-list-style-type: none;
-margin: 0;
-padding: 0;
-background-color: white;
-display: flex;
-list-style-type: none;
-margin: 0;
-padding: 0;
-background-color: white;
-}
-
-.menu > li {
-margin-right: 20px;
-position: relative;
-bottom: 5px;
-margin-right: 20px;
-position: relative;
-bottom: 5px;
-}
-
-.menu a {
-background-color: white;
-text-decoration: none;
-background-color: white;
-text-decoration: none;
-}
-
-.menu li:hover > .submenu {
-display: block;
-display: block;
-}
-
-/* Submenu (categorias) */
-.submenu {
-display: none;
-position: absolute;
-top: 100%;
-left: 0;
-background-color: white;
-list-style-type: none;
-padding: 0;
-margin: 0;
-display: none;
-position: absolute;
-top: 100%;
-left: 0;
-background-color: white;
-list-style-type: none;
-padding: 0;
-margin: 0;
-}
-
-.submenu li {
-padding: 5px 10px;
-padding: 5px 10px;
-}
-
-.submenu a {
-background-color: white;
-text-decoration: none;
-background-color: white;
-text-decoration: none;
-}
-
-/* Seção central: logo */
+/* Logo */
 .logo {
-text-align: center;
-flex-grow: 1;
-text-align: center;
-flex-grow: 1;
+  text-align: center;
+  flex-grow: 1;
 }
 
 .logo img {
-max-width: 100%;
-max-width: 100%;
+  max-width: 100%;
+  height: 10vh;
 }
 
 .logo a {
-margin-right: 10%;
-margin-right: 10%;
-}
+  margin-right: 10%;
+  }
 
-/* Login e carrinho */
 .icons {
-display: flex;
-align-items: center;
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .icons a {
-margin-right: 20px;
-margin-right: 20px;
+  margin-right: 20px;
 }
 
 .icons img {
-width: 25px;
-width: 25px;
+  width: 25px;
 }
 
-/* LINHA HORIZONTAL */
+/* Menu e Submenu */
+.menu {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+.menu > li {
+  margin-right: 20px;
+  position: relative;
+  bottom: 5px;
+}
+
+.menu a {
+  background-color: white;
+  text-decoration: none;
+}
+
+.menu li:hover > .submenu {
+  display: block;
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.submenu li {
+  padding: 5px 10px;
+}
+
+.submenu a {
+  background-color: white;
+  text-decoration: none;
+}
+
+/* Inversão de cor para ícones com fundo transparente */
+#filter {
+  filter: invert(1);
+  background-color: transparent;
+}
+
+/* Linha horizontal */
 hr {
-background-color: gray;
-padding-top: 2px;
-margin-top: 5px;
-background-color: gray;
-padding-top: 2px;
-margin-top: 5px;
+  background-color: gray;
+  padding-top: 2px;
+  margin-top: 5px;
 }
 
-/* FOOTER */
-/* FOOTER */
+/* Footer */
 footer {
-background-color: black;
-color: white;
-text-align: center;
-padding: 10px;
-width: 100%;
-position: relative;
-bottom: 0;
-background-color: black;
-color: white;
-text-align: center;
-padding: 10px;
-width: 100%;
-position: relative;
-bottom: 0;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  position: relative;
+  bottom: 0;
 }
 
 /* Responsividade */
-@media (max-width: 990px) {
-.container {
+@media (max-width: 660px) {
+  .container {
+      flex-direction: column;
+  }
+
+  .logo {
+      min-width: 300px;
+  }
+}
+
+/* LOGIN - Estilo da página de login */
+.container-login {
   display: flex;
-}
-.container {
-  display: flex;
-}
-
-.col-md-4{
-  padding: 5px;
-}
-.col-md-4{
-  padding: 5px;
+  height: 100vh;
+  padding: 0;
 }
 
-.logo img{
-  max-width: 200px;
-}
-.logo img{
-  max-width: 200px;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  font-size: small;
-}
-.menu {
-  display: flex;
-  flex-direction: column;
-  font-size: small;
-}
-
-.left-section{
-  display: flex;
-  flex-direction: column;
-  margin-right: 20px;
-}
-.left-section{
-  display: flex;
-  flex-direction: column;
-  margin-right: 20px;
-}
-
-.icons{
-  flex-direction: column;
-  margin-left: 40px;
-}
-.icons{
-  flex-direction: column;
-  margin-left: 40px;
-}
-
-.space{
-  margin-top: 10px;
-  margin-bottom: 10px;
-} 
-
-.space{
-  margin-top: 10px;
-  margin-bottom: 10px;
-} 
-
-}
-
-/* REGISTO */
-
-.container-registo {
-display: flex;
-height: 100vh;
-padding: 0;
-}
-
-.lado-esquerdoR, .lado-direitoR {
+.lado-esquerdo,
+.lado-direito {
   flex: 1;
-  min-width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  min-width: 50%;
+}
+
+.imagem {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.linha {
+  background-color: black;
+  padding-top: 3px;
+  margin-bottom: 20px;
+}
+
+.login {
+  max-width: 70%;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 10%;
+}
+
+.login input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button-login button {
+  width: 100%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.button-login button:hover {
+  background-color: rgb(48, 47, 47);
+}
+
+.registar {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.registar a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+/* REGISTO - Estilo da página de registo */
+.container-registo {
+  display: flex;
+  height: 100vh;
+  padding: 0;
+}
+
+.lado-esquerdoR,
+.lado-direitoR {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50%;
 }
 
 .lado-direitoR {
-padding: 100px;
-padding-top: 8%;
-margin-bottom: 50px;
+  padding: 100px;
+  padding-top: 8%;
+  margin-bottom: 50px;
+  
 }
 
 .ficheiro {
   position: absolute;
   align-items: center;
   display: flex;
-  flex-direction: column;
   margin-top: 25%;
-  margin-left: 10%;
+  margin-left: 15%;
 }
 
 .foto{
   margin-bottom: 15%;
   border-radius: 50%;
+  border: solid 5px black; 
 }
 
 .checkbox {
-text-align: center;
-padding-right: 100px;
-display: flex;
+  text-align: center;
+  padding-right: 100px;
+  display: flex;
 }
 
 .checkbox label {
-padding-left: 50%;
-margin-right: 15px;
+  padding-left: 50%;
+  margin-right: 15px;
 }
 
 .registo {
-width: 100%;
+  width: 100%;
+  margin-bottom: 6%;
+  padding-top: 5%;
 }
 
 .form-group {
-display: flex;
-align-items: center;
-margin-top: 15px;
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
 }
 
 .form-group label {
-flex-basis: 30%;
-margin-right: 10px;
+  flex-basis: 30%;
+  margin-right: 10px;
 }
 
 .form-control {
-flex-basis: 65%;
+  flex-basis: 65%;
 }
 
-.button-registo button{
-  width: 50%;
+.file-button {
+  flex-direction: column;
+  width: 100%;
+}
+
+.button-registo button {
+  width: 30vw;
   padding: 10px;
   background-color: black;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 4%;
-  margin-left: 25%;
+  margin-top: 5%;
 }
 
 .button-registo button:hover {
-background-color: rgb(48, 47, 47);
+  background-color: rgb(48, 47, 47);
 }
 
+/* RESPONSIVIDADE */
 @media (max-width: 768px) {
-.container-registo {
-  flex-direction: column; /* Coloca a imagem e o formulário em pilha em telas menores */
-}
+  .container-login {
+      flex-direction: column;
+  }
 
-.lado-esquerdoR, .lado-direitoR {
-  flex-basis: 100%; /* Faz com que as colunas ocupem 100% da largura em tablets */
-  min-height: auto; /* Permite que as seções tenham altura automática em telas menores */
-}
+  .login {
+    margin-bottom: 10%;
+  }
 
-.form-group {
-  flex-direction: column; /* Torna os campos do formulário verticais em vez de lado a lado */
-}
+  .imagem {
+    display: none;
+  }
 
-.form-group label, .form-control {
-  width: 100%; /* Ambos os elementos ocupam a largura total do container */
-  flex-basis: 100%;
-}
+  .container-registo {
+      flex-direction: column;
+  }
+
+  /*.lado-esquerdoR,
+  .lado-direitoR {
+      flex-basis: 100%;
+      
+  }
+
+  .registo {
+    margin-bottom: 10%;
+  }*/
+
+  .form-group {
+      flex-direction: column;
+
+  }
+
+  .form-group label,
+  .form-control {
+      width: 100%;
+      flex-basis: 100%;
+  }
+
+  .form-group label {
+    margin-left: 5%;
+  }
 
   .button-registo button {
-    width: 50%; /* Botão ocupa 100% da largura em ecrãs menores */
+      width: 70vw;
+      margin-top: 10%;
   }
-}
 
+  #file-button {
+    margin-top: 7%;
+  }
+
+  .foto{
+    display: none;
+  }
+
+}
 
 /* COMPRA */
 .compra {
@@ -884,65 +458,57 @@ background-color: rgb(48, 47, 47);
 }
 
 .finalizar {
-  /*margin-left: 145vh;*/
   display: flex;
   flex-direction: row;
 }
 
-/*erro 404*/
-
-/* Estilo da seção de erro com imagem de fundo */
-.error-section {
-  position: relative;
-  background-image: url('../img/error-background.jpg'); /* Coloque sua imagem de fundo */
-  background-size: cover;
-  background-position: center;
-  height: 100vh; /* Altura total da tela */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.remover {
+  margin-top: 15%;
 }
 
-.overlay {
+.nome-arte {
+  display: contents;
+}
+
+/* ARTE/ARTIGO */
+.artigo {
+  margin-left: 10%;
+}
+
+.info {
+  padding-left: 8%;
+}
+
+.info h5, li {
+  margin-top: 5%
+}
+
+/* REGISTO DE ARTIGO */
+.ficheiro2 {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Sobreposição escura para legibilidade */
-  display: flex;
   align-items: center;
-  justify-content: left; /* Alinha o conteúdo à esquerda */
-  padding-left: 50px; /* Distância da margem esquerda */
+  display: flex;
+  margin-top: 10%;
+  margin-left: 5%;
 }
 
-.text-content {
-  color: white;
-  max-width: 500px; /* Limita a largura do conteúdo textual */
+.border1 {
+  width: 500%;
+  height: 400%;
+  margin-right: 12%;
+  border: dashed 5px black; 
+  position: fixed;
 }
 
-.text-content h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
+.registo2 {
+  width: 100%;
+  margin-bottom: 10%;
+  margin-right: 5%;
 }
 
-.text-content p {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+.nova-img {
+  width: 100%;
+  height: 388px;
+ 
+ 
 }
-
-.text-content .btn-primary {
-  background-color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.text-content .btn-primary:hover {
-  background-color: #959595;
-}
-

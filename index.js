@@ -199,6 +199,10 @@ app.post("/login", passport.authenticate("local", {
   })
 );
 
+app.get("/perfil", (req, res) => {
+  res.render(perfil);
+});
+
 //Página de Perfil do Utilizador
 app.get("/perfil/:id", async (req, res) => {
   const userID = parseInt(req.params.id);
