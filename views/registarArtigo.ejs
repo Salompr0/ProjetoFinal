@@ -9,9 +9,9 @@
   </div>-->
 
  <div class="ficheiro2">
-    <div class="border1">
+    <!--<div class="border1">Imagem
       <img class="nova-img" src="img/8.jpg" ><input type="hidden" name="nome_foto" value="">
-    </div>
+    </div>-->
   </div>
 
   <div class="lado-direito">
@@ -27,9 +27,9 @@
         <div class="mb-3 form-group">
           <label for="categoria" class="form-label">Categoria</label>
           <select class="form-select" id="categoria" naform-controlme="cat_id" required>
-            <% //categorias.forEach(function(categoria) { %>
-              <option value="<%= //categoria.cat_id %>"><%= //categoria.cat_nome %></option>
-            <% //}) %>
+            <% categorias.forEach(function(categoria) { %>
+              <option value="<%= categoria.cat_id %>"><%= categoria.cat_nome %></option>
+            <% }) %>
           </select>
         </div>
 
@@ -59,7 +59,7 @@
         </div>
 
         <div class="button-login">
-          <button type="submit" class="btn btn-primary">Registrar Artigo</button>
+          <button type="submit" class="btn btn-primary ">Registrar Artigo</button>
         </div>
       </form>
     </div>

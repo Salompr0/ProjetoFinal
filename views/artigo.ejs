@@ -4,18 +4,16 @@
   <div class="row">
     <div class="col-md-6">
       <!-- Imagem do artigo -->
-      <img src="<%= artigos.img %>" class="img-fluid" alt="<%= artigos.nome %>">
+      <img src="/img/8.jpg<%= artigos.img %>" class="img-fluid" alt="<%= artigos.nome %>">
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 info">
       <!-- Detalhes do artigo -->
-      <h1><%= artigos.nome %></h1>
-      <p class="preco"><%= artigos.preco %> €</p>
+      <h1>Pintura Agapórnis<%= artigos.nome %></h1>
       
       <p class="descricao"><%= artigos.descricao %></p>
 
-      <!-- Botão para adicionar ao carrinho -->
-      <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
+      <p class="preco">€ 200,00<%= artigos.preco %> </p>
 
       <!-- Outras informações sobre o artigo -->
       <h5>Informações adicionais</h5>
@@ -23,6 +21,9 @@
         <li><strong>Artista:</strong> <%= artigos.user_id %></li>
         <li><strong>Quantidade:</strong> <%= artigos.quantidade %></li>
       </ul>
+
+      <!-- Botão para adicionar ao carrinho -->
+      <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
 
     </div>
   </div>

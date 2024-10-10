@@ -21,7 +21,7 @@ env.config();
 //Conexão à session
 app.use(
     session({
-      secret: "",
+      secret: "WELCOMEARTE24",
       resave: false,
       saveUninitialized: true,
     })
@@ -46,14 +46,15 @@ const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
 const registoArt = join(__dirname, "views/registarArtigo.ejs");
+const checkout = join(__dirname, "views/checkout.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
-    user: "",
-    host: "",
-    database: "",
-    password: "",
-    port: ,
+    user: "postgres",
+    host: "localhost",
+    database: "LogArte",
+    password: "Mari9770",
+    port: "5432",
   });
   db.connect();
   //console.log(process.env);
@@ -197,6 +198,10 @@ app.post("/login", passport.authenticate("local", {
     })
 );
 
+app.get("/perfil", (req, res) => {
+    res.render(perfil);
+});
+
 //Página de Perfil do Utilizador
 app.get("/perfil/:id", async (req, res) => {
     const userID = parseInt(req.params.id);
@@ -271,6 +276,10 @@ app.get("/compra", (req, res) => {
 
     res.render(compra, { pedidos: pedidos});
 });
+
+app.get("/checkout", (req, res) => {
+    res.render(checkout);
+})
 
 
 
