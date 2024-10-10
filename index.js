@@ -20,15 +20,18 @@ const salt = 10;
 //Conexão ao dotenv
 env.config();
 
-
 //Conexão à session
 app.use(
     session({
       secret: "WELCOMEARTE24",
       resave: false,
       saveUninitialized: true,
+      cookie: { secure: false }
     })
   );
+
+app.use(passport.session());
+app.use(passport.initialize());
 
 //CSS Path
 app.use(express.static("public"));
@@ -36,8 +39,6 @@ app.use(express.static("public"));
 //app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 //The path names
@@ -48,6 +49,7 @@ const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
 const registoArt = join(__dirname, "views/registarArtigo.ejs");
+const perfilView = join(__dirname, "views/perfil.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -94,7 +96,7 @@ async function getArtigos(){
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
 
-        console.log(req.user);
+        //console.log(req.user);
 
         const categoriaDestaque = await getCategorias();
 
@@ -120,16 +122,22 @@ app.get("/login", (req, res) => {
 });
 
 //Página de Perfil do Utilizador
-app.get("/perfil/:id", async (req, res) => {
-    const userID = parseInt(req.params.id);
+app.get("/perfil", async (req, res) => {
 
-    const result = await db.query('SELECT * FROM user WHERE user_id = $1', [userID]);
-    const perfil = result.rows;
+    console.log("Authenticated:", req.isAuthenticated());
+    console.log("User:", req.user);
 
-    //console.log(userID);
-    console.log(perfil);
+        const loggedin = req.isAuthenticated();
+        
+        const userID = req.user.user_id;
+        
+        const result = await db.query("SELECT * FROM users WHERE user_id = $1", [userID]);
 
-    res.render(perfil, { perfil: perfil});
+        const perfil = result.rows[0];
+
+        res.render(perfilView, { perfil: perfil, loggedin: loggedin});
+    
+  
 });
 
 //Página com todas as categorias
@@ -179,7 +187,7 @@ app.get("/logout", (req, res) => {
   });
 
 //Página para editar utilizador
-app.patch("edit/user/:id", (req, res) => {
+app.patch("editar/perfil/:id", (req, res) => {
 
     
     res.render(registo);
@@ -245,16 +253,15 @@ app.post("/registar", async (req, res) => {
 });
 
 passport.use(new LocalStrategy(async (username, password, cb) => {
-    //console.log("Ajuda");
         try {
             const result = await db.query("SELECT * FROM users WHERE user_nome = $1", [username]);
 
-            console.log(result);
+            //console.log(result);
             if(result.rows.length > 0){
                 const user = result.rows[0];
                 const hashedPass = user.password;
                 
-                console.log(user);
+                //console.log(user);
 
                 const valid = await bcrypt.compare(password, hashedPass);
                     if(valid) {
@@ -280,14 +287,21 @@ app.post('/login',
     (req, res) => {
       res.redirect('/');
     });
-    
+
 
 passport.serializeUser((user, cb) => {
-    cb(null, user);
-  });
-  passport.deserializeUser((user, cb) => {
-    cb(null, user);
-  });
+    return cb(null, user.user_id);
+});
+
+passport.deserializeUser(async (id, cb) => {
+    try {
+        const result = await db.query("SELECT * FROM users WHERE user_id = $1", [id]);
+        cb(null, result.rows[0]); // Attach user data to the session
+    } catch (err) {
+        cb(err);
+    }
+});
+ 
   
 
 app.listen(port, () => {
