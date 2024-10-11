@@ -1,13 +1,13 @@
 <%- include("partials/header.ejs") %>
 
 <div class="container my-5">
-  <h1 class="text-center mb-4">Registar Novo Artigo</h1>
+  <h1 class="text-center mb-4">Atualizar Artigo</h1>
 
-  <form action="/registoArtigo" method="post">
+  <form action="/editarArtigo/<%= artigos.art_id %>" method="post">
 
     <div class="mb-3">
       <label for="nome_art" class="form-label">Nome do Artigo</label>
-      <input type="text" class="form-control" id="nome_art" name="nome_art" required>
+      <input type="text" class="form-control" id="nome_art" name="nome_art" value="<%= artigos.nome %>" required>
     </div>
 
     <div class="mb-3">
@@ -17,24 +17,24 @@
 
     <div class="mb-3">
       <label for="preco" class="form-label">Preço (€)</label>
-      <input type="number" step="0.01" class="form-control" id="preco" name="preco" min="0" required>
+      <input type="number" step="0.01" class="form-control" id="preco" name="preco" value="<%= artigos.preco %>" min="0" required>
     </div>
 
     <div class="mb-3">
       <label for="quantidade" class="form-label">Quantidade</label>
-      <input type="number" class="form-control" id="quantidade" name="quantidade" min="0" required>
+      <input type="number" class="form-control" id="quantidade" name="quantidade" value="<%= artigos.quantidade %>" min="0" required>
     </div>
 
     <div class="mb-3">
       <label for="descricao" class="form-label">Descrição</label>
-      <textarea class="form-control" id="descricao" name="descricao" rows="4" required></textarea>
+      <textarea class="form-control" id="descricao" name="descricao" rows="4" required><%= artigos.descricao %></textarea>
     </div>
 
     <div class="mb-3">
       <label for="categoria" class="form-label">Categoria</label>
-      <select class="form-select" id="categoria" name="cat_id" required>
+      <select class="form-select" id="categoria" name="cat_id" value="<% artigos.cat_id %>" required>
         <% for (i = 0; i < total; i++){ %> 
-          <option value="<%= categoria[i].cat_id %>">
+          <option value="<%= categoria[i].cat_id %>" <% if(categoria[i].cat_id === artigos.cat_id) { %> selected <% } %>>
             <%= categoria[i].cat_nome %>
           </option>
         <% } %>

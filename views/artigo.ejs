@@ -18,7 +18,7 @@
       <% let j = 0 %>
       <% for (i = 0; i < totalUsers; i ++) { %>
         <% if(users[i].user_id === artigos.user_id) {%>
-          <a href="/registoArtigo">
+          <a href="/editarArtigo/<%= artigos.art_id %>">
             <button>
               Editar artigo
             </button>
