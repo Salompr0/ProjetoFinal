@@ -91,7 +91,7 @@ async function getArtigos(){
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
 
-        console.log(req.user);
+        //console.log(req.user);
         
         const categoriaDestaque = await getCategorias();
 
@@ -119,8 +119,8 @@ app.get("/login", (req, res) => {
 //Página de Perfil do Utilizador
 app.get("/perfil", async (req, res) => {
 
-    console.log("Authenticated:", req.isAuthenticated());
-    console.log("User:", req.user);
+    //console.log("Authenticated:", req.isAuthenticated());
+    //console.log("User:", req.user);
 
     const loggedin = req.isAuthenticated();
     const logoutSuccess = req.query.logoutSuccess === 'true';
@@ -185,14 +185,60 @@ app.get("/logout", (req, res) => {
   });
 
 //Página para editar utilizador
-app.patch("editar/perfil/:id", (req, res) => {
+app.post("/perfil", async (req, res) => {
+    //console.log("Authenticated:", req.isAuthenticated());
+    //console.log("User:", req.user);
 
+    const loggedin = req.isAuthenticated();
+        
+    const userID = req.user.user_id;
+    //console.log("ID:", userID);
+
+    const result = await db.query("SELECT * FROM users WHERE user_id = $1", [userID]);
+    const perfilAtual = result.rows[0];
+
+    //console.log("PERFIL ATUAL:", perfil);
     
-    res.render(registo);
+    
+    if(req.body.nome) perfilAtual.user_nome = req.body.nome;
+    if(req.body.email) perfilAtual.email = req.body.email;
+    if(req.body.telemovel) perfilAtual.telemovel = req.body.telemovel;
+    if(req.body.nif) perfilAtual.nif = req.body.nif;
+    if(req.body.morada) perfilAtual.morada = req.body.morada;
+    if(req.body.qualificacao) perfilAtual.qualificacao = req.body.qualificacao;
+    if(req.body.foto) perfilAtual.img_user = req.body.foto;
+    if(req.body.senha) {
+
+        const hashedPass = await bcrypt.hash(req.body.senha, salt);
+        perfilAtual.password = hashedPass;
+    }
+    
+    try{
+        await db.query(`UPDATE users SET user_nome = $1, email = $2, telemovel= $3, nif = $4, morada = $5, qualificacao = $6, img_user = $7, password = $8 WHERE user_id = $9`, [
+            perfilAtual.user_nome,
+            perfilAtual.email,
+            perfilAtual.telemovel,
+            perfilAtual.nif,
+            perfilAtual.morada,
+            perfilAtual.qualificacao,
+            perfilAtual.img_user,
+            perfilAtual.password,
+            userID
+        ]);
+
+        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin });
+    } catch(err) {
+        console.log(err);
+    }
+
+        
+
 });
 
 //Página para registar artigo
 app.post("/registoArtigo", async (req, res) => {
+    
+    const loggedin = req.isAuthenticated();
 
     const nome = req.body["nome_art"];
     const img = req.body["img"];
