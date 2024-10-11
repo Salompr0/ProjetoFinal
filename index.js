@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import bodyParser from "body-parser";
-import env from "dotenv";
+import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
@@ -12,22 +12,24 @@ import { fileURLToPath } from "url";
 const app = express();
 const port = 3000;
 
-//var LocalStrategy = require('passport-local').Strategy;
-
 //Hashing 10 vezes
 const salt = 10;
 
 //Conexão ao dotenv
-env.config();
+dotenv.config();
 
 //Conexão à session
 app.use(
     session({
-      secret: "",
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
+      cookie: { secure: false }
     })
   );
+
+app.use(passport.session());
+app.use(passport.initialize());
 
 //CSS Path
 app.use(express.static("public"));
@@ -35,8 +37,6 @@ app.use(express.static("public"));
 //app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 //The path names
@@ -47,19 +47,18 @@ const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
 const registoArt = join(__dirname, "views/registarArtigo.ejs");
+const perfilView = join(__dirname, "views/perfil.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
-    user: "",
-    host: "",
-    database: "",
-    password: "",
-    port: ,
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
   });
   db.connect();
-  //console.log(process.env);
-
-//console.log( process.env.PG_PASSWORD);
+//console.log(process.env);
 
 //Função para obter categorias
 async function getCategorias(){
@@ -92,8 +91,8 @@ async function getArtigos(){
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
 
-        console.log(req.user);
-
+        //console.log(req.user);
+        
         const categoriaDestaque = await getCategorias();
 
         const artigos = await getArtigos();
@@ -103,9 +102,9 @@ app.get("/", async (req, res) => {
         let newRow = [];
 
         const loggedin = req.isAuthenticated();
-        const logoutSuccess = req.query.logoutSuccess === 'true';
+        
 
-        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin, logoutSuccess: logoutSuccess});
+        res.render(home, { categoria: categoriaDestaque, artigo: artigos, totalArtigo: artigos.length, idArtigo: idArtigo, newRow: newRow, loggedin: loggedin });
 
 });
 
@@ -199,16 +198,25 @@ app.get("/login", (req, res) => {
 });
 
 //Página de Perfil do Utilizador
-app.get("/perfil/:id", async (req, res) => {
-    const userID = parseInt(req.params.id);
+app.get("/perfil", async (req, res) => {
 
-    const result = await db.query('SELECT * FROM user WHERE user_id = $1', [userID]);
-    const perfil = result.rows;
+    //console.log("Authenticated:", req.isAuthenticated());
+    //console.log("User:", req.user);
 
-    //console.log(userID);
-    console.log(perfil);
+    const loggedin = req.isAuthenticated();
+    const logoutSuccess = req.query.logoutSuccess === 'true';
+        
+    const userID = req.user.user_id;
+        
+        const result = await db.query("SELECT * FROM users WHERE user_id = $1", [userID]);
+        
+        const perfil = result.rows[0];
 
-    res.render(perfil, { perfil: perfil});
+        //console.log("ID:", userID);
+        //console.log("PERFIL:", perfil);
+
+        res.render(perfilView, { perfil: perfil, loggedin: loggedin, logoutSuccess: logoutSuccess});
+     
 });
 
 //Página com todas as categorias
@@ -258,14 +266,60 @@ app.get("/logout", (req, res) => {
   });
 
 //Página para editar utilizador
-app.patch("edit/user/:id", (req, res) => {
+app.post("/perfil", async (req, res) => {
+    //console.log("Authenticated:", req.isAuthenticated());
+    //console.log("User:", req.user);
 
+    const loggedin = req.isAuthenticated();
+        
+    const userID = req.user.user_id;
+    //console.log("ID:", userID);
+
+    const result = await db.query("SELECT * FROM users WHERE user_id = $1", [userID]);
+    const perfilAtual = result.rows[0];
+
+    //console.log("PERFIL ATUAL:", perfil);
     
-    res.render(registo);
+    
+    if(req.body.nome) perfilAtual.user_nome = req.body.nome;
+    if(req.body.email) perfilAtual.email = req.body.email;
+    if(req.body.telemovel) perfilAtual.telemovel = req.body.telemovel;
+    if(req.body.nif) perfilAtual.nif = req.body.nif;
+    if(req.body.morada) perfilAtual.morada = req.body.morada;
+    if(req.body.qualificacao) perfilAtual.qualificacao = req.body.qualificacao;
+    if(req.body.foto) perfilAtual.img_user = req.body.foto;
+    if(req.body.senha) {
+
+        const hashedPass = await bcrypt.hash(req.body.senha, salt);
+        perfilAtual.password = hashedPass;
+    }
+    
+    try{
+        await db.query(`UPDATE users SET user_nome = $1, email = $2, telemovel= $3, nif = $4, morada = $5, qualificacao = $6, img_user = $7, password = $8 WHERE user_id = $9`, [
+            perfilAtual.user_nome,
+            perfilAtual.email,
+            perfilAtual.telemovel,
+            perfilAtual.nif,
+            perfilAtual.morada,
+            perfilAtual.qualificacao,
+            perfilAtual.img_user,
+            perfilAtual.password,
+            userID
+        ]);
+
+        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin });
+    } catch(err) {
+        console.log(err);
+    }
+
+        
+
 });
 
 //Página para registar artigo
 app.post("/registoArtigo", async (req, res) => {
+    
+    const loggedin = req.isAuthenticated();
 
     const nome = req.body["nome_art"];
     const img = req.body["img"];
@@ -324,16 +378,15 @@ app.post("/registar", async (req, res) => {
 });
 
 passport.use(new LocalStrategy(async (username, password, cb) => {
-    //console.log("Ajuda");
         try {
             const result = await db.query("SELECT * FROM users WHERE user_nome = $1", [username]);
 
-            console.log(result);
+            //console.log(result);
             if(result.rows.length > 0){
                 const user = result.rows[0];
                 const hashedPass = user.password;
                 
-                console.log(user);
+                //console.log(user);
 
                 const valid = await bcrypt.compare(password, hashedPass);
                     if(valid) {
@@ -359,14 +412,21 @@ app.post('/login',
     (req, res) => {
       res.redirect('/');
     });
-    
+
 
 passport.serializeUser((user, cb) => {
-    cb(null, user);
-  });
-  passport.deserializeUser((user, cb) => {
-    cb(null, user);
-  });
+    return cb(null, user.user_id);
+});
+
+passport.deserializeUser(async (id, cb) => {
+    try {
+        const result = await db.query("SELECT * FROM users WHERE user_id = $1", [id]);
+        cb(null, result.rows[0]); // Attach user data to the session
+    } catch (err) {
+        cb(err);
+    }
+});
+ 
   
 
 app.listen(port, () => {
