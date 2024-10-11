@@ -68,8 +68,10 @@
             </div>
             <!--Se for vendedor-->
             <h2>Minha Arte</h2>
-            <!--Falta dispôr os artigos dos utilizadores-->
-            <% } %>
+            <% for (i = 0; i < totalArtigo; i ++){ %>
+                <% if(artigos.user_id = perfil.user_id) {%>
+                <!--Dispôr os artigos do utilizador-->
+            <% }}} %>
 
             <!-- Botão de Atualizar Perfil -->
             <button type="submit" class="btn btn-primary">Atualizar Perfil</button>
@@ -78,6 +80,13 @@
         <form action="/logout">
             <button type="submit" class="btn btn-primary">Logout</button>
         </form>
+        <% if(perfil.vendedor = true){ %>
+            <a href="/registoArtigo">
+                <button>
+                    Adicionar Artigo
+                </button>
+            </a>
+        <% } %>
     </div>
   </div>
 </div>

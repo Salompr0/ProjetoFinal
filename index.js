@@ -149,8 +149,12 @@ app.get("/categorias", async (req, res) => {
 });
 
 //Registo de artigo
-app.get("/registoArtigo", (req, res) => {
-    res.render(registoArt);
+app.get("/registoArtigo", async (req, res) => {
+
+    const loggedin = req.isAuthenticated();
+    const categorias = await getCategorias();
+
+    res.render(registoArt, {categoria: categorias, total: categorias.length, loggedin:loggedin});
 });
 
 //Página de um artigo
@@ -226,18 +230,21 @@ app.post("/perfil", async (req, res) => {
             userID
         ]);
 
-        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin });
+        const artigos = await getArtigos();
+    
+        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin, artigos: artigos });
     } catch(err) {
         console.log(err);
     }
-
-        
 
 });
 
 //Página para registar artigo
 app.post("/registoArtigo", async (req, res) => {
     
+    console.log("Authenticated:", req.isAuthenticated());
+    console.log("User:", req.user);
+
     const loggedin = req.isAuthenticated();
 
     const nome = req.body["nome_art"];
@@ -254,7 +261,7 @@ app.post("/registoArtigo", async (req, res) => {
 
     console.log(result);
 
-    res.render(registoArt, {categoria: categorias, total: categorias.length});
+    res.render(registoArt, {categoria: categorias, total: categorias.length, loggedin: loggedin});
 });
 
 //Página de Registo

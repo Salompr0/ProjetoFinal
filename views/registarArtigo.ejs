@@ -34,11 +34,10 @@
       <label for="categoria" class="form-label">Categoria</label>
       <select class="form-select" id="categoria" name="cat_id" required>
         <% for (i = 0; i < total; i++){ %> 
-        <% //categorias.forEach((categoria) => { %>
           <option value="<%= categoria[i].cat_id %>">
             <%= categoria[i].cat_nome %>
           </option>
-        <% }/*) */%>
+        <% } %>
       </select>
     </div>
 
