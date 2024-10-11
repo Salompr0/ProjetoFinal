@@ -249,7 +249,7 @@ app.post("/perfil", async (req, res) => {
 
         const artigos = await getArtigos();
     
-        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length, artigoUser: artigoUser});
+        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length});
     } catch(err) {
         console.log(err);
     }

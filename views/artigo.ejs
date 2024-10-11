@@ -15,6 +15,7 @@
       <p class="descricao"><%= artigos.descricao %></p>
 
       <!-- Botão para adicionar ao carrinho -->
+      <% let j = 0 %>
       <% for (i = 0; i < totalUsers; i ++) { %>
         <% if(users[i].user_id === artigos.user_id) {%>
           <a href="/registoArtigo">
@@ -22,9 +23,11 @@
               Editar artigo
             </button>
           </a>
+          <% j ++ %>
           <% }} %>
+          <% if(j < 0){ %>
             <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
-  
+          <% } %>
       <!-- Outras informações sobre o artigo -->
       <h5>Informações adicionais</h5>
       <ul>
