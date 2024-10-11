@@ -15,11 +15,16 @@
       <p class="descricao"><%= artigos.descricao %></p>
 
       <!-- Botão para adicionar ao carrinho -->
-      <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
       <% for (i = 0; i < totalUsers; i ++) { %>
-          <% if(users[i].user_id === artigos.user_id) {%>
-            <a href="/registoArtigo">Editar artigo</a>
-      <% }} %>
+        <% if(users[i].user_id === artigos.user_id) {%>
+          <a href="/registoArtigo">
+            <button>
+              Editar artigo
+            </button>
+          </a>
+          <% }} %>
+            <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
+  
       <!-- Outras informações sobre o artigo -->
       <h5>Informações adicionais</h5>
       <ul>

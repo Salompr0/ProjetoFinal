@@ -249,7 +249,7 @@ app.post("/perfil", async (req, res) => {
 
         const artigos = await getArtigos();
     
-        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length});
+        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length, artigoUser: artigoUser});
     } catch(err) {
         console.log(err);
     }
@@ -310,7 +310,7 @@ app.post("/registar", async (req, res) => {
     const password = req.body["password"];
     
     try{
-        const checkResult = await db.query("SELECT * FROM users WHERE user_nome = $1", [nome]);
+        const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
 
         if (checkResult.rows.length > 0){
             res.redirect("/login");
