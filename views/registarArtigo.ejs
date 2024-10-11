@@ -3,7 +3,7 @@
 <div class="container my-5">
   <h1 class="text-center mb-4">Registrar Novo Artigo</h1>
 
-  <form action="/registoArtigo" method="POST" enctype="multipart/form-data">
+  <form action="/registoArtigo" method="post">
 
     <div class="mb-3">
       <label for="nome_art" class="form-label">Nome do Artigo</label>
@@ -12,7 +12,7 @@
 
     <div class="mb-3">
       <label for="img" class="form-label">Imagem do Artigo</label>
-      <input type="file" class="form-control" id="img" name="img" accept="image/*" required>
+      <input type="file" class="form-control" id="img" name="img" accept="img/*" required>
     </div>
 
     <div class="mb-3">

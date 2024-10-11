@@ -87,6 +87,19 @@ async function getArtigos(){
     return artigos;
 }
 
+async function getUsers(){
+
+    let users = [];
+
+    const result = await db.query("SELECT * FROM users ORDER BY user_id ASC");
+
+    users = result.rows;
+
+    //console.log(users);
+    
+    return users;
+}
+
 //Página principal
 app.get("/", async (req, res) => {
     //Categorias em Destaque (Acrílico, Aguarelas)
@@ -134,7 +147,9 @@ app.get("/perfil", async (req, res) => {
         //console.log("ID:", userID);
         //console.log("PERFIL:", perfil);
 
-        res.render(perfilView, { perfil: perfil, loggedin: loggedin, logoutSuccess: logoutSuccess});
+        const artigos = await getArtigos();
+    
+        res.render(perfilView, { perfil: perfil, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length});
      
 });
 
@@ -160,14 +175,16 @@ app.get("/registoArtigo", async (req, res) => {
 //Página de um artigo
 app.get("/arte/:id", async (req, res) => {
 
+    const loggedin = req.isAuthenticated();
     const artID = parseInt(req.params.id);
+    const users = await getUsers();
 
     const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
     const artigo = result.rows[0];
 
     //console.log(artigo);
 
-    res.render(artigoescolhido, { artigos: artigo});
+    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length });
 });
 
 //Página do carrinho de compras
@@ -232,7 +249,7 @@ app.post("/perfil", async (req, res) => {
 
         const artigos = await getArtigos();
     
-        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin, artigos: artigos });
+        res.render(perfilView, { perfil: perfilAtual, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length});
     } catch(err) {
         console.log(err);
     }
@@ -242,10 +259,15 @@ app.post("/perfil", async (req, res) => {
 //Página para registar artigo
 app.post("/registoArtigo", async (req, res) => {
     
-    console.log("Authenticated:", req.isAuthenticated());
-    console.log("User:", req.user);
+    //console.log("Authenticated:", req.isAuthenticated());
+    //console.log("User:", req.user);
 
+    const userID = req.user.user_id;
+    
     const loggedin = req.isAuthenticated();
+
+    const categorias = await getCategorias();
+    //console.log(categorias);
 
     const nome = req.body["nome_art"];
     const img = req.body["img"];
@@ -254,14 +276,24 @@ app.post("/registoArtigo", async (req, res) => {
     const descricao = req.body["descricao"];
     const categoria = req.body["cat_id"];
 
-    const categorias = await getCategorias();
-    console.log(categorias);
+    //console.log("NOVO NOME:", nome);
 
-    const result = await db.query("INSERT INTO artigo (nome_art, img, preco, quantidade, descricao, cat_id) VALUES ($1, $2, $3, $4, $5, $6)", [nome, img, preco, quantidade, descricao, categoria]);    
+    try{
+        const checkResult = await db.query("SELECT * FROM artigo WHERE nome = $1", [nome]);
 
-    console.log(result);
+        if (checkResult.rows.length > 0){
+            res.redirect("/perfil");
 
-    res.render(registoArt, {categoria: categorias, total: categorias.length, loggedin: loggedin});
+        } else {
+        const result = await db.query("INSERT INTO artigo (nome, img, preco, quantidade, descricao, user_id, cat_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", [nome, img, preco, quantidade, descricao, userID, categoria]);    
+
+        console.log(result.rows[0]);
+
+        res.redirect("/perfil");
+        }
+    } catch(err) {
+        console.log(err);
+    }
 });
 
 //Página de Registo

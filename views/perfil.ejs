@@ -69,7 +69,23 @@
             <!--Se for vendedor-->
             <h2>Minha Arte</h2>
             <% for (i = 0; i < totalArtigo; i ++){ %>
-                <% if(artigos.user_id = perfil.user_id) {%>
+                <% if(artigos[i].user_id === perfil.user_id) {%>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <% if(artigos[i].vendido){ %>
+                            <p>Vendido</p>
+                            <% } %>
+                            <a href="/arte/<%= artigos[i].art_id %>">
+                            <img src="/img/<%= artigos[i].img %>" class="card-img-top" alt="<%= artigos[i].nome %>">
+                          </a>
+                          <div class="card-body">
+                            <h5 class="card-title"><%= artigos[i].nome %></h5>
+                            <p class="preco"><%= artigos[i].preco %></p>
+                            <p class="card-text descricao"><%= artigos[i].descricao %></p>
+                            <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                          </div>
+                        </div>
+                      </div>
                 <!--Dispôr os artigos do utilizador-->
             <% }}} %>
 
@@ -80,7 +96,7 @@
         <form action="/logout">
             <button type="submit" class="btn btn-primary">Logout</button>
         </form>
-        <% if(perfil.vendedor = true){ %>
+        <% if(perfil.vendedor == true){ %>
             <a href="/registoArtigo">
                 <button>
                     Adicionar Artigo
