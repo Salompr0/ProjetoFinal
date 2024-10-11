@@ -45,6 +45,7 @@ const perfil = join(__dirname, "views/perfil.ejs");
 const artigoescolhido = join(__dirname, "views/artigo.ejs");
 const categorias = join(__dirname, "views/categorias.ejs");
 const compra = join(__dirname, "views/compra.ejs");
+const checkout = join(__dirname, "views/checkout.ejs");
 const registoArt = join(__dirname, "views/registarArtigo.ejs");
 
 
@@ -276,6 +277,11 @@ app.get("/compra", (req, res) => {
   const pedidos = 0;//change
 
   res.render(compra, { pedidos: pedidos});
+});
+
+//Página de checkout
+app.get("/checkout", (req, res) => {
+  res.render(checkout);
 });
 
 
