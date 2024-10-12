@@ -1,45 +1,62 @@
 <%- include("partials/header.ejs") %>
 
+<% let total = []; %>
+<% if(pedidos.length > 0) {%>
 <div class="container my-5 compra">
   <h1 class="mb-4 ">Meu Carrinho</h1>
-  
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Produto</th>
-        <th>Quantidade</th>
-        <th>Preço Unitário</th>
-        <th>Subtotal</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody class="">
-      <% //pedidos.forEach(item => { %>
+  <% pedidos.forEach(item => { %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Preço Unitário</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="">
         <tr>
           <td> 
-            <a href="/artigo/3"><!--/artigo/:id-->
-              <img src="/img/8.jpg" width="100" alt="Pintura Agapórnis">
+            <a href="/arte/">
+              <img src="/img/<%= item.img %>" width="100" alt="<%= item.nome %>">
             </a>
             <p class="nome-arte">Pintura Agapórnis</p>
-            <%= //item.nome_art %>
+            <%= item.nome %>
           </td>
-          <td><%= //item.quantidade %>1</td>
-          <td>€ 180,00<%= //item.preco.toFixed(2) %></td>
-          <td>€ 180,00<%= //(item.quantidade * item.preco).toFixed(2) %></td>
+          <td><%= item.quantidade %></td>
+          <td> <%= item.preco.toFixed(2) %> €</td>
+          <td><%= (item.quantidade * item.preco).toFixed(2) %> €</td>
           <td>
-            <a href="/remover"></a>
-              <img src="/img/remover.png" width="25" alt="lixo" class="remover">
-            </a>
+          <% total.push((item.quantidade * item.preco).toFixed(2)) %>
+            <form src="/atualizarCarrinho/<%= item.art_id %>">
+              <button class="">
+                <input type="number" name="quantidade" value="<%= item.quantidade %>" min="0" max="<%= item.quantidadeTotal %>">
+              </button>
+            </form>
+            <form src="/removerCarrinho/<%= item.art_id %>">
+              <button>
+                <img src="/img/" width="25" alt="lixo" class="remover">
+              </button>
+            </form>
           </td>
         </tr>
-      <% //}) %>
+      <% }) %>
     </tbody>
   </table>
   
   <div class="text-end finalizar">
-    <h4 class="total">Total:  € 180,00<%= //total.toFixed(2) %></h4>
+    <% let soma = 0; %>
+    <% for(let i = 0; i < total.length; i++) { %>
+      <% total[i] %>
+      <% soma = soma + total[i]; %>
+    <% } %>
+    <h4 class="total">Total: <%= soma.toFixed(2) %>€</h4>
     <a href="/checkout" class="btn btn-primary">Finalizar Compra</a>
   </div>
 </div>
+<% } else {%>
+  <p>O carrinho está vazio.</p>
+<% } %>
 
 <%- include("partials/footer.ejs") %>
