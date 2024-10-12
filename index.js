@@ -211,21 +211,43 @@ app.post("/editarArtigo/:id", async (req, res) => {
 
     const loggedin = req.isAuthenticated();
     const artID = parseInt(req.params.id);
-    console.log(artID);
+    //console.log(artID);
 
     const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
     const artigo = result.rows[0];
-
     
+    //console.log("ARTIGO ATUAL:", artigo);
+    
+    if(req.body.nome_art) artigo.nome = req.body.nome_art;
+    if(req.body.img) artigo.img = req.body.img;
+    if(req.body.preco) artigo.preco = parseFloat(req.body.preco);
+    if(req.body.quantidade) artigo.quantidade = parseInt(req.body.quantidade);
+    if(req.body.descricao) artigo.descricao = req.body.descricao;
+    if(req.body.cat_id) artigo.cat_id = req.body.cat_id; 
 
-    if(preco < 0 || quantidade < 0){
+    if(artigo.preco < 0 || artigo.quantidade < 0){
         return res.status(400).send("Preço e quantidade não podem ser negativos.");
+    } else {
+
+        try{
+
+            await db.query(`UPDATE artigo SET nome= $1, img = $2, preco = $3, quantidade = $4, descricao = $5, cat_id = $6 WHERE art_id = $7`, [
+                artigo.nome,
+                artigo.img,
+                artigo.preco,
+                artigo.quantidade,
+                artigo.descricao,
+                artigo.cat_id,
+                artID
+            ]);
+
+            res.render(editarArtigo, { artigos: artigo, loggedin: loggedin, totalUsers: users.length });
+
+        } catch(err) {
+            console.log(err);
+        }
     }
-
-    //console.log(artigo);
-
-    res.render(editarArtigo, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length });
-})
+});
 
 //Página do carrinho de compras
 app.get("/compra", (req, res) => {
