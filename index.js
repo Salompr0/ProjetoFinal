@@ -238,10 +238,12 @@ app.get("/perfil", async (req, res) => {
 //Página com todas as categorias
 app.get("/categorias", async (req, res) => {
 
+    const loggedin = req.isAuthenticated();
+
     const categoria = await getCategorias();
     const artigo = await getArtigos();
     
-    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length});
+    res.render(categorias, { categoria: categoria, total: categoria.length, artigos: artigo, loggedin: loggedin });
 
 });
 
@@ -277,6 +279,14 @@ app.get("/editarArtigo/:id", async (req, res) => {
 app.get("/arte/:id", async (req, res) => {
 
     const loggedin = req.isAuthenticated();
+
+    const userID = req.user.user_id;;
+
+    if(req.isAuthenticated() === false){
+        
+        userID = 0;
+    }
+
     const artID = parseInt(req.params.id);
     const users = await getUsers();
 
@@ -285,7 +295,7 @@ app.get("/arte/:id", async (req, res) => {
 
     //console.log(artigo);
 
-    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length });
+    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID });
 });
 
 app.post("/editarArtigo/:id", async (req, res) => {

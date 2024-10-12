@@ -1,9 +1,32 @@
 <%- include("partials/header.ejs") %>
 
-  
-    <% for (i = 0; i < total; i++){ %>
-    <p><%= categoria[i].cat_nome %></p>
-    <% } %>
+<% for (i = 0; i < total; i++){ %>
+<div class="my-5">
+  <h1 class="mb-4">Categoria: <%= categoria[i].cat_nome %></h1>
+    <div class="row">
+      <% artigos.forEach((artigo) => { %>
+        <% if(categoria[i].cat_id === artigo.cat_id) {%>
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <a href="/arte/<%= artigo.art_id %>">
+              <img src="/img/<%= artigo.img %>" class="card-img-top" alt="<%= artigo.nome_art %>">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title"><%= artigo.nome_art %></h5>
+              <p class="preco"><strong>Preço:</strong> <%= artigo.preco %> €</p>
+              <p class="descricao"><%= artigo.descricao %></p>
+              <a href="/arte/<%= artigo.art_id %>" class="btn btn-primary">Ver Artigo</a>
+            </div>
+          </div>
+        </div>
+      <% }}) %>
+    </div>
+    <% //} else { %>
+        <!--<p>Não há artigos disponíveis nesta categoria no momento.</p>-->
+    <% //} %>
+  <% } %>
 
+  <a href="/categorias" class="btn btn-secondary mt-4">Voltar às Categorias</a>
+</div>
 
 <%- include("partials/footer.ejs") %>
