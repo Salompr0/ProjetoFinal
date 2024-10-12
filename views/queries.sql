@@ -25,7 +25,7 @@ VALUES ('Acrílico'), ('Aguarela'), ('Carvão'), ('Óleo');
 -- Tabela Artigos
 CREATE TABLE artigo (
     art_id SERIAL PRIMARY KEY,
-    nome_art VARCHAR(255),
+    nome VARCHAR(255),
     img TEXT,
     preco DECIMAL(10, 2),
     vendido BOOLEAN DEFAULT FALSE,
