@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-md-6">
       <!-- Imagem do artigo -->
-      <img src="<%= artigos.img %>" class="img-fluid" alt="<%= artigos.nome %>">
+      <img src="img/<%= artigos.img %>" class="img-fluid" alt="<%= artigos.nome %>">
     </div>
 
     <div class="col-md-6">
@@ -23,10 +23,10 @@
             </button>
           </a>
           <% //j ++ %>
-      <% } %>
+      <% } else {%>
         <% //if(j < 0){ %>
           <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
-        <% //} %>
+        <% } %>
       <!-- Outras informações sobre o artigo -->
       <h5>Informações adicionais</h5>
       <ul>
