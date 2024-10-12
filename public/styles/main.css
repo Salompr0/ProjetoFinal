@@ -76,6 +76,8 @@ main {
 .btn-primary {
   background-color: #000000;
   border: none;
+  color: white;
+  border-radius: 4px;
   padding: 10px 20px;
   margin-top: auto;
 }
@@ -209,10 +211,13 @@ footer {
   background-color: black;
   color: white;
   text-align: center;
-  padding: 10px;
+  padding: 1% 5%;
   width: 100%;
-  position: relative;
-  bottom: 0;
+  /*position: relative;*/
+}
+
+.container-1 {
+  margin-left: 25%;
 }
 
 /* Responsividade */
@@ -223,6 +228,15 @@ footer {
 
   .logo {
       min-width: 300px;
+  }
+
+  footer {
+    width: 100%;
+    
+  }
+  
+  .container-1 {
+    margin-left: 5%;
   }
 }
 
@@ -255,7 +269,7 @@ footer {
 }
 
 .login {
-  max-width: 70%;
+  max-width: 65%;
 }
 
 .title {
@@ -273,7 +287,7 @@ footer {
   border-radius: 4px;
 }
 
-.button-login button {
+/*.button-login button {
   width: 100%;
   padding: 10px;
   background-color: black;
@@ -286,7 +300,7 @@ footer {
 
 .button-login button:hover {
   background-color: rgb(48, 47, 47);
-}
+}*/
 
 .registar {
   margin-top: 30px;
@@ -367,7 +381,7 @@ footer {
   flex-basis: 65%;
 }
 
-.file-button {
+/*.file-button {
   flex-direction: column;
   width: 100%;
 }
@@ -385,7 +399,7 @@ footer {
 
 .button-registo button:hover {
   background-color: rgb(48, 47, 47);
-}
+}*/
 
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
@@ -430,14 +444,14 @@ footer {
     margin-left: 5%;
   }
 
-  .button-registo button {
+  /*.button-registo button {
       width: 70vw;
       margin-top: 10%;
   }
 
-  #file-button {
+  .file-button {
     margin-top: 7%;
-  }
+  }*/
 
   .foto{
     display: none;
@@ -449,6 +463,13 @@ footer {
 .compra {
   flex-direction: column;
   align-items: start;
+  margin-top: 2%;
+}
+
+.table {
+  padding-right: 50%;
+  text-align: center;
+
 }
 
 .total {
@@ -459,6 +480,9 @@ footer {
 .finalizar {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  margin-left: 3%;
+  margin-top: 2%;
 }
 
 .remover {
@@ -502,17 +526,52 @@ footer {
 .registo2 {
   width: 100%;
   margin-bottom: 10%;
-  margin-right: 5%;
+  margin-right: 8%;
 }
 
 .nova-img {
   width: 100%;
-  height: 388px;
- 
- 
+  height: 65vh;
+  padding-right: 8%;
 }
 
 /* PERFIL */
+.button-perfil {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8% 25% 2%;
+}
+
+.img-perfil {
+  padding-left: 125%;
+}
+
+
 
 /* CHECKOUT */
+.container-check {
+  margin-left: 10%;
+  margin-right: 10%;
+}
 
+.item {
+  margin-bottom: 0%;
+  margin-top: 2%;
+  
+}
+
+.title-check {
+  text-align: center;
+  margin-bottom: 20px;
+ 
+}
+
+.button-check {
+  width: 50%;
+  padding: 6px;
+  margin: 5% 40% 2%;
+}
+
+
+ 

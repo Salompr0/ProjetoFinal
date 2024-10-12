@@ -4,7 +4,7 @@
   <h1 class="mb-4 ">Meu Carrinho</h1>
   
   <table class="table">
-    <thead>
+    <!--<thead>
       <tr>
         <th>Produto</th>
         <th>Quantidade</th>
@@ -12,7 +12,7 @@
         <th>Subtotal</th>
         <th></th>
       </tr>
-    </thead>
+    </thead>-->
     <tbody class="">
       <% //pedidos.forEach(item => { %>
         <tr>
@@ -27,7 +27,7 @@
           <td>€ 180,00<%= //item.preco.toFixed(2) %></td>
           <td>€ 180,00<%= //(item.quantidade * item.preco).toFixed(2) %></td>
           <td>
-            <a href="/remover"></a>
+            <a href="/remover">
               <img src="/img/remover.png" width="25" alt="lixo" class="remover">
             </a>
           </td>
@@ -36,9 +36,11 @@
     </tbody>
   </table>
   
-  <div class="text-end finalizar">
+  <div class=" finalizar">
     <h4 class="total">Total:  € 180,00<%= //total.toFixed(2) %></h4>
-    <a href="/checkout" class="btn btn-primary">Finalizar Compra</a>
+    <a href="/checkout">
+    <button class="btn-primary">Finalizar Compra</button>
+    </a>
   </div>
 </div>
 
