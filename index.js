@@ -199,12 +199,16 @@ app.get("/arte/:id", async (req, res) => {
 
     const loggedin = req.isAuthenticated();
 
-    const userID = req.user.user_id;;
+    let userID = 0;
 
-    if(req.isAuthenticated() === false){
+    if(req.isAuthenticated() === true){
         
+        userID = req.user.user_id;
+    } else {
         userID = 0;
     }
+
+    //console.log("USER ID: ", userID);
 
     const artID = parseInt(req.params.id);
     const users = await getUsers();
