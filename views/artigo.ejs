@@ -15,18 +15,17 @@
       <p class="descricao"><%= artigos.descricao %></p>
 
       <!-- Botão para adicionar ao carrinho -->
-      <% //let j = 0 %>
         <% if(artista === artigos.user_id) {%>
           <a href="/editarArtigo/<%= artigos.art_id %>">
             <button>
               Editar artigo
             </button>
           </a>
-          <% //j ++ %>
       <% } else {%>
-        <% //if(j < 0){ %>
-          <a href="/compra" class="btn btn-primary my-3">Adicionar ao Carrinho</a>
-        <% } %>
+        <form action="/adicionarCarrinho/<%= artigos.art_id %>" method="POST">
+          <button type="submit" class="btn btn-primary my-3">Adicionar ao Carrinho</button>
+        </form>
+      <% } %>
       <!-- Outras informações sobre o artigo -->
       <h5>Informações adicionais</h5>
       <ul>

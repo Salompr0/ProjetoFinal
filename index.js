@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import bodyParser from "body-parser";
+import { log } from "console";
 import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
@@ -24,7 +25,10 @@ app.use(
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: false }
+      cookie: {
+        secure: process.env.NODE_ENV === 'production', // Use secure=true apenas em produção com HTTPS
+        maxAge: 1000 * 60 * 60 * 24 // Duração do cookie: 1 dia
+    }
     })
   );
 
@@ -345,11 +349,83 @@ app.post("/editarArtigo/:id", async (req, res) => {
 });
 
 //Página do carrinho de compras
-app.get("/compra", (req, res) => {
+app.get("/carrinho", (req, res) => {
 
-    const pedidos = 0;//change
+    const loggedin = req.isAuthenticated();
 
-    res.render(compra, { pedidos: pedidos});
+    const carrinho = req.session.carrinho;
+
+
+    res.render(compra, { pedidos: carrinho, loggedin: loggedin});
+});
+
+//Iniciar sessão do carrinho e Adicionar artigo ao carrinho
+app.post("/adicionarCarrinho/:id", async (req, res) => {
+
+    const artID = parseInt(req.params.id);
+
+    const result = await db.query("SELECT * FROM artigo WHERE art_id = $1", [artID]);
+
+    const artigo = result.rows[0];
+
+    //console.log("ARTIGO ESCOLHIDO:", artigo);
+
+    if(!req.session.carrinho){
+
+        req.session.carrinho = [];
+    }
+
+    const artigoAdicionado = req.session.carrinho.find(item => item.art_id === artID);
+    
+    if(artigoAdicionado){
+
+        artigoAdicionado.quantidade ++;
+
+    } else {
+
+        req.session.carrinho.push({
+            art_id: artigo.art_id,
+            nome: artigo.nome,
+            img: artigo.img,
+            preco: artigo.preco,
+            quantidade: 1,
+            quantidadeTotal: artigo.quantidade
+        });
+    }
+
+    res.redirect("/");
+});
+
+//Atualizar artigo no carrinho
+app.post("/atualizarCarrinho/:id", async (req, res) => {
+
+    const artID = parseInt(req.params.id);
+
+    const novaQuantidade = parseInt(req.body.quantidade);
+
+    const artigoExistente = req.session.carrinho.find(artigo => artigo.art_id === artID);
+
+    if(artigoExistente){
+        if (novaQuantidade <= 0){
+            req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
+
+        } else {
+            artigoExistente.quantidade = novaQuantidade;
+        }
+    }
+    res.redirect("/carrinho");
+});
+
+//Remover do Carrinho
+app.post("/removerCarrinho/:id", (req, res) => {
+
+    const artID = parseInt(req.params.id);
+
+    req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
+
+    //console.log("Carrinho após remoção:", req.session.carrinho);
+
+    res.redirect("/carrinho");
 });
 
 //Logout
