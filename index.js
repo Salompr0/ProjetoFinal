@@ -25,7 +25,10 @@ app.use(
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: false }
+      cookie: {
+        secure: process.env.NODE_ENV === 'production', // Use secure=true apenas em produção com HTTPS
+        maxAge: 1000 * 60 * 60 * 24 // Duração do cookie: 1 dia
+    }
     })
   );
 
@@ -284,7 +287,7 @@ app.post("/adicionarCarrinho/:id", async (req, res) => {
 
     const artigo = result.rows[0];
 
-    console.log("ARTIGO ESCOLHIDO:", artigo);
+    //console.log("ARTIGO ESCOLHIDO:", artigo);
 
     if(!req.session.carrinho){
 
@@ -313,11 +316,11 @@ app.post("/adicionarCarrinho/:id", async (req, res) => {
 });
 
 //Atualizar artigo no carrinho
-app.post("atualizarCarrinho/:id", async (req, res) => {
+app.post("/atualizarCarrinho/:id", async (req, res) => {
 
-    const artID = req.params.id;
+    const artID = parseInt(req.params.id);
 
-    const novaQuantidade = req.params.body;
+    const novaQuantidade = parseInt(req.body.quantidade);
 
     const artigoExistente = req.session.carrinho.find(artigo => artigo.art_id === artID);
 
@@ -333,12 +336,14 @@ app.post("atualizarCarrinho/:id", async (req, res) => {
 });
 
 //Remover do Carrinho
-app.post("/removerCarrinho", (req, res) => {
+app.post("/removerCarrinho/:id", (req, res) => {
 
-    const artID = req.params.id;
+    const artID = parseInt(req.params.id);
 
     req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
-    
+
+    //console.log("Carrinho após remoção:", req.session.carrinho);
+
     res.redirect("/carrinho");
 });
 

@@ -25,7 +25,9 @@
                                 <h5 class="card-title"><%= artigo[i].nome %></h5>
                                 <p class="preco"><%= artigo[i].preco %></p>
                                 <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                                <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                                <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                                  <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                                </form>
                               </div>
                             </div>
                           </div>
@@ -53,7 +55,9 @@
                         <h5 class="card-title"><%= artigo[i].nome %></h5>
                         <p class="preco"><%= artigo[i].preco %></p>
                         <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                        <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                        <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                          <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                        </form>
                       </div>
                     </div>
                   </div>
@@ -97,7 +101,9 @@
                                   <h5 class="card-title"><%= artigo[i].nome %></h5>
                                   <p class="preco"><%= artigo[i].preco %></p>
                                   <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                                  <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                                  <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                                    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                                  </form>
                                 </div>
                               </div>
                             </div>
@@ -127,7 +133,9 @@
                         <h5 class="card-title"><%= artigo[i].nome %></h5>
                         <p class="preco"><%= artigo[i].preco %></p>
                         <p class="card-text descricao"><%= artigo[i].descricao %></p>
-                        <a href="/carrinho" class="btn btn-primary">Adicionar ao Carrinho</a>
+                        <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                          <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                        </form>
                       </div>
                     </div>
                   </div>

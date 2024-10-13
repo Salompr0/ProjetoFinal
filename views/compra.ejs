@@ -1,6 +1,7 @@
 <%- include("partials/header.ejs") %>
 
 <% let total = []; %>
+<% pedidos = pedidos || []; %>
 <% if(pedidos.length > 0) {%>
 <div class="container my-5 compra">
   <h1 class="mb-4 ">Meu Carrinho</h1>
@@ -18,27 +19,26 @@
       <tbody class="">
         <tr>
           <td> 
-            <a href="/arte/">
+            <a href="/arte/<%= item.art_id %>">
               <img src="/img/<%= item.img %>" width="100" alt="<%= item.nome %>">
             </a>
             <p class="nome-arte">Pintura Agapórnis</p>
             <%= item.nome %>
           </td>
           <td><%= item.quantidade %></td>
-          <td> <%= item.preco.toFixed(2) %> €</td>
-          <td><%= (item.quantidade * item.preco).toFixed(2) %> €</td>
+          <td> <%= item.preco %> €</td>
+          <td><%= (item.quantidade * item.preco) %> €</td>
           <td>
-          <% total.push((item.quantidade * item.preco).toFixed(2)) %>
-            <form src="/atualizarCarrinho/<%= item.art_id %>">
-              <button class="">
-                <input type="number" name="quantidade" value="<%= item.quantidade %>" min="0" max="<%= item.quantidadeTotal %>">
-              </button>
-            </form>
-            <form src="/removerCarrinho/<%= item.art_id %>">
-              <button>
-                <img src="/img/" width="25" alt="lixo" class="remover">
-              </button>
-            </form>
+          <% total.push((item.quantidade * item.preco)) %>
+          <form action="/atualizarCarrinho/<%= item.art_id %>" method="post">
+            <input type="number" name="quantidade" value="<%= item.quantidade %>" min="0" max="<%= item.quantidadeTotal %>" style="width: 60px;">
+            <button type="submit" class="btn btn-secondary">Atualizar</button>
+          </form>
+          <form action="/removerCarrinho/<%= item.art_id %>" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger" aria-label="Remover <%= item.nome %> do carrinho">
+              <img src="/img/lixo.png" width="25" alt="Remover" class="remover">
+            </button>
+          </form>          
           </td>
         </tr>
       <% }) %>
