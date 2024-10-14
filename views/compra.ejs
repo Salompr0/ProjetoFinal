@@ -46,13 +46,13 @@
   </table>
   
   <div class="text-end finalizar">
-    <% let soma = 0; %>
+    <% let soma = 0 %>
     <% for(let i = 0; i < total.length; i++) { %>
       <% total[i] %>
       <% soma = soma + total[i]; %>
     <% } %>
     <h4 class="total">Total: <%= soma.toFixed(2) %>€</h4>
-    <a href="/checkout" class="btn btn-primary">Finalizar Compra</a>
+    <a href="/checkout" class="">Finalizar Compra</a>
   </div>
 </div>
 <% } else {%>

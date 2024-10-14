@@ -239,13 +239,19 @@ app.get("/carrinho", (req, res) => {
 
 app.get("/checkout", (req, res) => {
 
-    const loggedin = req.user.user_id;
+    const loggedin = req.isAuthenticated();
+    
+    if (!loggedin){        
+        return res.redirect("/login");
+    }
     const carrinho = req.session.carrinho || [];
 
     res.render(checkout, { loggedin: loggedin, carrinho: carrinho});
 });
 
 app.post("/checkout", async (req, res) => {
+
+    const userID= req.user.user_id;
 
     const carrinho = req.session.carrinho;
 
@@ -257,7 +263,7 @@ app.post("/checkout", async (req, res) => {
         pais: req.body.pais,
         cidade: req.body.cidade,
         codigoPostal: req.body.codigo, 
-        pagamento: paymentMethod       
+        pagamento: req.body.paymentMethod       
     }
 
     if(!carrinho || carrinho.length === 0){
@@ -270,18 +276,25 @@ app.post("/checkout", async (req, res) => {
     console.log("DATA ATUAL", atualDate);
 
     try {
-        for(const item of carrinho){
-            await db.query("INSERT INTO pedido (pedido_data, quantidade, user_id, art_id, preco) VALUES ($1, $2, $3, $4, $5)", [
+        for(const item of carrinho){//item & carrinho from session
+            await db.query("INSERT INTO pedido (pedido_data, quantidade, email, morada, codigoPostal, metodoPagamento, preco, user_id, art_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [
                 atualDate,
                 item.quantidade,
-                req.user.user_id,
-                item.art_id,
-                item.preco * item.quantidade
+                email,
+                morada,
+                codigoPostal,
+                metodoPagamento,
+                item.preco * item.quantidade,
+                userID,
+                item.art_id                
             ]);
         }
+        req.session.carrinho = [];
+        
+        res.redirect("/?checkoutSuccess=true");
 
     } catch (err) {
-        console.log();
+        console.log(err);
         res.redirect("/?checkoutError=true");
     }
 
@@ -572,13 +585,30 @@ passport.use(new LocalStrategy(async (username, password, cb) => {
 );
 
 //Página de login
-app.post('/login', 
-    passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-    (req, res) => {
-      res.redirect('/');
+app.post('/login',(req, res, next) => {
+
+    const carrinho = req.session.carrinho;
+
+    passport.authenticate('local', (err, user, info) => {
+        if(err) {
+            return next(err);
+        }
+
+        if(!user) {
+            return res.redirect("/login");
+        }
+    });
+    req.logIn(user, (err) => {
+        if(err) {
+            return next(err);
+        }
+
+        req.session.carrinho = carrinho || [];
+
+        return res.redirect("/");
     });
 
-
+});
 passport.serializeUser((user, cb) => {
     return cb(null, user.user_id);
 });
