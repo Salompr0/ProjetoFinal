@@ -1,7 +1,7 @@
 <%- include("partials/header.ejs") %>
 
 <div class="container-check">
-    <!-- Informações do Usuário -->
+    <!-- Informações do Utilizador -->
       <h1 class="title-check">Perfil do Utilizador</h1>
       <hr class="linha">
   
@@ -14,20 +14,20 @@
           <!-- Foto do Perfil -->
           <div class="col-md-4 text-center">
             <div class="profile-image img-perfil">
-              <img src="img/f.jpg" alt="Foto de Perfil" class="foto" width="250" height="180" ><input type="hidden" name="nome_foto" value="">
+              <img src="img/f.jpg" alt="Foto de Perfil" class="foto" width="250" height="180" >
             </div>
           </div>
           
-          <!-- Nome do Usuário -->
+          <!-- Nome do Utilizado -->
           <div class="mb-3">
             <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" value="<%= //perfil.user_nome %>" required>
+            <input type="text" class="form-control" id="nome" name="nome" value="<%= perfil.user_nome %>" required>
           </div>
 
-          <!-- Email do Usuário -->
+          <!-- Email do Utilizador  -->
           <div class="mb-3">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="<%= //perfil.email %>" required>
+            <input type="email" class="form-control" id="email" name="email" value="<%= perfil.email %>" required>
           </div>
 
           <!-- Atualizar Foto de Perfil -->
@@ -48,61 +48,61 @@
           <!-- Morada -->
           <div class="mb-3">
             <label for="morada">Morada</label>
-            <input type="text" class="form-control" id="morada" name="morada" value="<%= //perfil.morada %>" required>
+            <input type="text" class="form-control" id="morada" name="morada" value="<%= perfil.morada %>" required>
           </div>
 
           <!-- Telefone -->
           <div class="mb-3">
             <label for="telemovel">Telefone</label>
-            <input type="text" class="form-control" id="telemovel" name="telemovel" value="<%= //perfil.telemovel %>" required>
+            <input type="text" class="form-control" id="telemovel" name="telemovel" value="<%= perfil.telemovel %>" required>
           </div>
 
           <!-- NIF -->
           <div class="mb-3">
             <label for="nif">NIF</label>
-            <input type="text" class="form-control" id="nif" name="nif" value="<%= //perfil.nif %>" required>
+            <input type="text" class="form-control" id="nif" name="nif" value="<%= perfil.nif %>" required>
           </div>
 
           <!-- Se for vendedor, exibir as qualificações -->
-          <% //if (perfil.vendedor == true) { %>
+          <% if (perfil.vendedor == true) { %>
           <h2 class="mt-5">Qualificações</h2>
           <div class="mb-3">
             <label for="qualificacao">Qualificações</label>
-            <textarea class="form-control" id="qualificacao" name="qualificacao" rows="3"><%= //perfil.qualificacao %></textarea>
+            <textarea class="form-control" id="qualificacao" name="qualificacao" rows="3"><%= perfil.qualificacao %></textarea>
           </div>
 
           <!--Se for vendedor-->
           <h2 class="mt-5">Meus Artigos</h2>
-              <% //for (i = 0; i < totalArtigo; i ++){ %>
-                  <% //if(artigos.user_id = perfil.user_id) {%>
+              <% for (i = 0; i < totalArtigo; i ++){ %>
+                  <% if(artigos.user_id = perfil.user_id) {%>
                       <div class="col-md-4">
                           <div class="card">
-                              <% //if(artigos[i].vendido){ %>
+                              <% if(artigos[i].vendido){ %>
                               <p>Vendido</p>
-                              <% //} %>
-                              <a href="/arte/<%= //artigos[i].art_id %>">
-                              <img src="/img/8.jpg<%= //artigos[i].img %>" class="card-img-top" alt="<%= //artigos[i].nome %>">
+                              <% } %>
+                              <a href="/arte/<%= artigos[i].art_id %>">
+                              <img src="/img/<%= artigos[i].img %>" class="card-img-top" alt="<%= artigos[i].nome %>">
                             </a>
                             <div class="card-body">
-                              <h5 class="card-title"><%= //artigos[i].nome %></h5>
-                              <p class="preco"><%= //artigos[i].preco %></p>
-                              <p class="card-text descricao"><%= //artigos[i].descricao %></p>
+                              <h5 class="card-title"><%= artigos[i].nome %></h5>
+                              <p class="preco"><%= artigos[i].preco %></p>
+                              <p class="card-text descricao"><%= artigos[i].descricao %></p>
                             </div>
                           </div>
                         </div>
                   <!--Dispôr os artigos do utilizador-->
-             <% //}}} %>
+             <% }}} %>
     
           <div class="button-perfil">
             <!-- Botão de Atualizar Perfil -->
             <button type="submit" class="btn-primary">Atualizar Perfil</button>
         </form>
           
-            <% //if(perfil.vendedor == true){ %>
+            <% if(perfil.vendedor == true){ %>
               <a href="/registoArtigo">
-                <button type="submit" class="btn-primary">Adicionar Artigo</button>
+                <button class="btn-primary">Adicionar Artigo</button>
               </a>
-            <% //} %>
+            <% } %>
 
             <!-- Botão de logout Perfil -->
             <form action="/logout">

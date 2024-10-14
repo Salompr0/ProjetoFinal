@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import bodyParser from "body-parser";
+import { log } from "console";
 import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
@@ -24,7 +25,10 @@ app.use(
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: false }
+      cookie: {
+        secure: process.env.NODE_ENV === 'production', // Use secure=true apenas em produção com HTTPS
+        maxAge: 1000 * 60 * 60 * 24 // Duração do cookie: 1 dia
+    }
     })
   );
 
@@ -50,7 +54,6 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 const perfilView = join(__dirname, "views/perfil.ejs");
 const editarArtigo = join(__dirname, "views/editarArtigo.ejs");
 const checkout = join(__dirname, "views/checkout.ejs");
-const erro = join(__dirname, "views/404.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -68,7 +71,7 @@ async function getCategorias(){
     let categoria = [];
     
     const result = await db.query("SELECT * FROM categoria");
-  
+
     categoria = result.rows;
     
     //console.log(categoria);
@@ -128,87 +131,6 @@ app.get("/registar", (req, res) => {
     res.render(registo);
 });
 
-//Página de Registo
-app.post("/registar", async (req, res) => {
-
-    const nome = req.body["nome"];
-    const email = req.body["email"];
-    const telemovel = req.body["telemovel"];
-    const nif = req.body["nif"];
-    const morada = req.body["morada"];
-    const qualificacao = req.body["qualificacao"];
-    const vendedor = req.body["vendedor"];
-    const img = req.body["img"];
-    const password = req.body["password"];
-    
-    try{
-        const checkResult = await db.query("SELECT FROM users WHERE email = $1", [email]);
-
-        if (checkResult.rows.length > 0){
-            res.send("Esse email já existe. Tente fazer login.");
-        } else {
-            bcrypt.hash(password, salt, async (err, hash) => {
-                if (err){
-                    console.log("Error hashing password: ", err);
-                } else {
-                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
-
-                    console.log(result);
-                    res.render(home);
-                }
-            });    
-        }
-    } catch (err){
-        console.log(err);
-    }
-});
-
-passport.use(
-    new LocalStrategy(async function verify(username, password, cb) {
-        try {
-            const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
-
-            if(result.rows.length > 0){
-                const user = result.rows[0];
-                const pass = user.password;
-
-                bcrypt.compare(password, pass, (err, valid) => {
-                    if(err) {
-                        console.error("Erro ao comparar as passwords: ", err);
-                        return cb(err);
-                    } else {
-                        if(valid) {
-                            return cb(null, user);
-                        } else {
-                            return cb(null, false); 
-                        }
-                    }    
-                });
-            } else {
-                return cb(" Utilizador não encontrado");
-            }
-        } catch (err){
-            console.log(err); 
-        }
-    })
-);
-    
-passport.serializeUser((user, cb) => {
-  cb(null, user);
-});
-passport.deserializeUser((user, cb) => {
-  cb(null, user);
-});
-
-app.get("/logout", (req, res) => {
-    req.logout(function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.redirect("/");
-    });
-  });
-
 app.get("/login", (req, res) => {
     res.render(login);
 });
@@ -240,10 +162,12 @@ app.get("/perfil", async (req, res) => {
 //Página com todas as categorias
 app.get("/categorias", async (req, res) => {
 
+    const loggedin = req.isAuthenticated();
+
     const categoria = await getCategorias();
     const artigo = await getArtigos();
     
-    res.render(categorias, { categoria: categoria, total: categoria.length, artigo: artigo, totalArtigo: artigo.length});
+    res.render(categorias, { categoria: categoria, total: categoria.length, artigos: artigo, loggedin: loggedin });
 
 });
 
@@ -279,6 +203,18 @@ app.get("/editarArtigo/:id", async (req, res) => {
 app.get("/arte/:id", async (req, res) => {
 
     const loggedin = req.isAuthenticated();
+
+    let userID = 0;
+
+    if(req.isAuthenticated() === true){
+        
+        userID = req.user.user_id;
+    } else {
+        userID = 0;
+    }
+
+    //console.log("USER ID: ", userID);
+
     const artID = parseInt(req.params.id);
     const users = await getUsers();
 
@@ -287,7 +223,81 @@ app.get("/arte/:id", async (req, res) => {
 
     //console.log(artigo);
 
-    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length });
+    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID });
+});
+
+//Página do carrinho de compras
+app.get("/carrinho", (req, res) => {
+
+    const loggedin = req.isAuthenticated();
+
+    const carrinho = req.session.carrinho;
+
+
+    res.render(compra, { pedidos: carrinho, loggedin: loggedin});
+});
+
+app.get("/checkout", (req, res) => {
+
+    const loggedin = req.isAuthenticated();
+    
+    if (!loggedin){        
+        return res.redirect("/login");
+    }
+    const carrinho = req.session.carrinho || [];
+
+    res.render(checkout, { loggedin: loggedin, carrinho: carrinho});
+});
+
+app.post("/checkout", async (req, res) => {
+
+    const userID= req.user.user_id;
+
+    const carrinho = req.session.carrinho;
+
+    const comprador = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        morada: req.body.morada,
+        pais: req.body.pais,
+        cidade: req.body.cidade,
+        codigoPostal: req.body.codigo, 
+        pagamento: req.body.paymentMethod       
+    }
+
+    if(!carrinho || carrinho.length === 0){
+        res.redirect("/");
+    }
+
+    const date = new Date();
+    const atualDate = date.toISOString().split('T')[0];
+
+    console.log("DATA ATUAL", atualDate);
+
+    try {
+        for(const item of carrinho){//item & carrinho from session
+            await db.query("INSERT INTO pedido (pedido_data, quantidade, email, morada, codigoPostal, metodoPagamento, preco, user_id, art_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [
+                atualDate,
+                item.quantidade,
+                email,
+                morada,
+                codigoPostal,
+                metodoPagamento,
+                item.preco * item.quantidade,
+                userID,
+                item.art_id                
+            ]);
+        }
+        req.session.carrinho = [];
+        
+        res.redirect("/?checkoutSuccess=true");
+
+    } catch (err) {
+        console.log(err);
+        res.redirect("/?checkoutError=true");
+    }
+
 });
 
 app.post("/editarArtigo/:id", async (req, res) => {
@@ -332,20 +342,73 @@ app.post("/editarArtigo/:id", async (req, res) => {
     }
 });
 
-//Página do carrinho de compras
-app.get("/compra", (req, res) => {
+//Iniciar sessão do carrinho e Adicionar artigo ao carrinho
+app.post("/adicionarCarrinho/:id", async (req, res) => {
 
-    const pedidos = 0;//change
+    const artID = parseInt(req.params.id);
 
-    res.render(compra, { pedidos: pedidos});
+    const result = await db.query("SELECT * FROM artigo WHERE art_id = $1", [artID]);
+
+    const artigo = result.rows[0];
+
+    //console.log("ARTIGO ESCOLHIDO:", artigo);
+
+    if(!req.session.carrinho){
+
+        req.session.carrinho = [];
+    }
+
+    const artigoAdicionado = req.session.carrinho.find(item => item.art_id === artID);
+    
+    if(artigoAdicionado){
+
+        artigoAdicionado.quantidade ++;
+
+    } else {
+
+        req.session.carrinho.push({
+            art_id: artigo.art_id,
+            nome: artigo.nome,
+            img: artigo.img,
+            preco: artigo.preco,
+            quantidade: 1,
+            quantidadeTotal: artigo.quantidade
+        });
+    }
+
+    res.redirect("/");
 });
 
-app.get("/checkout", (req, res) => {
-    res.render(checkout);
-})
+//Atualizar artigo no carrinho
+app.post("/atualizarCarrinho/:id", async (req, res) => {
 
-app.get("/erro", (req, res) => {
-    res.render(erro);
+    const artID = parseInt(req.params.id);
+
+    const novaQuantidade = parseInt(req.body.quantidade);
+
+    const artigoExistente = req.session.carrinho.find(artigo => artigo.art_id === artID);
+
+    if(artigoExistente){
+        if (novaQuantidade <= 0){
+            req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
+
+        } else {
+            artigoExistente.quantidade = novaQuantidade;
+        }
+    }
+    res.redirect("/carrinho");
+});
+
+//Remover do Carrinho
+app.post("/removerCarrinho/:id", (req, res) => {
+
+    const artID = parseInt(req.params.id);
+
+    req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
+
+    //console.log("Carrinho após remoção:", req.session.carrinho);
+
+    res.redirect("/carrinho");
 });
 
 //Logout
@@ -522,13 +585,31 @@ passport.use(new LocalStrategy(async (username, password, cb) => {
 );
 
 //Página de login
-app.post('/login', 
-    passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-    (req, res) => {
-      res.redirect('/');
-    });
+app.post('/login',(req, res, next) => {
 
+    const carrinho = req.session.carrinho;
 
+    passport.authenticate('local', (err, user, info) => {
+        if(err) {
+            return next(err);
+        }
+
+        if(!user) {
+            return res.redirect("/login");
+        }
+
+        req.logIn(user, (err) => {
+            if(err) {
+                return next(err);
+            }
+
+            req.session.carrinho = carrinho || [];
+
+            return res.redirect("/");
+        });
+
+    })(req, res, next);
+});
 passport.serializeUser((user, cb) => {
     return cb(null, user.user_id);
 });
@@ -545,5 +626,5 @@ passport.deserializeUser(async (id, cb) => {
   
 
 app.listen(port, () => {
-    console.log(`Successfully started server on port ${port}.`);
+    console.log(`Successfully started server on port ${port}.`);
 });

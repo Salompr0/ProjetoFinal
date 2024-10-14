@@ -11,7 +11,7 @@
 
 <header>
     <!--Navbar:    Categorias         Login/Registo-->
-    <nav >
+    <nav>
         <div class="container" id="filter">
           <div class="left-section">
             <!--<a href="#"><img src="img/icon.png" width="40" alt="Icon"></a>-->
@@ -35,11 +35,15 @@
 
           <!--Icones Login e Carrinho-->
           <div class="icons">
+            <% if(loggedin == true) { %>
+              <a href="/perfil"><img src="../img/login1.jpg" width="25" alt="Login"></a>
+            <% } else if (loggedin == false){ %>
             <a href="/login"><img src="../img/login1.jpg" width="25" alt="Login"></a>
-            <a href="/compra"><img src="../img/carrinho.png" width="25" alt="Carrinho"></a> 
+            <% } %>
+            <a href="/carrinho"><img src="../img/carrinho.png" width="25" alt="Carrinho"></a> 
           </div>
         </div>
       </nav>
 </header> 
-<hr>
+<hr class="hr1">
 <main>

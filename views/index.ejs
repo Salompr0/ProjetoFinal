@@ -1,7 +1,7 @@
 <%- include("partials/header.ejs") %>
 
 <div class="container gallery my-5">
-  <h5> <%= //categoria[0].cat_nome %> </h5>
+  <h5> <%= categoria[0].cat_nome %> </h5>
 
       <!-- Carrossel Customizado -->
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -9,62 +9,59 @@
           <!-- Primeiro slide -->
                 <div class="carousel-item active">
                   <div class="row">
-                    <% //for (i = 0; i < totalArtigo; i ++){ %>
-                      <% //if (idArtigo.length < 3) { %>
-                        <% //if (artigo[i].cat_id == 1){ %>
-                          <% //if (artigo[i].vendido === true){ %>
-                            <% //break %>
-                          <% //} %>
-                          <% //idArtigo[i] = artigo[i].art_id %>
+                    <% for (let i = 0; i < totalArtigo; i ++){ %>
+                      <% if (idArtigo.length < 3) { %>
+                        <% if (artigo[i].cat_id == 1){ %>
+                          <% if (artigo[i].vendido === true){ %>
+                            <% break %>
+                          <% } %>
+                          <% idArtigo.push(artigo[i].art_id); %>
                           <div class="col-md-4">
                             <div class="card">
-                                <a href="/arte/<%= //artigo[i].art_id %>">
-                                <img src="/img/<%= //artigo[i].img %>" class="card-img-top" alt="<%= //artigo[i].nome %>">
+                                <a href="/arte/<%= artigo[i].art_id %>">
+                                <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
                               </a>
                               <div class="card-body">
-                                <h5 class="card-title"><%= //artigo[i].nome %></h5>
-                                <p class="preco"><%= //artigo[i].preco %></p>
-                                <p class="card-text descricao"><%= //artigo[i].descricao %></p>
-                                <a href="/carrinho">
-                                  <button class="btn-primary">Adicionar ao Carrinho</button>
-                                </a>
+                                <h5 class="card-title"><%= artigo[i].nome %></h5>
+                                <p class="preco"><%= artigo[i].preco %></p>
+                                <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                                <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                                  <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                                </form>
                               </div>
                             </div>
                           </div>
-                      <% //} else { %>
-                        <% //break; %>
-                      <% //} /*console.log(idArtigo)*/} }%>
+                      <% } %>
+                      <% } /console.log(idArtigo)/} %>
                   </div>
                 </div>
             
           <!-- Segundo slide -->
           <div class="carousel-item">
             <div class="row">
-              <% //let j = 0 %>
-              <% //for (i = 0; i < totalArtigo; i ++){ %>
-                <% //if (newRow.length < 3) { %>
-                  <%// if (artigo[i].cat_id == 1 && artigo[i].art_id !== idArtigo[i]){ %>
-                    <% //if (artigo[i].vendido === true){ %>
-                      <% //break %>
-                    <%// } %>
-                  <% //newRow[j] = artigo[i].art_id %>
-                  <% //j ++ %>
+              <% for (let i = 0; i < totalArtigo; i ++){ %>
+                <% if (newRow.length < 3) { %>
+                  <% if (artigo[i].cat_id == 1 && !idArtigo.includes(artigo[i].art_id)){ %>
+                    <% if (artigo[i].vendido === true){ %>
+                      <% break %>
+                    <% } %>
+                  <% newRow.push(artigo[i].art_id); %>
                   <div class="col-md-4">
                     <div class="card">
-                      <a href="/arte/<%= //artigo[i].art_id %>">
-                        <img src="/img/<%= //artigo[i].img %>" class="card-img-top" alt="<%= //artigo[i].nome %>">
+                      <a href="/arte/<%= artigo[i].art_id %>">
+                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
                       </a>
                       <div class="card-body">
-                        <h5 class="card-title"><%= //artigo[i].nome %></h5>
-                        <p class="preco"><%= //artigo[i].preco %></p>
-                        <p class="card-text descricao"><%= //artigo[i].descricao %></p>
-                        <a href="/carrinho">
-                          <button class="btn-primary">Adicionar ao Carrinho</button>
-                        </a>
+                        <h5 class="card-title"><%= artigo[i].nome %></h5>
+                        <p class="preco"><%= artigo[i].preco %></p>
+                        <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                        <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                          <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                        </form>
                       </div>
                     </div>
                   </div>
-              <% //} /*console.log(newRow)*/} }%>
+              <% } /console.log(newRow)/} }%>
             </div>
           </div>
         <!-- Controles de Navegação -->
@@ -81,85 +78,82 @@
 
 
 <div class="container gallery my-5"></div>
-  <h5> <%= //categoria[1].cat_nome %> </h5>
+  <h5> <%= categoria[1].cat_nome %> </h5>
       
       <!--2nd Carroussel-->    
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+      <div id="carouselExampleControls2" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <!-- Primeiro slide -->
                 <div class="carousel-item active">
                   <div class="row">
-                    <% //for (i = 0; i < totalArtigo; i ++){ %>
-                      <%// idArtigo = []; %>
-                      <% //if (idArtigo.length < 3) { %>
-                        <%// if (artigo[i].cat_id == 2){ %>
-                          <% //if (artigo[i].vendido == true){ %>
-                              <% //break; %>
-                            <% //} %>
-                            <% //idArtigo[i] = artigo[i].art_id%>
+                    <% let idArtigo2 = []; %>
+                    <% for (let i = 0; i < totalArtigo; i ++){ %>
+                      <% if (idArtigo2.length < 3) { %>
+                        <% if (artigo[i].cat_id == 2){ %>
+                          <% if (artigo[i].vendido == false) { %>
+                            <% idArtigo2.push(artigo[i].art_id); %>
                             <div class="col-md-4">
                               <div class="card">
-                                  <a href="/arte/<%= //artigo[i].art_id %>">
-                                  <img src="/img/<%=// artigo[i].img %>" class="card-img-top" alt="<%= //artigo[i].nome %>">
+                                  <a href="/arte/<%= artigo[i].art_id %>">
+                                  <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
                                 </a>
                                 <div class="card-body">
-                                  <h5 class="card-title"><%= //artigo[i].nome %></h5>
-                                  <p class="preco"><%= //artigo[i].preco %></p>
-                                  <p class="card-text descricao"><%= //artigo[i].descricao %></p>
-                                  <a href="/carrinho">
-                                    <button class="btn-primary">Adicionar ao Carrinho</button>
-                                  </a>
+                                  <h5 class="card-title"><%= artigo[i].nome %></h5>
+                                  <p class="preco"><%= artigo[i].preco %></p>
+                                  <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                                  <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                                    <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                                  </form>
                                 </div>
                               </div>
                             </div>
-                        <% //} else { %>
-                          <% //break; %>
-                        <% //} /*console.log(idArtigo)*/} } %>
+                        <% }} %>
+                        <% } /console.log(idArtigo)/}  %>
                   </div>
                 </div>
             
           <!-- Segundo slide -->
           <div class="carousel-item active">
             <div class="row">
-                <% //j = 0 %>
-                <% //for (i = idArtigo[3]; i < totalArtigo; i ++){ %>
-                  <% //if (newRow.length < 3) { %>
-                    <% //if (artigo[i].cat_id == 2 && artigo[i].art_id !== idArtigo[i]){ %>
-                      <%  //if (artigo[i].vendido == true){ %>
-                          <% //break; %>
-                        <% //} %>
-                      <% //newRow[j] = artigo[i].art_id %>
-                      <% //j ++ %>
+              <% let newRow2 = []; %>
+                <% for (let i = 0; i < totalArtigo; i ++){ %>
+                  <% if (newRow2.length < 3) { %>
+                    <% if (artigo[i].cat_id == 2 && !idArtigo2.includes(artigo[i].art_id)){ %>
+                      <%  if (artigo[i].vendido == true){ %>
+                          <% break; %>
+                        <% } %>
+                      <% newRow2.push(artigo[i].art_id); %>
+                      <% j ++ %>
                   <div class="col-md-4">
                     <div class="card">
-                      <a href="/arte/<%= //artigo[i].art_id %>">
-                        <img src="/img/<%=// artigo[i].img %>" class="card-img-top" alt="<% //artigo[i].nome %>">
+                      <a href="/arte/<%= artigo[i].art_id %>">
+                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<% artigo[i].nome %>">
                       </a>
                       <div class="card-body">
-                        <h5 class="card-title"><%= //artigo[i].nome %></h5>
-                        <p class="preco"><%= //artigo[i].preco %></p>
-                        <p class="card-text descricao"><%= //artigo[i].descricao %></p>
-                        <a href="/carrinho">
-                          <button class="btn-primary">Adicionar ao Carrinho</button>
-                        </a>
+                        <h5 class="card-title"><%= artigo[i].nome %></h5>
+                        <p class="preco"><%= artigo[i].preco %></p>
+                        <p class="card-text descricao"><%= artigo[i].descricao %></p>
+                        <form action="/adicionarCarrinho/<%= artigo[i].art_id %>" method="POST">
+                          <button type="submit" class="btn btn-primary">Adicionar ao Carrinho</button>
+                        </form>
                       </div>
                     </div>
                   </div>
-                  <%// } else { %>
-                    <% //break; %>
-                <% //} /*console.log(newRow)*/} }%>
+                  <% } else { %>
+                    <% break; %>
+                <% } /console.log(newRow)/} }%>
             </div>
           </div>
         <!-- Controles de Navegação -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls2" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls2" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
       </div>
 </div>
 
-<%- include("partials/footer.ejs") %>
+<%- include("partials/footer.ejs") %>

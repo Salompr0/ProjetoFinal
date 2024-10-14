@@ -213,11 +213,14 @@ footer {
   text-align: center;
   padding: 1% 5%;
   width: 100%;
-  /*position: relative;*/
 }
 
 .container-1 {
-  margin-left: 25%;
+  margin-left: 15%;
+}
+
+.espaco {
+  gap: 10%;
 }
 
 /* Responsividade */
@@ -457,40 +460,46 @@ footer {
     display: none;
   }
 
+  
 }
 
 /* COMPRA */
-.compra {
+/*.compra {
   flex-direction: column;
   align-items: start;
   margin-top: 2%;
-}
+}*/
 
 .table {
-  padding-right: 50%;
   text-align: center;
-
 }
 
-.total {
-  margin-right: 120vh;
-  margin-top: 2%;
+.img-car {
+  margin-top: 5%;
 }
 
 .finalizar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-left: 3%;
-  margin-top: 2%;
+  margin: 2%;
 }
 
 .remover {
-  margin-top: 15%;
+  margin-top: 100%;
+  padding-right: 100%;
 }
 
-.nome-arte {
-  display: contents;
+.quantidade {
+  margin-top: 37%;
+}
+
+.precoUn {
+  margin-top: 30%;
+}
+
+.sub {
+  margin-top: 49%;
 }
 
 /* ARTE/ARTIGO */
@@ -538,9 +547,11 @@ footer {
 /* PERFIL */
 .button-perfil {
   display: flex;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
+  justify-content: center;
   align-items: center;
-  padding: 8% 25% 2%;
+  padding: 8% 28% 2%;
+  gap: 20px;
 }
 
 .img-perfil {
