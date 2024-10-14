@@ -53,6 +53,7 @@ const compra = join(__dirname, "views/compra.ejs");
 const registoArt = join(__dirname, "views/registarArtigo.ejs");
 const perfilView = join(__dirname, "views/perfil.ejs");
 const editarArtigo = join(__dirname, "views/editarArtigo.ejs");
+const checkout = join(__dirname, "views/checkout.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -306,6 +307,80 @@ app.get("/arte/:id", async (req, res) => {
     res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID });
 });
 
+//Página do carrinho de compras
+app.get("/carrinho", (req, res) => {
+
+    const loggedin = req.isAuthenticated();
+
+    const carrinho = req.session.carrinho;
+
+
+    res.render(compra, { pedidos: carrinho, loggedin: loggedin});
+});
+
+app.get("/checkout", (req, res) => {
+
+    const loggedin = req.isAuthenticated();
+    
+    if (!loggedin){        
+        return res.redirect("/login");
+    }
+    const carrinho = req.session.carrinho || [];
+
+    res.render(checkout, { loggedin: loggedin, carrinho: carrinho});
+});
+
+app.post("/checkout", async (req, res) => {
+
+    const userID= req.user.user_id;
+
+    const carrinho = req.session.carrinho;
+
+    const comprador = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        morada: req.body.morada,
+        pais: req.body.pais,
+        cidade: req.body.cidade,
+        codigoPostal: req.body.codigo, 
+        pagamento: req.body.paymentMethod       
+    }
+
+    if(!carrinho || carrinho.length === 0){
+        res.redirect("/");
+    }
+
+    const date = new Date();
+    const atualDate = date.toISOString().split('T')[0];
+
+    console.log("DATA ATUAL", atualDate);
+
+    try {
+        for(const item of carrinho){//item & carrinho from session
+            await db.query("INSERT INTO pedido (pedido_data, quantidade, email, morada, codigoPostal, metodoPagamento, preco, user_id, art_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [
+                atualDate,
+                item.quantidade,
+                email,
+                morada,
+                codigoPostal,
+                metodoPagamento,
+                item.preco * item.quantidade,
+                userID,
+                item.art_id                
+            ]);
+        }
+        req.session.carrinho = [];
+        
+        res.redirect("/?checkoutSuccess=true");
+
+    } catch (err) {
+        console.log(err);
+        res.redirect("/?checkoutError=true");
+    }
+
+});
+
 app.post("/editarArtigo/:id", async (req, res) => {
 
     const loggedin = req.isAuthenticated();
@@ -346,17 +421,6 @@ app.post("/editarArtigo/:id", async (req, res) => {
             console.log(err);
         }
     }
-});
-
-//Página do carrinho de compras
-app.get("/carrinho", (req, res) => {
-
-    const loggedin = req.isAuthenticated();
-
-    const carrinho = req.session.carrinho;
-
-
-    res.render(compra, { pedidos: carrinho, loggedin: loggedin});
 });
 
 //Iniciar sessão do carrinho e Adicionar artigo ao carrinho
@@ -602,13 +666,31 @@ passport.use(new LocalStrategy(async (username, password, cb) => {
 );
 
 //Página de login
-app.post('/login', 
-    passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-    (req, res) => {
-      res.redirect('/');
-    });
+app.post('/login',(req, res, next) => {
 
+    const carrinho = req.session.carrinho;
 
+    passport.authenticate('local', (err, user, info) => {
+        if(err) {
+            return next(err);
+        }
+
+        if(!user) {
+            return res.redirect("/login");
+        }
+
+        req.logIn(user, (err) => {
+            if(err) {
+                return next(err);
+            }
+
+            req.session.carrinho = carrinho || [];
+
+            return res.redirect("/");
+        });
+
+    })(req, res, next);
+});
 passport.serializeUser((user, cb) => {
     return cb(null, user.user_id);
 });

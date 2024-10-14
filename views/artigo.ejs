@@ -7,25 +7,14 @@
       <img src="img/<%= artigos.img %>" class="img-fluid" alt="<%= artigos.nome %>">
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 info">
       <!-- Detalhes do artigo -->
       <h1><%= artigos.nome %></h1>
-      <p class="preco"><%= artigos.preco %> €</p>
-      
+
       <p class="descricao"><%= artigos.descricao %></p>
 
-      <!-- Botão para adicionar ao carrinho -->
-        <% if(artista === artigos.user_id) {%>
-          <a href="/editarArtigo/<%= artigos.art_id %>">
-            <button>
-              Editar artigo
-            </button>
-          </a>
-      <% } else {%>
-        <form action="/adicionarCarrinho/<%= artigos.art_id %>" method="POST">
-          <button type="submit" class="btn btn-primary my-3">Adicionar ao Carrinho</button>
-        </form>
-      <% } %>
+      <p class="preco"><%= artigos.preco %> €</p>
+
       <!-- Outras informações sobre o artigo -->
       <h5>Informações adicionais</h5>
       <ul>
@@ -33,6 +22,18 @@
         <li><strong>Quantidade:</strong> <%= artigos.quantidade %></li>
       </ul>
 
+      <!-- Botão para adicionar ao carrinho -->
+        <% if(artista === artigos.user_id) {%>
+          <a href="/editarArtigo/<%= artigos.art_id %>">
+            <button class="btn-primary my-3">Editar artigo</button>
+          </a>
+      <% } else {%>
+      <!-- Botão para adicionar ao carrinho -->
+        <form action="/adicionarCarrinho/<%= artigos.art_id %>" method="POST">
+          <button type="submit" class="btn-primary my-3">Adicionar ao Carrinho</button>
+        </form>
+      <% } %>
+      
     </div>
   </div>
 
