@@ -59,12 +59,11 @@ main {
 .preco {
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 10%;
 }
 
 .descricao {
   font-size: 14px;
-  margin-top: 5px;
   max-height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -77,6 +76,8 @@ main {
 .btn-primary {
   background-color: #000000;
   border: none;
+  color: white;
+  border-radius: 4px;
   padding: 10px 20px;
   margin-top: auto;
 }
@@ -210,10 +211,13 @@ footer {
   background-color: black;
   color: white;
   text-align: center;
-  padding: 10px;
+  padding: 1% 5%;
   width: 100%;
-  position: relative;
-  bottom: 0;
+  /*position: relative;*/
+}
+
+.container-1 {
+  margin-left: 25%;
 }
 
 /* Responsividade */
@@ -224,6 +228,15 @@ footer {
 
   .logo {
       min-width: 300px;
+  }
+
+  footer {
+    width: 100%;
+    
+  }
+  
+  .container-1 {
+    margin-left: 5%;
   }
 }
 
@@ -256,9 +269,7 @@ footer {
 }
 
 .login {
-  width: 100%;
-  max-width: 400px;
-  padding-top: 30px;
+  max-width: 65%;
 }
 
 .title {
@@ -276,7 +287,7 @@ footer {
   border-radius: 4px;
 }
 
-.button-login button {
+/*.button-login button {
   width: 100%;
   padding: 10px;
   background-color: black;
@@ -289,7 +300,7 @@ footer {
 
 .button-login button:hover {
   background-color: rgb(48, 47, 47);
-}
+}*/
 
 .registar {
   margin-top: 30px;
@@ -335,6 +346,7 @@ footer {
 .foto{
   margin-bottom: 15%;
   border-radius: 50%;
+  border: solid 5px black; 
 }
 
 .checkbox {
@@ -369,7 +381,7 @@ footer {
   flex-basis: 65%;
 }
 
-#file-button {
+/*.file-button {
   flex-direction: column;
   width: 100%;
 }
@@ -387,7 +399,7 @@ footer {
 
 .button-registo button:hover {
   background-color: rgb(48, 47, 47);
-}
+}*/
 
 /* RESPONSIVIDADE */
 @media (max-width: 768px) {
@@ -395,10 +407,8 @@ footer {
       flex-direction: column;
   }
 
-  .left-side,
-  .right-side {
-      min-width: 100%;
-      height: 50vh;
+  .login {
+    margin-bottom: 10%;
   }
 
   .imagem {
@@ -409,14 +419,19 @@ footer {
       flex-direction: column;
   }
 
-  .lado-esquerdoR,
+  /*.lado-esquerdoR,
   .lado-direitoR {
       flex-basis: 100%;
-      min-height: auto;
+      
   }
+
+  .registo {
+    margin-bottom: 10%;
+  }*/
 
   .form-group {
       flex-direction: column;
+
   }
 
   .form-group label,
@@ -429,52 +444,139 @@ footer {
     margin-left: 5%;
   }
 
-  .button-registo button {
+  /*.button-registo button {
       width: 70vw;
       margin-top: 10%;
   }
 
-  #file-button {
+  .file-button {
     margin-top: 7%;
-  }
+  }*/
 
   .foto{
     display: none;
   }
 
+  
 }
 
 /* COMPRA */
-.compra {
+/*.compra {
   flex-direction: column;
   align-items: start;
+  margin-top: 2%;
+}*/
+
+.table {
+  text-align: center;
 }
 
-.total {
-  margin-right: 120vh;
-  margin-top: 2%;
+.img-car {
+  margin-top: 5%;
 }
 
 .finalizar {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  margin: 2%;
 }
 
 .remover {
-  margin-top: 15%;
+  margin-top: 100%;
+  padding-right: 100%;
 }
 
-.nome-arte {
-  display: contents;
+.quantidade {
+  margin-top: 37%;
+}
+
+.precoUn {
+  margin-top: 30%;
+}
+
+.sub {
+  margin-top: 49%;
 }
 
 /* ARTE/ARTIGO */
-/*.artigo {
-  display: flex;
-  flex-direction: column;
+.artigo {
+  margin-left: 10%;
 }
 
 .info {
- display: flex;
- justify-content: center;
-}*/
+  padding-left: 8%;
+}
+
+.info h5, li {
+  margin-top: 5%
+}
+
+/* REGISTO DE ARTIGO */
+.ficheiro2 {
+  position: absolute;
+  align-items: center;
+  display: flex;
+  margin-top: 10%;
+  margin-left: 5%;
+}
+
+.border1 {
+  width: 500%;
+  height: 400%;
+  margin-right: 12%;
+  border: dashed 5px black; 
+  position: fixed;
+}
+
+.registo2 {
+  width: 100%;
+  margin-bottom: 10%;
+  margin-right: 8%;
+}
+
+.nova-img {
+  width: 100%;
+  height: 65vh;
+  padding-right: 8%;
+}
+
+/* PERFIL */
+.button-perfil {
+  display: flex;
+  /justify-content: space-between;/
+  justify-content: center;
+  align-items: center;
+  padding: 8% 28% 2%;
+  gap: 20px;
+}
+
+.img-perfil {
+  padding-left: 125%;
+}
+
+
+
+/* CHECKOUT */
+.container-check {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.item {
+  margin-bottom: 0%;
+  margin-top: 2%;
+  
+}
+
+.title-check {
+  text-align: center;
+  margin-bottom: 20px;
+ 
+}
+
+.button-check {
+  width: 50%;
+  padding: 6px;
+  margin: 5% 40% 2%;
+}
