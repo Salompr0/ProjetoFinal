@@ -392,6 +392,9 @@ app.post("/atualizarCarrinho/:id", async (req, res) => {
         if (novaQuantidade <= 0){
             req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
 
+        } else if (novaQuantidade > artigoExistente.quantidade) {
+            
+            //mandar mensagem de erro pela quantidade não ser suficiente
         } else {
             artigoExistente.quantidade = novaQuantidade;
         }

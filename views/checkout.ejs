@@ -22,14 +22,15 @@
           <% }) %>
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (EUR)</span>
-            <% let soma = 0; %>
+            <% let soma = 0 %>
             <% for(let i = 0; i < total.length; i++) { %>
               <% total[i] %>
               <% soma = soma + total[i]; %>
-            <% } }%>
-            <strong><%= soma.toFixed(2) %> €</strong>
+            <% } %>
+            <h4 class="total">Total: <%= soma.toFixed(2) %>€</h4>
           </li>
         </ul>
+      <% } %>
     </div>
   </div>
 

@@ -9,6 +9,7 @@ CREATE TABLE users (
     qualificacao TEXT,
     vendedor BOOLEAN DEFAULT FALSE,
     img_user TEXT,
+    administrador BOOLEAN DEFAULT FALSE,
     password VARCHAR(255) NOT NULL
 );
 
