@@ -597,17 +597,18 @@ app.post('/login',(req, res, next) => {
         if(!user) {
             return res.redirect("/login");
         }
-    });
-    req.logIn(user, (err) => {
-        if(err) {
-            return next(err);
-        }
 
-        req.session.carrinho = carrinho || [];
+        req.logIn(user, (err) => {
+            if(err) {
+                return next(err);
+            }
 
-        return res.redirect("/");
-    });
+            req.session.carrinho = carrinho || [];
 
+            return res.redirect("/");
+        });
+
+    })(req, res, next);
 });
 passport.serializeUser((user, cb) => {
     return cb(null, user.user_id);
