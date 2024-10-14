@@ -41,16 +41,11 @@ CREATE TABLE artigo (
 CREATE TABLE pedido (
     pedido_id SERIAL PRIMARY KEY,
     pedido_data DATE DEFAULT CURRENT_TIMESTAMP,
+    quantidade INT,
+    preco FLOAT,
+    art_id INT,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
--- Tabela Pedido/Artigo
-CREATE TABLE pedido_artigo (
-    pedido_id INT,
-    art_id INT,
-    quantidade INT,
-    PRIMARY KEY (pedido_id, art_id),
-    FOREIGN KEY (pedido_id) REFERENCES pedido(pedido_id),
     FOREIGN KEY (art_id) REFERENCES artigo(art_id)
 );
+

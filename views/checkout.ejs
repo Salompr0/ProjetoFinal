@@ -7,25 +7,29 @@
   <h3>Itens no Carrinho:</h3>
   <div class="row">
     <div class="col-md-8">
-      <% //if (carrinho.length > 0) { %>
+      <% let total = []; %>
+      <% if (carrinho.length > 0) { %>
         <ul class="list-group mb-3">
-          <% //carrinho.forEach(item => { %>
+          <% carrinho.forEach(item => { %>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div>
-                <h6 class="my-0"><%= //item.nome_art %></h6>
-                <small class="text-muted">Quantidade: <%= //item.quantidade %></small>
+                <h6 class="my-0"><%= item.nome %></h6>
+                <small class="text-muted">Quantidade: <%= item.quantidade %></small>
               </div>
-              <span class="text-muted">€ <%= //item.preco %></span>
+              <span class="text-muted">€ <%= (item.quantidade * item.preco) %></span>
+              <% total.push((item.quantidade * item.preco)) %>
             </li>
-          <% //}) %>
+          <% }) %>
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (EUR)</span>
-            <strong>€ <%= //total %></strong>
+            <% let soma = 0; %>
+            <% for(let i = 0; i < total.length; i++) { %>
+              <% total[i] %>
+              <% soma = soma + total[i]; %>
+            <% } }%>
+            <strong><%= soma.toFixed(2) %> €</strong>
           </li>
         </ul>
-      <% //} else { %>
-        <p>Seu carrinho está vazio.</p>
-      <% //} %>
     </div>
   </div>
 
@@ -50,22 +54,22 @@
 
       <div class="col-12">
         <label for="address" class="form-label">Endereço</label>
-        <input type="text" class="form-control" id="address" name="address" placeholder="Endereço completo" required>
+        <input type="text" class="form-control" id="address" name="morada" placeholder="Endereço completo" required>
       </div>
 
       <div class="col-md-4">
         <label for="country" class="form-label">País</label>
-        <input type="text" class="form-control" id="country" name="country" placeholder="Portugal" required>
+        <input type="text" class="form-control" id="country" name="pais" placeholder="Portugal" required>
       </div>
 
       <div class="col-md-4">
         <label for="city" class="form-label">Cidade</label>
-        <input type="text" class="form-control" id="city" name="city" placeholder="Lisboa" required>
+        <input type="text" class="form-control" id="city" name="cidade" placeholder="Porto" required><!--LISBOA?????-->
       </div>
 
       <div class="col-md-4">
         <label for="zip" class="form-label">Código Postal</label>
-        <input type="text" class="form-control" id="zip" name="zip" placeholder="1234-567" required>
+        <input type="text" class="form-control" id="zip" name="codigo" placeholder="1234-567" required>
       </div>
 
       <h4 class="mb-3">Método de Pagamento</h4>

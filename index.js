@@ -53,6 +53,7 @@ const compra = join(__dirname, "views/compra.ejs");
 const registoArt = join(__dirname, "views/registarArtigo.ejs");
 const perfilView = join(__dirname, "views/perfil.ejs");
 const editarArtigo = join(__dirname, "views/editarArtigo.ejs");
+const checkout = join(__dirname, "views/checkout.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -225,6 +226,67 @@ app.get("/arte/:id", async (req, res) => {
     res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID });
 });
 
+//Página do carrinho de compras
+app.get("/carrinho", (req, res) => {
+
+    const loggedin = req.isAuthenticated();
+
+    const carrinho = req.session.carrinho;
+
+
+    res.render(compra, { pedidos: carrinho, loggedin: loggedin});
+});
+
+app.get("/checkout", (req, res) => {
+
+    const loggedin = req.user.user_id;
+    const carrinho = req.session.carrinho || [];
+
+    res.render(checkout, { loggedin: loggedin, carrinho: carrinho});
+});
+
+app.post("/checkout", async (req, res) => {
+
+    const carrinho = req.session.carrinho;
+
+    const comprador = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        morada: req.body.morada,
+        pais: req.body.pais,
+        cidade: req.body.cidade,
+        codigoPostal: req.body.codigo, 
+        pagamento: paymentMethod       
+    }
+
+    if(!carrinho || carrinho.length === 0){
+        res.redirect("/");
+    }
+
+    const date = new Date();
+    const atualDate = date.toISOString().split('T')[0];
+
+    console.log("DATA ATUAL", atualDate);
+
+    try {
+        for(const item of carrinho){
+            await db.query("INSERT INTO pedido (pedido_data, quantidade, user_id, art_id, preco) VALUES ($1, $2, $3, $4, $5)", [
+                atualDate,
+                item.quantidade,
+                req.user.user_id,
+                item.art_id,
+                item.preco * item.quantidade
+            ]);
+        }
+
+    } catch (err) {
+        console.log();
+        res.redirect("/?checkoutError=true");
+    }
+
+});
+
 app.post("/editarArtigo/:id", async (req, res) => {
 
     const loggedin = req.isAuthenticated();
@@ -265,17 +327,6 @@ app.post("/editarArtigo/:id", async (req, res) => {
             console.log(err);
         }
     }
-});
-
-//Página do carrinho de compras
-app.get("/carrinho", (req, res) => {
-
-    const loggedin = req.isAuthenticated();
-
-    const carrinho = req.session.carrinho;
-
-
-    res.render(compra, { pedidos: carrinho, loggedin: loggedin});
 });
 
 //Iniciar sessão do carrinho e Adicionar artigo ao carrinho
