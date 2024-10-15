@@ -3,38 +3,54 @@
 <div class="artigo">
   <div class="row">
     <div class="col-md-6">
-      <!-- Imagem do artigo -->
-      <img src="/uploads/<%= artigos.img %>" class="img-fluid" alt="<%= artigos.nome %>">
+      <!-- Imagem do artista -->
+      <img src="/uploads/<%= perfil.img_user %>" class="img-fluid" style="height: 300px; margin-left: 400px; border-radius: 30%;" alt="<%= perfil.user_nome %>">
     </div>
 
     <div class="col-md-6 info">
-      <!-- Detalhes do artigo -->
-      <h1><%= artigos.nome %></h1>
+      <!-- Detalhes do artista -->
+      <h1><%= perfil.user_nome %></h1><br>
 
-      <p class="descricao"><%= artigos.descricao %></p>
+      <h5>Qualificações:</h5>
+      
+      <p class="descricao"><%= perfil.qualificacao %></p><br>
 
-      <p class="preco"><%= artigos.preco %> €</p>
-
-      <!-- Outras informações sobre o artigo -->
+      <!-- Outras informações sobre o artista -->
       <h5>Informações adicionais</h5>
       <ul>
-        <li><strong>Artista:</strong> <%= artigos.user_id %></li>
-        <li><strong>Quantidade:</strong> <%= artigos.quantidade %></li>
+        <li><strong>Email:</strong> <%= perfil.email %></li>
       </ul>
 
-      <!-- Botão para adicionar ao carrinho -->
-        <% if(artista === artigos.user_id) {%>
+      <!-- Botão para apagar utilizador -->
+        <% if(utilizador.administrador === true) {%>
           <a href="/editarArtigo/<%= artigos.art_id %>">
-            <button class="btn-primary my-3">Editar artigo</button>
+            <button class="btn-primary my-3">Apagar utilizador</button>
           </a>
-      <% } else {%>
-      <!-- Botão para adicionar ao carrinho -->
-        <form action="/adicionarCarrinho/<%= artigos.art_id %>" method="POST">
-          <button type="submit" class="btn-primary my-3">Adicionar ao Carrinho</button>
-        </form>
       <% } %>
-      
+      <br><br>  
     </div>
-  </div>
+    <div class="row">
+        <% for (i = 0; i < totalArtigo; i ++){ %>
+            <% if(artigos[i].user_id == perfil.user_id) {%>
+                <div class="col-md-4">
+                    <div class="card">
+                        <% if(artigos[i].vendido){ %>
+                        <p>Vendido</p>
+                        <% break; %>
+                        <% } %>
+                        <a href="/arte/<%= artigos[i].art_id %>">
+                            <img src="/uploads/<%= artigos[i].img %>" class="card-img-top" alt="<%= artigos[i].nome %>">
+                        </a>
+                        <div class="card-body">
+                        <h5 class="card-title"><%= artigos[i].nome %></h5>
+                        <p class="preco"><%= artigos[i].preco %></p>
+                        <p class="card-text descricao"><%= artigos[i].descricao %></p>
+                    </div>
+                    </div>
+                </div>
+            <!--Dispôr os artigos do utilizador-->
+        <% } }%>
+    </div>
+</div>
 
 <%- include("partials/footer.ejs") %>

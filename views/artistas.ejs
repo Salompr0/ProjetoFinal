@@ -4,18 +4,18 @@
   <h1 class="mb-4">Lista de Artistas</h1>
   
   <div class="row">
-    <% //artistas.forEach(artista => { %>
+    <% artistas.forEach(artista => { %>
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
-          <img src="/img/1.jpg <%= //artista.imagem %>" class="card-img-top" alt="<%= //artista.nome %>">
+          <img src="/uploads/<%= artista.user_img %>" class="card-img-top" alt="<%= artista.nome %>">
           <div class="card-body">
-            <h5 class="card-title">Boas<%= //artista.nome %></h5>
-            <p class="card-text">Boasssssssssssssssssss<%= //artista.biografia %></p>
-            <a href="/artista/<%= //artista.id %>" class="btn btn-primary">Ver Perfil</a>
+            <h5 class="card-title"><%= artista.nome %></h5>
+            <p class="card-text"><%= artista.biografia %></p>
+            <a href="/artista/<%= artista.user_id %>" class="btn btn-primary">Ver Perfil</a>
           </div>
         </div>
       </div>
-    <% //}) %>
+    <% }); %>
   </div>
 </div>
 
