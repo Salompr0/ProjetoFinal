@@ -55,7 +55,8 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 const perfilView = join(__dirname, "views/perfil.ejs");
 const editarArtigo = join(__dirname, "views/editarArtigo.ejs");
 const checkout = join(__dirname, "views/checkout.ejs");
-const artista  = join(__dirname, "views/artistas.ejs");
+const artistas  = join(__dirname, "views/artistas.ejs");
+const artista = join(__dirname, "views/artista.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -214,8 +215,6 @@ app.get("/editarArtigo/:id", async (req, res) => {
     res.render(editarArtigo, { categoria: categorias, total: categorias.length, artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length });
 });
 
-
-
 //Página de um artigo
 app.get("/arte/:id", async (req, res) => {
 
@@ -266,10 +265,47 @@ app.get("/checkout", (req, res) => {
     res.render(checkout, { loggedin: loggedin, carrinho: carrinho});
 });
 
-app.get("/artistas", (req, res) => {
+app.get("/artistas", async (req, res) => {
     const loggedin = req.isAuthenticated();
 
-    res.render(artista, { loggedin: loggedin });
+    const result = await db.query("SELECT * FROM users WHERE vendedor = true");
+
+    const artista = result.rows;
+
+    res.render(artistas, { loggedin: loggedin , artistas: artista });
+});
+
+app.get("/artista/:id", async (req, res) => {
+
+    const loggedin = req.isAuthenticated();
+
+    let userID = 0;
+
+    let utilizador = {};
+
+    if(req.isAuthenticated() === true){
+        
+        userID = req.user.user_id;
+
+        const resultUtilizador = await db.query("SELECT * FROM users WHERE user_id = $1", [userID]);
+        
+        if (resultUtilizador.rows.length > 0) {
+            utilizador = resultUtilizador.rows[0]; // Atribua o usuário logado
+        }
+
+    }
+
+    //console.log("USER ID: ", userID);
+
+    const artistaVisto = parseInt(req.params.id);
+    const artigos = await getArtigos();
+
+    const result = await db.query('SELECT * FROM users WHERE user_id = $1', [artistaVisto]);
+    const userVisto = result.rows[0];
+
+    //console.log(userVisto);
+
+    res.render(artista, { perfil: userVisto, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length, utilizador: utilizador });
 });
 
 app.post('/upload', upload.single('imgFile'), (req, res) => {
