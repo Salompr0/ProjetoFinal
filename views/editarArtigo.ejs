@@ -15,16 +15,16 @@
       <h1 class="title">Atualizar Artigo</h1>
       <hr class="linha">
 
-      <form action="/editarArtigo/<%= artigos.art_id %>" method="post">
+      <form action="/editarArtigo/<%= artigos.art_id %>" method="post" enctype="multipart/form-data">
 
         <div class="mb-3 form-group">
           <label for="nome_art" class="form-label">Nome do Artigo</label>
           <input type="text" class="form-control" id="nome_art" name="nome_art" value="<%= artigos.nome %>" required>
         </div>
 
-        <div class="mb-3 form-group">
+        <div class="mb-3 form-group"><!--multer-->
           <label for="img" class="form-label">Imagem do Artigo</label>
-          <input type="file" class="form-control" id="img" name="img" accept="img/*" required>
+          <input type="file" class="form-control" id="img" name="imgFile" accept="image/*" required>
         </div>
 
         <div class="mb-3 form-group">

@@ -9,6 +9,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { dirname, join } from "path";
 import pg from "pg";
 import { fileURLToPath } from "url";
+import multer from "multer";
 
 const app = express();
 const port = 3000;
@@ -65,6 +66,19 @@ const db = new pg.Client({
   });
   db.connect();
 //console.log(process.env);
+
+//Incializar o multer para guardar uma imagem
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        const imgSufix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + imgSufix);
+    }
+});
+
+const upload = multer({ storage: storage});
 
 //Função para obter categorias
 async function getCategorias(){
@@ -249,6 +263,11 @@ app.get("/checkout", (req, res) => {
     res.render(checkout, { loggedin: loggedin, carrinho: carrinho});
 });
 
+app.post('/upload', upload.single('imgFile'), (req, res) => {
+    console.log("FICHEIRO:", req.file);
+    registo.send("Imagem carregada com sucesso!");
+})
+
 app.post("/checkout", async (req, res) => {
 
     const userID= req.user.user_id;
@@ -300,7 +319,7 @@ app.post("/checkout", async (req, res) => {
 
 });
 
-app.post("/editarArtigo/:id", async (req, res) => {
+app.post("/editarArtigo/:id", upload.single('imgFile'), async (req, res) => {
 
     const loggedin = req.isAuthenticated();
     const artID = parseInt(req.params.id);
@@ -312,11 +331,14 @@ app.post("/editarArtigo/:id", async (req, res) => {
     //console.log("ARTIGO ATUAL:", artigo);
     
     if(req.body.nome_art) artigo.nome = req.body.nome_art;
-    if(req.body.img) artigo.img = req.body.img;
     if(req.body.preco) artigo.preco = parseFloat(req.body.preco);
     if(req.body.quantidade) artigo.quantidade = parseInt(req.body.quantidade);
     if(req.body.descricao) artigo.descricao = req.body.descricao;
-    if(req.body.cat_id) artigo.cat_id = req.body.cat_id; 
+    if(req.body.cat_id) artigo.cat_id = req.body.cat_id;
+
+    if(req.file){
+        artigo.img = req.file.filename;
+    }
 
     if(artigo.preco < 0 || artigo.quantidade < 0){
         return res.status(400).send("Preço e quantidade não podem ser negativos.");
@@ -393,7 +415,8 @@ app.post("/atualizarCarrinho/:id", async (req, res) => {
             req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
 
         } else if (novaQuantidade > artigoExistente.quantidade) {
-            
+            novaQuantidade = artigoExistente.quantidade;
+            console.log("QUANTIDADE INSUFICIENTE.");
             //mandar mensagem de erro pela quantidade não ser suficiente
         } else {
             artigoExistente.quantidade = novaQuantidade;
