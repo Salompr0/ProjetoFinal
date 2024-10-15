@@ -88,7 +88,7 @@ async function getCategorias(){
     let categoria = [];
     
     const result = await db.query("SELECT * FROM categoria");
-  
+
     categoria = result.rows;
     
     //console.log(categoria);
@@ -147,87 +147,6 @@ app.get("/", async (req, res) => {
 app.get("/registar", (req, res) => {
     res.render(registo);
 });
-
-//Página de Registo
-app.post("/registar", async (req, res) => {
-
-    const nome = req.body["nome"];
-    const email = req.body["email"];
-    const telemovel = req.body["telemovel"];
-    const nif = req.body["nif"];
-    const morada = req.body["morada"];
-    const qualificacao = req.body["qualificacao"];
-    const vendedor = req.body["vendedor"];
-    const img = req.body["img"];
-    const password = req.body["password"];
-    
-    try{
-        const checkResult = await db.query("SELECT FROM users WHERE email = $1", [email]);
-
-        if (checkResult.rows.length > 0){
-            res.send("Esse email já existe. Tente fazer login.");
-        } else {
-            bcrypt.hash(password, salt, async (err, hash) => {
-                if (err){
-                    console.log("Error hashing password: ", err);
-                } else {
-                    const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
-
-                    console.log(result);
-                    res.render(home);
-                }
-            });    
-        }
-    } catch (err){
-        console.log(err);
-    }
-});
-
-passport.use(
-    new Strategy(async function verify(username, password, cb) {
-        try {
-            const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
-
-            if(result.rows.length > 0){
-                const user = result.rows[0];
-                const pass = user.password;
-
-                bcrypt.compare(password, pass, (err, valid) => {
-                    if(err) {
-                        console.error("Erro ao comparar as passwords: ", err);
-                        return cb(err);
-                    } else {
-                        if(valid) {
-                            return cb(null, user);
-                        } else {
-                            return cb(null, false); 
-                        }
-                    }    
-                });
-            } else {
-                return cb(" Utilizador não encontrado");
-            }
-        } catch (err){
-            console.log(err); 
-        }
-    })
-);
-    
-passport.serializeUser((user, cb) => {
-  cb(null, user);
-});
-passport.deserializeUser((user, cb) => {
-  cb(null, user);
-});
-
-app.get("/logout", (req, res) => {
-    req.logout(function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.redirect("/");
-    });
-  });
 
 app.get("/login", (req, res) => {
     res.render(login);
