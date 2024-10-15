@@ -7,18 +7,18 @@
   
     <!--<div class="col-md-8">-->
 
-      <form action="/perfil" method="post">
+      <form action="/perfil" method="post" enctype="multipart/form-data">
 
         <div class="row">
 
           <!-- Foto do Perfil -->
           <div class="col-md-4 text-center">
             <div class="profile-image img-perfil">
-              <img src="img/*" alt="Foto de Perfil" class="foto" width="250" height="180" >
+              <img src="/uploads/<%= perfil.img_user %>" alt="Foto de Perfil" class="foto" width="250" height="180" >
             </div>
           </div>
           
-          <!-- Nome do Utilizado -->
+          <!-- Nome do Utilizador -->
           <div class="mb-3">
             <label for="nome">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" value="<%= perfil.user_nome %>" required>
@@ -31,9 +31,9 @@
           </div>
 
           <!-- Atualizar Foto de Perfil -->
-          <div class="mb-3">
+          <div class="mb-3"><!--multer-->
             <label for="foto">Atualizar Foto</label>
-            <input type="file" class="form-control" id="foto" name="foto">
+            <input type="file" class="form-control" id="foto" name="imgFile" accept="image/*">
           </div>
 
           <!-- Senha -->
@@ -73,8 +73,9 @@
 
           <!--Se for vendedor-->
           <h2 class="mt-5">Meus Artigos</h2>
+            <div class="row">
               <% for (i = 0; i < totalArtigo; i ++){ %>
-                  <% if(artigos.user_id === perfil.user_id) {%>
+                  <% if(artigos[i].user_id == perfil.user_id) {%>
                       <div class="col-md-4">
                           <div class="card">
                               <% if(artigos[i].vendido){ %>
@@ -82,7 +83,7 @@
                               <% break; %>
                               <% } %>
                               <a href="/arte/<%= artigos[i].art_id %>">
-                              <img src="/img/<%= artigos[i].img %>" class="card-img-top" alt="<%= artigos[i].nome %>">
+                              <img src="/uploads/<%= artigos[i].img %>" class="card-img-top" alt="<%= artigos[i].nome %>">
                             </a>
                             <div class="card-body">
                               <h5 class="card-title"><%= artigos[i].nome %></h5>
@@ -93,16 +94,17 @@
                         </div>
                   <!--Dispôr os artigos do utilizador-->
              <% }}} %>
+          </div>
     
           <div class="button-perfil">
             <!-- Botão de Atualizar Perfil -->
-            <button type="submit" class="btn-primary button-perfil">Atualizar Perfil</button>
+            <button type="submit" class="btn-primary">Atualizar Perfil</button>
         </form>
           
             <% if(perfil.vendedor == true){ %>
-              <a href="/registoArtigo">
-                <button class="btn-primary">Adicionar Artigo</button>
-              </a>
+                <button class="btn-primary">
+                  <a href="/registoArtigo">Adicionar Artigo</a>
+                </button>              
             <% } %>
 
             <!-- Botão de logout Perfil -->
