@@ -213,11 +213,14 @@ footer {
   text-align: center;
   padding: 1% 5%;
   width: 100%;
-  /*position: relative;*/
 }
 
 .container-1 {
-  margin-left: 25%;
+  margin-left: 15%;
+}
+
+.espaco {
+  gap: 10%;
 }
 
 /* Responsividade */
@@ -456,7 +459,6 @@ footer {
   .foto{
     display: none;
   }
-
   
 }
 
@@ -544,7 +546,7 @@ footer {
 /* PERFIL */
 .button-perfil {
   display: flex;
-  /justify-content: space-between;/
+  /*justify-content: space-between;*/
   justify-content: center;
   align-items: center;
   padding: 8% 28% 2%;

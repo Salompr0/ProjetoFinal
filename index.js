@@ -55,6 +55,7 @@ const registoArt = join(__dirname, "views/registarArtigo.ejs");
 const perfilView = join(__dirname, "views/perfil.ejs");
 const editarArtigo = join(__dirname, "views/editarArtigo.ejs");
 const checkout = join(__dirname, "views/checkout.ejs");
+const artista  = join(__dirname, "views/artistas.ejs");
 
 //Connexão à base de dados
 const db = new pg.Client({
@@ -79,6 +80,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage});
+
+app.use('/uploads', express.static(`${__dirname}/uploads`));
 
 //Função para obter categorias
 async function getCategorias(){
@@ -263,10 +266,16 @@ app.get("/checkout", (req, res) => {
     res.render(checkout, { loggedin: loggedin, carrinho: carrinho});
 });
 
+app.get("/artistas", (req, res) => {
+    const loggedin = req.isAuthenticated();
+
+    res.render(artista, { loggedin: loggedin });
+});
+
 app.post('/upload', upload.single('imgFile'), (req, res) => {
     console.log("FICHEIRO:", req.file);
     registo.send("Imagem carregada com sucesso!");
-})
+});
 
 app.post("/checkout", async (req, res) => {
 
@@ -448,7 +457,7 @@ app.get("/logout", (req, res) => {
   });
 
 //Página para editar utilizador
-app.post("/perfil", async (req, res) => {
+app.post("/perfil", upload.single('imgFile'), async (req, res) => {
     //console.log("Authenticated:", req.isAuthenticated());
     //console.log("User:", req.user);
 
@@ -469,7 +478,11 @@ app.post("/perfil", async (req, res) => {
     if(req.body.nif) perfilAtual.nif = req.body.nif;
     if(req.body.morada) perfilAtual.morada = req.body.morada;
     if(req.body.qualificacao) perfilAtual.qualificacao = req.body.qualificacao;
-    if(req.body.foto) perfilAtual.img_user = req.body.foto;
+
+    if(req.file){
+        perfilAtual.img_user = req.file.filename;
+    }
+
     if(req.body.senha) {
 
         const hashedPass = await bcrypt.hash(req.body.senha, salt);
@@ -499,7 +512,7 @@ app.post("/perfil", async (req, res) => {
 });
 
 //Página para registar artigo
-app.post("/registoArtigo", async (req, res) => {
+app.post("/registoArtigo", upload.single('imgFile'),  async (req, res) => {
     
     //console.log("Authenticated:", req.isAuthenticated());
     //console.log("User:", req.user);
@@ -512,11 +525,12 @@ app.post("/registoArtigo", async (req, res) => {
     //console.log(categorias);
 
     const nome = req.body["nome_art"];
-    const img = req.body["img"];
     const preco = parseFloat(req.body["preco"]);
     const quantidade = parseInt(req.body["quantidade"]);
     const descricao = req.body["descricao"];
     const categoria = req.body["cat_id"];
+
+    const imgFile = req.file;
 
     if(preco < 0 || quantidade < 0){
         return res.status(400).send("Preço e quantidade não podem ser negativos.");
@@ -531,19 +545,20 @@ app.post("/registoArtigo", async (req, res) => {
             res.redirect("/perfil");
 
         } else {
-        const result = await db.query("INSERT INTO artigo (nome, img, preco, quantidade, descricao, user_id, cat_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", [nome, img, preco, quantidade, descricao, userID, categoria]);    
+            const img = imgFile ? imgFile.filename : null;
+            const result = await db.query("INSERT INTO artigo (nome, img, preco, quantidade, descricao, user_id, cat_id) VALUES ($1, $2, $3, $4, $5, $6, $7)", [nome, img, preco, quantidade, descricao, userID, categoria]);    
 
-        console.log(result.rows[0]);
+            console.log(result.rows[0]);
 
-        res.redirect("/perfil");
+            res.redirect("/perfil");
         }
     } catch(err) {
-        console.log(err);
+        console.log("ERRO:", err);
     }
 });
 
 //Página de Registo
-app.post("/registar", async (req, res) => {
+app.post("/registar", upload.single('imgFile'), async (req, res) => {
 
     const nome = req.body["nome"];
     const email = req.body["email"];
@@ -552,9 +567,9 @@ app.post("/registar", async (req, res) => {
     const morada = req.body["morada"];
     const qualificacao = req.body["qualificacao"];
     const vendedor = req.body["vendedor"];
-    const img = req.body["img"];
     const password = req.body["password"];
     
+    const imgFile = req.file;
     try{
         const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
 
@@ -566,6 +581,7 @@ app.post("/registar", async (req, res) => {
                 if (err){
                     console.log("Erro hashing password: ", err);
                 } else {
+                    const img = imgFile ? imgFile.filename : null;
                     const result = await db.query("INSERT INTO users (user_nome, email, telemovel, nif, morada, qualificacao, vendedor, img_user, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *", [nome, email, telemovel, nif, morada, qualificacao, vendedor, img, hash]);
 
                     const user = result.rows[0];
