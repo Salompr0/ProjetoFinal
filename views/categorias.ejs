@@ -1,12 +1,15 @@
 <%- include("partials/header.ejs") %>
 
-<% for (i = 0; i < total; i++){ %>
-<div class="container-check my-5">
-  <h1 class="mb-4">Categoria: <%= categoria[i].cat_nome %></h1>
+
+<div class="container-check">
+  <h1 class="title-check">Categorias</h1>
+  <hr class="linha">
+  <% for (i = 0; i < total; i++){ %>
+  <h2><%= categoria[i].cat_nome %></h2>
     <div class="row">
       <% artigos.forEach((artigo) => { %>
         <% if(categoria[i].cat_id === artigo.cat_id) {%>
-        <div class="col-md-3">
+        <div class="col-12 col-sm-6 col-md-3">
           <div class="card mb-4">
             <a href="/arte/<%= artigo.art_id %>">
               <img src="/uploads/<%= artigo.img %>" class="card-img-top" alt="<%= artigo.nome_art %>">

@@ -222,9 +222,17 @@ app.get("/arte/:id", async (req, res) => {
 
     let userID = 0;
 
+    let utilizador = {};
+
     if(req.isAuthenticated() === true){
         
         userID = req.user.user_id;
+        const resultUtilizador = await db.query("SELECT * FROM users WHERE user_id = $1", [userID]);
+
+        if (resultUtilizador.rows.length > 0) {
+            utilizador = resultUtilizador.rows[0]; // Atribua o usuário logado
+        }
+
     } else {
         userID = 0;
     }
@@ -239,7 +247,7 @@ app.get("/arte/:id", async (req, res) => {
 
     //console.log(artigo);
 
-    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID });
+    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID, utilizador: utilizador });
 });
 
 //Página do carrinho de compras
@@ -306,6 +314,33 @@ app.get("/artista/:id", async (req, res) => {
     //console.log(userVisto);
 
     res.render(artista, { perfil: userVisto, loggedin: loggedin, artigos: artigos, totalArtigo: artigos.length, utilizador: utilizador });
+});
+
+app.post("/apagarArtigo/:id", async (req, res) => {
+    const artID = parseInt(req.params.id);
+
+    try{
+        const apagar = await db.query("DELETE FROM artigo WHERE art_id = $1", [artID]);
+        res.redirect("/");
+
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+app.post("/apagarPerfil/:id", async (req, res) => {
+    const userID = req.user.user_id;
+        
+    try{
+        const result = await db.query("DELETE FROM users WHERE user_id = $1", [userID]);
+        res.redirect("/");
+
+    } catch(err){
+
+        console.log(err);
+    }
+
 });
 
 app.post('/upload', upload.single('imgFile'), (req, res) => {
@@ -704,5 +739,5 @@ passport.deserializeUser(async (id, cb) => {
   
 
 app.listen(port, () => {
-    console.log(`Successfully started server on port ${port}.`);
+    console.log(`Successfully started server on port ${port}.`);
 });

@@ -1,22 +1,22 @@
 <%- include("partials/header.ejs") %>
 
-<div class="container-check my-5">
+<div class="container-check">
   <h1 class="title-check">Lista de Artistas</h1>
   <hr class="linha">
   
   <div class="row">
-    <% //artistas.forEach(artista => { %>
+    <% artistas.forEach(artista => { %>
       <div class="col-md-3">
         <div class="card mb-4 shadow-sm">
-          <img src="<%= //artista.imagem %>" class="card-img-top" alt="<%= //artista.nome %>">
+          <img src="<%= artista.imagem %>" class="card-img-top" alt="<%= //artista.nome %>">
           <div class="card-body">
-            <h5 class="card-title"><%= //artista.nome %></h5>
-            <p class="card-text"><%= //artista.biografia %></p>
-            <a href="/artista/<%= //artista.id %>" class="btn btn-primary">Ver Perfil</a>
+            <h5 class="card-title"><%= artista.nome %></h5>
+            <p class="card-text"><%= artista.biografia %></p>
+            <a href="/artista/<%= artista.id %>" class="btn btn-primary">Ver Perfil</a>
           </div>
         </div>
       </div>
-    <% //}) %>
+    <% }) %>
   </div>
 </div>
 
