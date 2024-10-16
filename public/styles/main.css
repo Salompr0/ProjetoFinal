@@ -404,6 +404,16 @@ footer {
   margin-top: 5%
 }
 
+.botoes {
+  display: flex;
+  flex-direction: row;
+}
+
+.adm {
+  margin-bottom: 3%;
+}
+
+
 /* REGISTO DE ARTIGO */
 .ficheiro2 {
   position: absolute;
