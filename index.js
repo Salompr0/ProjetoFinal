@@ -245,9 +245,12 @@ app.get("/arte/:id", async (req, res) => {
     const result = await db.query('SELECT * FROM artigo WHERE art_id = $1', [artID]);
     const artigo = result.rows[0];
 
+    const artistaResult = await db.query("SELECT user_nome FROM users WHERE user_id = $1", [artigo.user_id]);
+    const nomeArtista = artistaResult.rows[0]?.user_nome;
+
     //console.log(artigo);
 
-    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID, utilizador: utilizador });
+    res.render(artigoescolhido, { artigos: artigo, loggedin: loggedin, users: users, totalUsers: users.length, artista: userID, utilizador: utilizador, nomeArtista:  nomeArtista});
 });
 
 //Página do carrinho de compras
@@ -387,6 +390,16 @@ app.post("/checkout", async (req, res) => {
                 userID,
                 item.art_id                
             ]);
+
+            const artResult = await db.query("SELECT quantidade FROM artigo WHERE art_id = $1", [item.art_id]);
+            const velhaQuantidade = artResult.rows[0];
+            const newQuantidade = (velhaQuantidade - item.quantidade);
+
+            const newResult = await db.query("UPDATE artigo SET quantidade = $1 WHERE art_id = $2", [newQuantidade, item.art_id]);
+
+            if(newQuantidade === 0){
+                const newVendido = await db.query("UPDATE artigo SET vendido = true WHERE art_id = $1", [item.art_id]);
+            }
         }
         req.session.carrinho = [];
         
@@ -494,10 +507,6 @@ app.post("/atualizarCarrinho/:id", async (req, res) => {
         if (novaQuantidade <= 0){
             req.session.carrinho = req.session.carrinho.filter(artigo => artigo.art_id !== artID);
 
-        } else if (novaQuantidade > artigoExistente.quantidade) {
-            novaQuantidade = artigoExistente.quantidade;
-            console.log("QUANTIDADE INSUFICIENTE.");
-            //mandar mensagem de erro pela quantidade não ser suficiente
         } else {
             artigoExistente.quantidade = novaQuantidade;
         }
