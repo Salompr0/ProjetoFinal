@@ -21,9 +21,9 @@
         <li><strong>Email:</strong> <%= perfil.email %></li>
       </ul>
 
-      <!-- Botão para apagar utilizador -->
+      <!-- Botão para apagar utilizador FAZER!!!, somente para administrador-->
         <% if(utilizador.administrador === true) {%>
-          <a href="/editarArtigo/<%= artigos.art_id %>">
+          <a href="/apagarPerfil/<%= artigos.art_id %>">
             <button class="btn-primary my-3">Apagar utilizador</button>
           </a>
       <% } %>

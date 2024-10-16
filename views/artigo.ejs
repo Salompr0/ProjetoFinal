@@ -22,7 +22,7 @@
         <li><strong>Quantidade:</strong> <%= artigos.quantidade %></li>
       </ul>
 
-      <!-- Botão para adicionar ao carrinho -->
+      <!-- Botão para editar artigo, somente para vendedor -->
         <% if(artista === artigos.user_id) {%>
           <a href="/editarArtigo/<%= artigos.art_id %>">
             <button class="btn-primary my-3">Editar artigo</button>
@@ -33,6 +33,12 @@
           <button type="submit" class="btn-primary my-3">Adicionar ao Carrinho</button>
         </form>
       <% } %>
+      <!-- Botão para apagar artigo FAZER!!! (acessível vendedor e administrador)-->
+      <% if(utilizador.administrador === true || artista === artigos.user_id) {%>
+        <a href="/apagarArtigo/<%= artigos.art_id %>">
+          <button class="btn-primary my-3">Apagar artigo</button>
+        </a>
+    <% } %>
       
     </div>
   </div>
