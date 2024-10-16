@@ -1,25 +1,29 @@
 <%- include("partials/header.ejs") %>
 
-<div class="container my-5">
-  <h2>Finalizar Compra</h2>
+
+<div class="container-check">
+  <h1 class="title-check">Finalizar Compra</h1>
+  <hr class="linha">
 
   <!-- Exibir os artigos no carrinho -->
-  <h3>Itens no Carrinho:</h3>
+  <h3 class="item">Itens no Carrinho:</h3>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-sm-6">
       <% let total = []; %>
       <% if (carrinho.length > 0) { %>
         <ul class="list-group mb-3">
           <% carrinho.forEach(item => { %>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <div>
-                <h6 class="my-0"><%= item.nome %></h6>
-                <small class="text-muted">Quantidade: <%= item.quantidade %></small>
-              </div>
-              <span class="text-muted">€ <%= (item.quantidade * item.preco) %></span>
-              <% total.push((item.quantidade * item.preco)) %>
+            <li class="list-group-item d-flex justify-content-between">
+              <h6 class="my-0"><%= item.nome %></h6>
+              <span">Quantidade: <%= item.quantidade %>
             </li>
+            <% total.push((item.quantidade * item.preco)) %>
           <% }) %>
+        </ul>
+      <% } %>
+    </div>
+      <div class="col-sm-6">
+        <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (EUR)</span>
             <% let soma = 0 %>
@@ -27,11 +31,10 @@
               <% total[i] %>
               <% soma = soma + total[i]; %>
             <% } %>
-            <h4 class="total">Total: <%= soma.toFixed(2) %>€</h4>
+            <h4 class="total"><%= soma.toFixed(2) %>€</h4>
           </li>
         </ul>
-      <% } %>
-    </div>
+      </div>
   </div>
 
   <!-- Formulário de pagamento -->
@@ -87,6 +90,10 @@
         <div class="form-check">
           <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" value="paypal" required>
           <label class="form-check-label" for="paypal">PayPal</label>
+        </div>
+        <div class="form-check">
+          <input id="mbway" name="paymentMethod" type="radio" class="form-check-input" value="mbway" required>
+          <label class="form-check-label" for="mbway">MBWay</label>
         </div>
       </div>
 

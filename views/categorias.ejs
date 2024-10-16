@@ -1,8 +1,10 @@
 <%- include("partials/header.ejs") %>
 
-<% for (i = 0; i < total; i++){ %>
-<div class="container-check my-5">
-  <h1 class="mb-4">Categoria: <%= categoria[i].cat_nome %></h1>
+<div class="container-check">
+  <h1 class="title-check">Categorias</h1>
+  <hr class="linha">
+  <% for (i = 0; i < total; i++){ %>
+    <h2><%= categoria[i].cat_nome %></h2>
     <div class="row">
       <% artigos.forEach((artigo) => { %>
         <% if(categoria[i].cat_id === artigo.cat_id) {%>

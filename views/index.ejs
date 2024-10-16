@@ -92,7 +92,7 @@
         <div class="row">
           <% let idArtigo2 = []; %>
           <% for (let i = 0; i < totalArtigo; i ++){ %>
-            <% if (idArtigo2.length < 3) { %> <!-- Mostrando 3 itens no primeiro slide -->
+            <% if (idArtigo2.length < 3) { %>
               <% if (artigo[i].cat_id == 2 && artigo[i].vendido == false) { %>
                 <% idArtigo2.push(artigo[i].art_id); %>
                 <div class="col-md-4">
@@ -114,14 +114,13 @@
             <% } %>
           <% } %>
         </div>
-      </div>
-      
+      </div>      
       <!-- Segundo slide -->
-      <div class="carousel-item"> <!-- Removemos a classe "active" -->
+      <div class="carousel-item">
         <div class="row">
           <% let newRow2 = []; %>
           <% for (let i = 0; i < totalArtigo; i ++){ %>
-            <% if (newRow2.length < 3 && artigo[i].cat_id == 2 && !idArtigo2.includes(artigo[i].art_id)) { %> <!-- Evitando itens duplicados -->
+            <% if (newRow2.length < 3 && artigo[i].cat_id == 2 && !idArtigo2.includes(artigo[i].art_id)) { %>
               <% if (artigo[i].vendido == false) { %>
                 <% newRow2.push(artigo[i].art_id); %>
                 <div class="col-md-4">
