@@ -1,11 +1,12 @@
 <%- include("partials/header.ejs") %>
 
-<div class="container my-5">
-  <h1 class="mb-4">Lista de Artistas</h1>
+<div class="container-check my-5">
+  <h1 class="title-check">Lista de Artistas</h1>
+  <hr class="linha">
   
   <div class="row">
     <% //artistas.forEach(artista => { %>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="card mb-4 shadow-sm">
           <img src="<%= //artista.imagem %>" class="card-img-top" alt="<%= //artista.nome %>">
           <div class="card-body">
