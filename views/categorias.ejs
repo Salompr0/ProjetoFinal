@@ -1,7 +1,7 @@
 <%- include("partials/header.ejs") %>
 
 <% for (i = 0; i < total; i++){ %>
-<div class="my-5">
+<div class="container-check my-5">
   <h1 class="mb-4">Categoria: <%= categoria[i].cat_nome %></h1>
     <div class="row">
       <% artigos.forEach((artigo) => { %>
@@ -15,7 +15,7 @@
               <h5 class="card-title"><%= artigo.nome_art %></h5>
               <p class="preco"><strong>Preço:</strong> <%= artigo.preco %> €</p>
               <p class="descricao"><%= artigo.descricao %></p>
-              <a href="/arte/<%= artigo.art_id %>" class="btn btn-primary">Ver Artigo</a>
+              <a href="/arte/<%= artigo.art_id %>" class="btn-primary">Ver Artigo</a>
             </div>
           </div>
         </div>

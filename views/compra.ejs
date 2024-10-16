@@ -3,8 +3,8 @@
 <% let total = []; %>
 <% pedidos = pedidos || []; %>
 <% if(pedidos.length > 0) {%>
-<div class="container-check">
-  <h1 class="title-check ">Meu Carrinho</h1>
+<div class="container-check carrinho">
+  <h1 class="title-check">Meu Carrinho</h1>
   <hr class="linha">
   <% pedidos.forEach(item => { %>
     <table class="table">
@@ -48,11 +48,13 @@
             <input type="number" name="quantidade" value="<%= item.quantidade %>" min="0" max="<%= item.quantidadeTotal %>" style="width: 60px;">
             <button type="submit" class="btn btn-secondary">Atualizar</button>
           </form>
-          <form action="/removerCarrinho/<%= item.art_id %>" method="post">
-            <button type="submit" class="btn btn-danger" aria-label="Remover <%= item.nome %> do carrinho">
-              <img src="/img/remover.png" width="25" alt="Remover">
-            </button>
-          </form>          
+          <div class="remover">
+            <form action="/removerCarrinho/<%= item.art_id %>" method="post">
+              <button type="submit" aria-label="Remover <%= item.nome %> do carrinho">
+                <img src="/img/remover.png" width="25" alt="Remover">
+              </button>
+            </form>    
+          </div>      
           </td>
         </tr>
       <% }) %>
