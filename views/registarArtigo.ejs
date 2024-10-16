@@ -6,7 +6,7 @@
 
  <div class="ficheiro2">
     <div class="">
-      <img class="nova-img" src="img/8.jpg <%= //artigos.img %>" ><input type="hidden" name="nome_foto" value="<%= //artigos.nome %>">
+      <!--<img class="nova-img" src="uploads/<%= //artigos.img %>" ><input type="hidden" name="nome_foto" value="<%= //artigos.nome %>">-->
     </div>
   </div>
 
@@ -47,10 +47,12 @@
 
         <div class="mb-3 form-group">
           <label for="categoria" class="form-label">Categoria</label>
-          <select class="form-select form-control" id="categoria" required>
-            <% //categorias.forEach(function(categoria) { %>
-              <option value="<%= //categoria.cat_id %>"><%= //categoria.cat_nome %></option>
-            <% //}) %>
+          <select class="form-select form-control" id="categoria" name="cat_id" required>
+            <% for (i = 0; i < total; i++){ %> 
+              <option value="<%= categoria[i].cat_id %>">
+                <%= categoria[i].cat_nome %>
+              </option>
+            <% } %>
           </select>
         </div>
 

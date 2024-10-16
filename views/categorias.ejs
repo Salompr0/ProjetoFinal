@@ -6,16 +6,16 @@
     <div class="row">
       <% artigos.forEach((artigo) => { %>
         <% if(categoria[i].cat_id === artigo.cat_id) {%>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="card mb-4">
             <a href="/arte/<%= artigo.art_id %>">
-              <img src="/img/<%= artigo.img %>" class="card-img-top" alt="<%= artigo.nome_art %>">
+              <img src="/uploads/<%= artigo.img %>" class="card-img-top" alt="<%= artigo.nome_art %>">
             </a>
             <div class="card-body">
               <h5 class="card-title"><%= artigo.nome_art %></h5>
               <p class="preco"><strong>Preço:</strong> <%= artigo.preco %> €</p>
               <p class="descricao"><%= artigo.descricao %></p>
-              <a href="/arte/<%= artigo.art_id %>" class="btn btn-primary">Ver Artigo</a>
+              <a href="/arte/<%= artigo.art_id %>" class="btn-primary">Ver Artigo</a>
             </div>
           </div>
         </div>

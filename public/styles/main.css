@@ -211,36 +211,16 @@ footer {
   background-color: black;
   color: white;
   text-align: center;
-  padding: 1% 5%;
+  padding: 1% 1%;
   width: 100%;
 }
 
 .container-1 {
-  margin-left: 15%;
+  margin-left: 20%;
 }
 
 .espaco {
   gap: 10%;
-}
-
-/* Responsividade */
-@media (max-width: 660px) {
-  .container {
-      flex-direction: column;
-  }
-
-  .logo {
-      min-width: 300px;
-  }
-
-  footer {
-    width: 100%;
-    
-  }
-  
-  .container-1 {
-    margin-left: 5%;
-  }
 }
 
 /* LOGIN - Estilo da página de login */
@@ -289,21 +269,6 @@ footer {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
-/*.button-login button {
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 30px;
-}
-
-.button-login button:hover {
-  background-color: rgb(48, 47, 47);
-}*/
 
 .registar {
   margin-top: 30px;
@@ -384,91 +349,7 @@ footer {
   flex-basis: 65%;
 }
 
-/*.file-button {
-  flex-direction: column;
-  width: 100%;
-}
-
-.button-registo button {
-  width: 30vw;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 5%;
-}
-
-.button-registo button:hover {
-  background-color: rgb(48, 47, 47);
-}*/
-
-/* RESPONSIVIDADE */
-@media (max-width: 768px) {
-  .container-login {
-      flex-direction: column;
-  }
-
-  .login {
-    margin-bottom: 10%;
-  }
-
-  .imagem {
-    display: none;
-  }
-
-  .container-registo {
-      flex-direction: column;
-  }
-
-  /*.lado-esquerdoR,
-  .lado-direitoR {
-      flex-basis: 100%;
-      
-  }
-
-  .registo {
-    margin-bottom: 10%;
-  }*/
-
-  .form-group {
-      flex-direction: column;
-
-  }
-
-  .form-group label,
-  .form-control {
-      width: 100%;
-      flex-basis: 100%;
-  }
-
-  .form-group label {
-    margin-left: 5%;
-  }
-
-  /*.button-registo button {
-      width: 70vw;
-      margin-top: 10%;
-  }
-
-  .file-button {
-    margin-top: 7%;
-  }*/
-
-  .foto{
-    display: none;
-  }
-
-  
-}
-
 /* COMPRA */
-/*.compra {
-  flex-direction: column;
-  align-items: start;
-  margin-top: 2%;
-}*/
 
 .table {
   text-align: center;
@@ -486,20 +367,28 @@ footer {
 }
 
 .remover {
-  margin-top: 100%;
-  padding-right: 100%;
+  margin-top: 8%;
+  margin-bottom: 8%;
+ 
+}
+
+.remover button {
+  background: none; 
+  border: none;     
+  padding: 0;       
+  cursor: pointer; 
 }
 
 .quantidade {
-  margin-top: 37%;
+  margin-top: 25%;
 }
 
 .precoUn {
-  margin-top: 30%;
+  margin-top: 20%;
 }
 
 .sub {
-  margin-top: 49%;
+  margin-top: 34%;
 }
 
 /* ARTE/ARTIGO */
@@ -547,7 +436,6 @@ footer {
 /* PERFIL */
 .button-perfil {
   display: flex;
-  /*justify-content: space-between;*/
   justify-content: center;
   align-items: center;
   padding: 8% 28% 2%;
@@ -558,7 +446,10 @@ footer {
   padding-left: 125%;
 }
 
-
+a {
+  text-decoration: none; 
+  color: inherit; 
+}
 
 /* CHECKOUT */
 .container-check {
@@ -579,10 +470,93 @@ footer {
 }
 
 .button-check {
-  width: 50%;
-  padding: 6px;
-  margin: 5% 40% 2%;
+  margin: 5% 0%;
+  margin-left: 41%;
+}
+
+/* ARTISTA */
+
+.img-artista {
+  height: 350px;
+  border-radius: 30%;
+  margin-left: 25%;
+  
+}
+
+.info-artista {
+  padding-left: 3%;
+  padding-top: 3%;
 }
 
 
- 
+/* Responsividade */
+@media (max-width: 660px) {
+  .container {
+      flex-direction: column;
+  }
+
+  .logo {
+      min-width: 300px;
+  }
+
+  footer {
+    justify-content: space-between;
+    
+  }
+  
+  .container-1 {
+    margin-left: 1%;
+  }
+
+  .container-login {
+    flex-direction: column;
+  }
+
+  .login {
+    margin-bottom: 10%;
+  }
+
+  .imagem {
+    display: none;
+  }
+
+  .container-registo {
+      flex-direction: column;
+  }
+
+  .form-group {
+      flex-direction: column;
+
+  }
+
+  .form-group label,
+  .form-control {
+      width: 100%;
+      flex-basis: 100%;
+  }
+
+  .form-group label {
+    margin-left: 5%;
+  }
+
+  .foto{
+    display: none;
+  }
+
+  .button-check {
+  margin-right: 55%;
+  }
+
+
+  .espaco {
+    gap: 10%;
+  }
+
+  .container-check {
+    margin: -3%;
+  }
+
+  .atualizar {
+    margin-top: 4%;
+  }
+}

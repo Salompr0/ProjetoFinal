@@ -19,7 +19,7 @@
                           <div class="col-md-4">
                             <div class="card">
                                 <a href="/arte/<%= artigo[i].art_id %>">
-                                <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                                <img src="/uploads/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
                               </a>
                               <div class="card-body">
                                 <h5 class="card-title"><%= artigo[i].nome %></h5>
@@ -32,7 +32,7 @@
                             </div>
                           </div>
                       <% } %>
-                      <% } /console.log(idArtigo)/} %>
+                      <% } /*console.log(idArtigo)*/} %>
                   </div>
                 </div>
             
@@ -49,7 +49,7 @@
                   <div class="col-md-4">
                     <div class="card">
                       <a href="/arte/<%= artigo[i].art_id %>">
-                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                        <img src="/uploads/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
                       </a>
                       <div class="card-body">
                         <h5 class="card-title"><%= artigo[i].nome %></h5>
@@ -61,7 +61,7 @@
                       </div>
                     </div>
                   </div>
-              <% } /console.log(newRow)/} }%>
+              <% } /*console.log(newRow)*/} }%>
             </div>
           </div>
         <!-- Controles de Navegação -->
@@ -95,7 +95,7 @@
                             <div class="col-md-4">
                               <div class="card">
                                   <a href="/arte/<%= artigo[i].art_id %>">
-                                  <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
+                                  <img src="/uploads/<%= artigo[i].img %>" class="card-img-top" alt="<%= artigo[i].nome %>">
                                 </a>
                                 <div class="card-body">
                                   <h5 class="card-title"><%= artigo[i].nome %></h5>
@@ -108,7 +108,7 @@
                               </div>
                             </div>
                         <% }} %>
-                        <% } /console.log(idArtigo)/}  %>
+                        <% } /*console.log(idArtigo)*/}  %>
                   </div>
                 </div>
             
@@ -127,7 +127,7 @@
                   <div class="col-md-4">
                     <div class="card">
                       <a href="/arte/<%= artigo[i].art_id %>">
-                        <img src="/img/<%= artigo[i].img %>" class="card-img-top" alt="<% artigo[i].nome %>">
+                        <img src="/uploads/<%= artigo[i].img %>" class="card-img-top" alt="<% artigo[i].nome %>">
                       </a>
                       <div class="card-body">
                         <h5 class="card-title"><%= artigo[i].nome %></h5>
@@ -141,7 +141,7 @@
                   </div>
                   <% } else { %>
                     <% break; %>
-                <% } /console.log(newRow)/} }%>
+                <% } /*console.log(newRow)*/} }%>
             </div>
           </div>
         <!-- Controles de Navegação -->
@@ -156,4 +156,4 @@
       </div>
 </div>
 
-<%- include("partials/footer.ejs") %>
+<%- include("partials/footer.ejs") %>

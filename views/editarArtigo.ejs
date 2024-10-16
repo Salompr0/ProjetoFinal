@@ -6,7 +6,7 @@
 
     <div class="ficheiro2">
         <div class=""><!--multer-->
-          <img class="nova-img" src="img/<%= //artigos.img %>" ><input type="hidden" name="nome_foto" value="<%= //artigos.nome %>">
+          <img class="nova-img" src="/uploads/<%= artigos.img %>" ><input type="hidden" name="nome_foto" value="<%= artigos.nome %>">
         </div>
     </div>
 
@@ -15,7 +15,7 @@
       <h1 class="title">Atualizar Artigo</h1>
       <hr class="linha">
 
-      <form action="/editarArtigo/<%= artigos.art_id %>" method="post">
+      <form action="/editarArtigo/<%= artigos.art_id %>" method="post" enctype="multipart/form-data">
 
         <div class="mb-3 form-group">
           <label for="nome_art" class="form-label">Nome do Artigo</label>

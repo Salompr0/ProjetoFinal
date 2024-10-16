@@ -13,8 +13,8 @@
         <% //carrinho.forEach(item => { %>
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between">
-            <h6 class="my-0"><u>Pintura Agapórnis<%= //item.nome_art %></u></h6>  
-            <span class="">Quantidade: 1<%= //item.quantidade %></span>
+            <h6 class="my-0"><u><%= //item.nome_art %></u></h6>  
+            <span class="">Quantidade: <%= //item.quantidade %></span>
           </li>
         </ul>
       </div>
@@ -23,7 +23,7 @@
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (EUR)</span>
-            <strong>€ 200,00<%= //total %></strong>
+            <strong>€ <%= //total %></strong>
           </li>
         </ul>
       </div>
