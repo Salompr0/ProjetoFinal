@@ -320,6 +320,10 @@ app.get("/artista/:id", async (req, res) => {
 });
 
 app.post("/apagarArtigo/:id", async (req, res) => {
+    
+});
+
+app.post("/apagarArtigo/:id", async (req, res) => {
     const artID = parseInt(req.params.id);
 
     try{

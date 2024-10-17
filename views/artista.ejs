@@ -23,9 +23,9 @@
 
       <!-- Botão para apagar utilizador FAZER!!!, somente para administrador-->
         <% if(utilizador.administrador === true) {%>
-          <a href="/apagarPerfil/<%= artigos.art_id %>">
+          <form action="/apagarPerfil/<%= artigos.art_id %>" method="post">
             <button class="btn-primary my-3">Apagar utilizador</button>
-          </a>
+        </form>
       <% } %>
       <br><br>  
     </div>
